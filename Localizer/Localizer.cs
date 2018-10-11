@@ -11,6 +11,16 @@ namespace Localizer
 {
     public class Localizer : Mod
     {
+		public Localizer()
+		{
+			Properties = new ModProperties()
+			{
+				Autoload = true,
+				AutoloadGores = true,
+				AutoloadSounds = true,
+			};
+		}
+
 		public override void Load()
 		{
 
@@ -29,6 +39,11 @@ namespace Localizer
 		public static void AddItemTooltipTranslation(ModItem item, string tooltipTranslation, GameCulture culture)
 		{
 			item.Tooltip.AddTranslation(culture, tooltipTranslation);
+		}
+		
+		public static void AddSetBounsTranslation(string vanilla, string translation)
+		{
+			LocalizePlayer.setBounsTranslations.Add(vanilla, translation);
 		}
 	}
 }

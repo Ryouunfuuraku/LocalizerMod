@@ -15,12 +15,14 @@ namespace Localizer
 		{
 			try
 			{
-				var type = ModLoader.GetMod("Luiafk").ItemType("FasterMining");
+				var type = ModLoader.GetMod("Bluemagic").ItemType("PuriumBreastplate");
 				if (type > 0)
 				{
 					Localizer.AddItemNameTranslation(ItemLoader.GetItem(type), "测试一下", GameCulture.Chinese);
 
 					Localizer.AddItemTooltipTranslation(ItemLoader.GetItem(type), "测试两下", GameCulture.Chinese);
+
+					Localizer.AddSetBounsTranslation("Increases purity shield capacity by 1200", "测试三下");
 				}
 			}
 			catch (Exception ex)
