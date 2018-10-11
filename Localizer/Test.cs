@@ -18,7 +18,9 @@ namespace Localizer
 				var type = ModLoader.GetMod("Luiafk").ItemType("FasterMining");
 				if (type > 0)
 				{
-					Localizer.AddItemTranslation(ItemLoader.GetItem(type), "测试一下", GameCulture.Chinese);
+					Localizer.AddItemNameTranslation(ItemLoader.GetItem(type), "测试一下", GameCulture.Chinese);
+
+					Localizer.AddItemTooltipTranslation(ItemLoader.GetItem(type), "测试两下", GameCulture.Chinese);
 				}
 			}
 			catch (Exception ex)

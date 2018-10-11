@@ -21,9 +21,14 @@ namespace Localizer
 			Test.TestAddItemTranslation();
 		}
 
-		public static void AddItemTranslation(ModItem item, string itemNameTranslation, GameCulture culture)
+		public static void AddItemNameTranslation(ModItem item, string itemNameTranslation, GameCulture culture)
 		{
 			item.DisplayName.AddTranslation(culture, itemNameTranslation);
+		}
+
+		public static void AddItemTooltipTranslation(ModItem item, string tooltipTranslation, GameCulture culture)
+		{
+			item.Tooltip.AddTranslation(culture, tooltipTranslation);
 		}
 	}
 }
