@@ -1,0 +1,8 @@
+author = Axeel
+version = 0.1
+displayName = Localizer
+hideCode = true
+hideResources = false
+includeSource = true
+buildIgnore = *.user, obj\*, bin\*, .vs\*, .git*, referenceImages*.png, .gitattributes, *.csproj
+includePDB = true
