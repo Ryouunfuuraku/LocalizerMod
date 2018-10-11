@@ -62,6 +62,11 @@ namespace Localizer
 		{
 			buff.DisplayName.AddTranslation(culture, buffNameTranslation);
 		}
+
+		public static void AddBuffTipTranslation(ModBuff buff, string bufftipTranslation, GameCulture culture)
+		{
+			buff.Description.AddTranslation(culture, bufftipTranslation);
+		}
 		#endregion
 	}
 }

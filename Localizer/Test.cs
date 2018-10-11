@@ -55,6 +55,7 @@ namespace Localizer
 				if (type > 0)
 				{
 					Localizer.AddBuffNameTranslation(BuffLoader.GetBuff(type), "测试buff名字", GameCulture.Chinese);
+					Localizer.AddBuffTipTranslation(BuffLoader.GetBuff(type), "测试buff说明", GameCulture.Chinese);
 				}
 			}
 			catch (Exception ex)
