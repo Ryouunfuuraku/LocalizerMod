@@ -30,5 +30,21 @@ namespace Localizer
 				ErrorLogger.Log(ex.ToString());
 			}
 		}
+
+		public static void TestAddNPCTranslation()
+		{
+			try
+			{
+				var type = ModLoader.GetMod("Bluemagic").NPCType("Phantom");
+				if (type > 0)
+				{
+					Localizer.AddNpcNameTranslation(NPCLoader.GetNPC(type), "测试四下", GameCulture.Chinese);
+				}
+			}
+			catch (Exception ex)
+			{
+				ErrorLogger.Log(ex.ToString());
+			}
+		}
 	}
 }

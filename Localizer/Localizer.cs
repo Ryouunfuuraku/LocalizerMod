@@ -29,8 +29,10 @@ namespace Localizer
 		public override void PostSetupContent()
 		{
 			Test.TestAddItemTranslation();
+			Test.TestAddNPCTranslation();
 		}
 
+		#region Item Translation Methods
 		public static void AddItemNameTranslation(ModItem item, string itemNameTranslation, GameCulture culture)
 		{
 			item.DisplayName.AddTranslation(culture, itemNameTranslation);
@@ -45,5 +47,13 @@ namespace Localizer
 		{
 			LocalizePlayer.setBounsTranslations.Add(vanilla, translation);
 		}
+		#endregion
+
+		#region NPC Translation Methods
+		public static void AddNpcNameTranslation(ModNPC npc, string npcNameTranslation, GameCulture culture)
+		{
+			npc.DisplayName.AddTranslation(culture, npcNameTranslation);
+		}
+		#endregion
 	}
 }
