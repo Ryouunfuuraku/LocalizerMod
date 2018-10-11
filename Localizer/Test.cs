@@ -63,5 +63,21 @@ namespace Localizer
 				ErrorLogger.Log(ex.ToString());
 			}
 		}
+		
+		public static void TestAddTileTranslation()
+		{
+			try
+			{
+				var type = ModLoader.GetMod("Bluemagic").TileType("ElementalBar");
+				if (type > 0)
+				{
+					Localizer.AddTileNameTranslation(TileLoader.GetTile(type), "测试tile名字", GameCulture.Chinese);
+				}
+			}
+			catch (Exception ex)
+			{
+				ErrorLogger.Log(ex.ToString());
+			}
+		}
 	}
 }

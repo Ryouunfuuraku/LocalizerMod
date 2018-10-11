@@ -28,12 +28,20 @@ namespace Localizer
 
 		public override void PostSetupContent()
 		{
+#if DEBUG
+			DoTests();
+#endif
+		}
+
+		public static void DoTests()
+		{
 			Test.TestAddItemTranslation();
 			Test.TestAddNPCTranslation();
 			Test.TestAddBuffTranslation();
+			Test.TestAddTileTranslation();
 		}
 
-		#region Item Translation Methods
+	#region Item Translation Methods
 		public static void AddItemNameTranslation(ModItem item, string itemNameTranslation, GameCulture culture)
 		{
 			item.DisplayName.AddTranslation(culture, itemNameTranslation);
@@ -48,16 +56,16 @@ namespace Localizer
 		{
 			LocalizePlayer.setBounsTranslations.Add(vanilla, translation);
 		}
-		#endregion
+#endregion
 
-		#region NPC Translation Methods
+	#region NPC Translation Methods
 		public static void AddNpcNameTranslation(ModNPC npc, string npcNameTranslation, GameCulture culture)
 		{
 			npc.DisplayName.AddTranslation(culture, npcNameTranslation);
 		}
-		#endregion
+#endregion
 
-		#region Buff Translation Methods
+	#region Buff Translation Methods
 		public static void AddBuffNameTranslation(ModBuff buff, string buffNameTranslation, GameCulture culture)
 		{
 			buff.DisplayName.AddTranslation(culture, buffNameTranslation);
@@ -67,6 +75,17 @@ namespace Localizer
 		{
 			buff.Description.AddTranslation(culture, bufftipTranslation);
 		}
-		#endregion
+#endregion
+		
+	#region Tile Translation Methods
+		// TODO: Change the way so map entry color can be set correctly.
+		public static void AddTileNameTranslation(ModTile tile, string tileNameTranslation, GameCulture culture)
+		{
+			var translation = tile.mod.CreateTranslation(string.Format("MapObject.{0}", tile.Name));
+			translation.AddTranslation(culture, tileNameTranslation);
+
+			new LocalizeTile().AddMapEntryTranslation(tile, translation);
+		}
+	#endregion
 	}
 }

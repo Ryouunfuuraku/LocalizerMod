@@ -63,6 +63,7 @@
     <Compile Include="GlobalLocalizeItem.cs" />
     <Compile Include="LocalizePlayer.cs" />
     <Compile Include="Localizer.cs" />
+    <Compile Include="LocalizeTile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test.cs" />
   </ItemGroup>
