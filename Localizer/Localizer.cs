@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace Localizer
@@ -17,8 +18,12 @@ namespace Localizer
 
 		public override void PostSetupContent()
 		{
-
+			Test.TestAddItemTranslation();
 		}
 
+		public static void AddItemTranslation(ModItem item, string itemNameTranslation, GameCulture culture)
+		{
+			item.DisplayName.AddTranslation(culture, itemNameTranslation);
+		}
 	}
 }
