@@ -30,6 +30,7 @@ namespace Localizer
 		{
 			Test.TestAddItemTranslation();
 			Test.TestAddNPCTranslation();
+			Test.TestAddBuffTranslation();
 		}
 
 		#region Item Translation Methods
@@ -53,6 +54,13 @@ namespace Localizer
 		public static void AddNpcNameTranslation(ModNPC npc, string npcNameTranslation, GameCulture culture)
 		{
 			npc.DisplayName.AddTranslation(culture, npcNameTranslation);
+		}
+		#endregion
+
+		#region Buff Translation Methods
+		public static void AddBuffNameTranslation(ModBuff buff, string buffNameTranslation, GameCulture culture)
+		{
+			buff.DisplayName.AddTranslation(culture, buffNameTranslation);
 		}
 		#endregion
 	}
