@@ -39,6 +39,7 @@ namespace Localizer
 			Test.TestAddNPCTranslation();
 			Test.TestAddBuffTranslation();
 			Test.TestAddTileTranslation();
+			Test.TestAddChatTranslation();
 		}
 
 	#region Item Translation Methods
@@ -63,9 +64,14 @@ namespace Localizer
 		{
 			npc.DisplayName.AddTranslation(culture, npcNameTranslation);
 		}
-#endregion
 
-	#region Buff Translation Methods
+		public static void AddChatTranslation(string vanilla, string translation)
+		{
+			GlobalLocalizeNPC.chatTranslations.Add(vanilla, translation);
+		}
+		#endregion
+
+		#region Buff Translation Methods
 		public static void AddBuffNameTranslation(ModBuff buff, string buffNameTranslation, GameCulture culture)
 		{
 			buff.DisplayName.AddTranslation(culture, buffNameTranslation);

@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlobalLocalizeItem.cs" />
+    <Compile Include="GlobalLocalizeNPC.cs" />
     <Compile Include="LocalizePlayer.cs" />
     <Compile Include="Localizer.cs" />
     <Compile Include="LocalizeTile.cs" />

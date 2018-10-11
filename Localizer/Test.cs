@@ -79,5 +79,23 @@ namespace Localizer
 				ErrorLogger.Log(ex.ToString());
 			}
 		}
+
+		public static void TestAddChatTranslation()
+		{
+			try
+			{
+				var type = ModLoader.GetMod("Bluemagic").NPCType("Hardmode Guide");
+				if (type > 0)
+				{
+					Localizer.AddChatTranslation("Sometimes I feel like I'm different from everyone else here.", "测试npc对话1");
+					Localizer.AddChatTranslation("What's your favorite color? My favorite colors are white and black.", "测试npc对话2");
+					Localizer.AddChatTranslation("What? I don't have any arms or legs? Oh, don't be ridiculous!", "测试npc对话3");
+				}
+			}
+			catch (Exception ex)
+			{
+				ErrorLogger.Log(ex.ToString());
+			}
+		}
 	}
 }
