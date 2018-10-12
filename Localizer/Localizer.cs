@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Harmony;
+using Newtonsoft.Json;
 
 namespace Localizer
 {
@@ -23,7 +25,7 @@ namespace Localizer
 
 		public override void Load()
 		{
-
+			var harmony = HarmonyInstance.Create("Localizer.Main");
 		}
 
 		public override void PostSetupContent()
@@ -42,7 +44,7 @@ namespace Localizer
 			Test.TestAddChatTranslation();
 		}
 
-	#region Item Translation Methods
+		#region Item Translation Methods
 		public static void AddItemNameTranslation(ModItem item, string itemNameTranslation, GameCulture culture)
 		{
 			item.DisplayName.AddTranslation(culture, itemNameTranslation);
@@ -57,9 +59,9 @@ namespace Localizer
 		{
 			LocalizePlayer.setBounsTranslations.Add(vanilla, translation);
 		}
-#endregion
+		#endregion
 
-	#region NPC Translation Methods
+		#region NPC Translation Methods
 		public static void AddNpcNameTranslation(ModNPC npc, string npcNameTranslation, GameCulture culture)
 		{
 			npc.DisplayName.AddTranslation(culture, npcNameTranslation);
@@ -81,9 +83,9 @@ namespace Localizer
 		{
 			buff.Description.AddTranslation(culture, bufftipTranslation);
 		}
-#endregion
+		#endregion
 		
-	#region Tile Translation Methods
+		#region Tile Translation Methods
 		// TODO: Change the way so map entry color can be set correctly.
 		public static void AddTileNameTranslation(ModTile tile, string tileNameTranslation, GameCulture culture)
 		{
@@ -92,6 +94,6 @@ namespace Localizer
 
 			new LocalizeTile().AddMapEntryTranslation(tile, translation);
 		}
-	#endregion
+		#endregion
 	}
 }

@@ -6,3 +6,4 @@ hideResources = false
 includeSource = true
 buildIgnore = *.user, obj\*, bin\*, .vs\*, .git*, referenceImages*.png, .gitattributes, *.csproj
 includePDB = true
+dllReferences = 0Harmony
