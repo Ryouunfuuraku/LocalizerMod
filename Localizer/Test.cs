@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
+using System.IO;
+using Newtonsoft.Json;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Localizer.DataStructures;
 
 namespace Localizer
 {
@@ -111,6 +115,31 @@ namespace Localizer
 			catch (Exception ex)
 			{
 				ErrorLogger.Log(ex.ToString());
+			}
+		}
+
+		public static void TestExportText()
+		{
+			var path = Path.Combine(Main.SavePath, "TestText/");
+
+			var mod = ModLoader.GetMod("Bluemagic");
+			if(mod != null)
+			{
+				var items = typeof(Mod).GetField("items", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(mod) as Dictionary<string, ModItem>;
+				var itemFile = new TextFile.ItemFile();
+				foreach (var item in items)
+				{
+					var itemTranslation = new TextFile.ItemTranslation(item.Value);
+					itemFile.Items.Add(item.Key, itemTranslation);
+				}
+
+				using (var fs = new FileStream(Path.Combine(path, "Items.json"), FileMode.Create))
+				{
+					using (var sw = new StreamWriter(fs))
+					{
+						sw.Write(JsonConvert.SerializeObject(itemFile, Formatting.Indented));
+					}
+				}
 			}
 		}
 	}

@@ -16,6 +16,7 @@ namespace Localizer
     public class Localizer : Mod
     {
 		public static HarmonyInstance harmony;
+
 		public Localizer()
 		{
 			Properties = new ModProperties()
@@ -59,6 +60,7 @@ namespace Localizer
 			Test.TestAddTileTranslation();
 			Test.TestAddChatTranslation();
 			Test.TestAddChatButtonTranslation();
+			Test.TestExportText();
 		}
 
 		#region Item Translation Methods
