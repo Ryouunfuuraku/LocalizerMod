@@ -97,5 +97,21 @@ namespace Localizer
 				ErrorLogger.Log(ex.ToString());
 			}
 		}
+
+		public static void TestAddChatButtonTranslation()
+		{
+			try
+			{
+				var type = ModLoader.GetMod("Bluemagic").NPCType("Hardmode Guide");
+				if (type > 0)
+				{
+					Localizer.AddChatButtonTranslation(type, "测试npc对话按扭1", "测试npc对话按扭2", GameCulture.Chinese);
+				}
+			}
+			catch (Exception ex)
+			{
+				ErrorLogger.Log(ex.ToString());
+			}
+		}
 	}
 }

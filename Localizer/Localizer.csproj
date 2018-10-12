@@ -67,6 +67,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStructures\ChatButtonTranslation.cs" />
+    <Compile Include="DataStructures\Translation.cs" />
     <Compile Include="GlobalLocalizeItem.cs" />
     <Compile Include="GlobalLocalizeNPC.cs" />
     <Compile Include="Hooks.cs" />

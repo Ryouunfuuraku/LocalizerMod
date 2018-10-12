@@ -8,11 +8,14 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Harmony;
 using Newtonsoft.Json;
+using Localizer.DataStructures;
+using System.Reflection;
 
 namespace Localizer
 {
     public class Localizer : Mod
     {
+		public static HarmonyInstance harmony;
 		public Localizer()
 		{
 			Properties = new ModProperties()
@@ -25,7 +28,20 @@ namespace Localizer
 
 		public override void Load()
 		{
-			var harmony = HarmonyInstance.Create("Localizer.Main");
+			harmony = HarmonyInstance.Create("Localizer.Main");
+			harmony.PatchAll(Assembly.GetExecutingAssembly());
+		}
+		
+		public override void Unload()
+		{
+			ClearTranslations();
+			harmony.UnpatchAll();
+		}
+
+		static void ClearTranslations()
+		{
+			GlobalLocalizeNPC.chatButtonTranslations.Clear();
+			GlobalLocalizeNPC.chatTranslations.Clear();
 		}
 
 		public override void PostSetupContent()
@@ -42,6 +58,7 @@ namespace Localizer
 			Test.TestAddBuffTranslation();
 			Test.TestAddTileTranslation();
 			Test.TestAddChatTranslation();
+			Test.TestAddChatButtonTranslation();
 		}
 
 		#region Item Translation Methods
@@ -70,6 +87,15 @@ namespace Localizer
 		public static void AddChatTranslation(string vanilla, string translation)
 		{
 			GlobalLocalizeNPC.chatTranslations.Add(vanilla, translation);
+		}
+
+		public static void AddChatButtonTranslation(ModNPC npc, string button1Translation, string button2Translation, GameCulture culture)
+		{
+			GlobalLocalizeNPC.chatButtonTranslations.Add(npc.npc.netID, new ChatButtonTranslation(culture, button1Translation, button2Translation));
+		}
+		public static void AddChatButtonTranslation(int type, string button1Translation, string button2Translation, GameCulture culture)
+		{
+			GlobalLocalizeNPC.chatButtonTranslations.Add(type, new ChatButtonTranslation(culture, button1Translation, button2Translation));
 		}
 		#endregion
 
