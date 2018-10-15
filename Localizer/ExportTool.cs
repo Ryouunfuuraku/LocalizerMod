@@ -20,14 +20,14 @@ namespace Localizer
 			{
 				var items = typeof(Mod).GetField("items", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(mod) as Dictionary<string, ModItem>;
 				var itemFile = new TextFile.ItemFile();
-				foreach (var item in items)
+				foreach (var itemPair in items)
 				{
 					// Get basic info (name and tooltip)
-					var itemTranslation = new TextFile.ItemTranslation(item.Value);
-					itemFile.Items.Add(item.Key, itemTranslation);
+					var itemTranslation = new TextFile.ItemTranslation(itemPair.Value);
+					itemFile.Items.Add(itemPair.Key, itemTranslation);
 
 					// Get setbonus
-					var updateArmorSetMethod = item.Value.GetType().GetMethod("UpdateArmorSet", BindingFlags.Instance | BindingFlags.Public);
+					var updateArmorSetMethod = itemPair.Value.GetType().GetMethod("UpdateArmorSet", BindingFlags.Instance | BindingFlags.Public);
 					var dummy = new DynamicMethod("Dummy", typeof(void), new Type[] { });
 					var instructions = MethodBodyReader.GetInstructions(dummy.GetILGenerator(), updateArmorSetMethod);
 					var target = instructions.Find(i => i.opcode == OpCodes.Stfld && i.operand.ToString().Contains("setBonus"));
@@ -46,6 +46,29 @@ namespace Localizer
 					using (var sw = new StreamWriter(fs))
 					{
 						sw.Write(JsonConvert.SerializeObject(itemFile, Formatting.Indented));
+					}
+				}
+			}
+		}
+
+		public static void ExportNPCTexts(Mod mod, string path)
+		{
+			if (mod != null)
+			{
+				var npcs = typeof(Mod).GetField("npcs", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(mod) as Dictionary<string, ModNPC>;
+				var npcFile = new TextFile.NPCFile();
+				foreach (var npcPair in npcs)
+				{
+					// Get name
+					var npcTranslation = new TextFile.NPCTranslation(npcPair.Value);
+					npcFile.NPCs.Add(npcPair.Key, npcTranslation);
+				}
+
+				using (var fs = new FileStream(Path.Combine(path, "NPCs.json"), FileMode.Create))
+				{
+					using (var sw = new StreamWriter(fs))
+					{
+						sw.Write(JsonConvert.SerializeObject(npcFile, Formatting.Indented));
 					}
 				}
 			}
