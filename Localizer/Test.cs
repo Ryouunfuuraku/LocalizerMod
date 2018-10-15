@@ -122,7 +122,7 @@ namespace Localizer
 		{
 			var path = Path.Combine(Main.SavePath, "TestText/");
 
-			var mod = ModLoader.GetMod("Bluemagic");
+			var mod = ModLoader.GetMod("AlchemistNPC");
 
 			ExportTool.ExportItemTexts(mod, path);
 			ExportTool.ExportNPCTexts(mod, path);

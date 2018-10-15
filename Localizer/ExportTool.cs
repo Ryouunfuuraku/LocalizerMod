@@ -62,6 +62,64 @@ namespace Localizer
 					// Get name
 					var npcTranslation = new TextFile.NPCTranslation(npcPair.Value);
 					npcFile.NPCs.Add(npcPair.Key, npcTranslation);
+
+					// Get chat
+					var getChatMethod = npcPair.Value.GetType().GetMethod("GetChat", BindingFlags.Instance | BindingFlags.Public);
+					var dummy = new DynamicMethod("Dummy", typeof(void), new Type[] { });
+					var instructions = MethodBodyReader.GetInstructions(dummy.GetILGenerator(), getChatMethod);
+					var chatlines = new List<ILInstruction>();
+					for (int i = 0; i < instructions.Count; i++)
+					{
+						if(instructions[i].opcode == OpCodes.Ldstr)
+						{
+							if(i+1 < instructions.Count && 
+								instructions[i+1].operand != null && 
+								!instructions[i + 1].operand.ToString().Contains("GetTextValue"))
+							{
+								chatlines.Add(instructions[i]);
+							}
+						}
+					}
+					if (chatlines != null && chatlines.Count > 0)
+					{
+						var chatLineTranslations = new List<TextFile.ChatLineTranslation>();
+						foreach (var line in chatlines)
+						{
+							chatLineTranslations.Add(new TextFile.ChatLineTranslation(line.operand.ToString()));
+						}
+
+						if(chatLineTranslations.Count > 0)
+						{
+							npcFile.ChatLines.Add(npcPair.Key, chatLineTranslations);
+						}
+					}
+
+					// Get button
+					var setChatButtonsMethod = npcPair.Value.GetType().GetMethod("SetChatButtons", BindingFlags.Instance | BindingFlags.Public);
+					dummy = new DynamicMethod("Dummy", typeof(void), new Type[] { });
+					instructions = MethodBodyReader.GetInstructions(dummy.GetILGenerator(), setChatButtonsMethod);
+					var buttons = new List<ILInstruction>();
+					for (int i = 0; i < instructions.Count; i++)
+					{
+						if (instructions[i].opcode == OpCodes.Ldstr)
+						{
+							if (i + 1 < instructions.Count &&
+								instructions[i + 1].operand != null &&
+								!instructions[i + 1].operand.ToString().Contains("GetTextValue"))
+							{
+								buttons.Add(instructions[i]);
+							}
+						}
+					}
+					if (buttons != null && buttons.Count > 0)
+					{
+						var chatButtonsTranslations = new List<TextFile.ChatButtonTranslation>();
+						foreach (var line in buttons)
+						{
+							chatButtonsTranslations.Add(new TextFile.ChatButtonTranslation(line.operand.ToString()));
+						}
+						npcFile.ChatButtons.Add(npcPair.Key, chatButtonsTranslations);
+					}
 				}
 
 				using (var fs = new FileStream(Path.Combine(path, "NPCs.json"), FileMode.Create))
