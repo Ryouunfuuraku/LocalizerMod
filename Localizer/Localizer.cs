@@ -61,6 +61,7 @@ namespace Localizer
 			Test.TestAddChatTranslation();
 			Test.TestAddChatButtonTranslation();
 			Test.TestExportText();
+			Test.TestImportText();
 		}
 
 

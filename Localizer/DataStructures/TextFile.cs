@@ -40,6 +40,8 @@ namespace Localizer.DataStructures
 			public string Tooltip { get; set; }
 			public string TooltipTranslation { get; set; }
 
+			public ItemTranslation() { }
+
 			public ItemTranslation(ModItem item)
 			{
 				NameTranslation = string.Empty;
@@ -54,6 +56,8 @@ namespace Localizer.DataStructures
 		{
 			public string SetBonus { get; set; }
 			public string Translation { get; set; }
+
+			public SetBonusTranslation() { }
 
 			public SetBonusTranslation(string str)
 			{
@@ -84,6 +88,8 @@ namespace Localizer.DataStructures
 			public string Name { get; set; }
 			public string NameTranslation { get; set; }
 
+			public NPCTranslation() { }
+
 			public NPCTranslation(ModNPC npc)
 			{
 				NameTranslation = string.Empty;
@@ -97,6 +103,8 @@ namespace Localizer.DataStructures
 			public string ChatLine { get; set; }
 			public string Translation { get; set; }
 
+			public ChatLineTranslation() { }
+
 			public ChatLineTranslation(string str)
 			{
 				ChatLine = str;
@@ -108,6 +116,8 @@ namespace Localizer.DataStructures
 		{
 			public string ChatButton { get; set; }
 			public string Translation { get; set; }
+
+			public ChatButtonTranslation() { }
 
 			public ChatButtonTranslation(string str)
 			{
@@ -135,6 +145,8 @@ namespace Localizer.DataStructures
 			public string NameTranslation { get; set; }
 			public string Tip { get; set; }
 			public string TipTranslation { get; set; }
+
+			public BuffTranslation() { }
 
 			public BuffTranslation(ModBuff buff)
 			{

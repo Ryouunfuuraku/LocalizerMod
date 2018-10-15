@@ -76,6 +76,7 @@
     <Compile Include="GlobalLocalizeNPC.cs" />
     <Compile Include="Hooks.cs" />
     <Compile Include="ILHelper.cs" />
+    <Compile Include="ImportTool.cs" />
     <Compile Include="LocalizePlayer.cs" />
     <Compile Include="Localizer.cs" />
     <Compile Include="LocalizeTile.cs" />
