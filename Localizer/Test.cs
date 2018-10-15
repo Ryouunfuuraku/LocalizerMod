@@ -123,24 +123,8 @@ namespace Localizer
 			var path = Path.Combine(Main.SavePath, "TestText/");
 
 			var mod = ModLoader.GetMod("Bluemagic");
-			if(mod != null)
-			{
-				var items = typeof(Mod).GetField("items", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(mod) as Dictionary<string, ModItem>;
-				var itemFile = new TextFile.ItemFile();
-				foreach (var item in items)
-				{
-					var itemTranslation = new TextFile.ItemTranslation(item.Value);
-					itemFile.Items.Add(item.Key, itemTranslation);
-				}
 
-				using (var fs = new FileStream(Path.Combine(path, "Items.json"), FileMode.Create))
-				{
-					using (var sw = new StreamWriter(fs))
-					{
-						sw.Write(JsonConvert.SerializeObject(itemFile, Formatting.Indented));
-					}
-				}
-			}
+			ExportTool.ExportItemTexts(mod, path);
 		}
 	}
 }
