@@ -36,7 +36,7 @@ namespace Localizer
 						var setBonus = ILHelper.GetStrBeforeInstruction(instructions, target);
 						if (!string.IsNullOrWhiteSpace(setBonus))
 						{
-							itemFile.SetBonus.Add(setBonus, "");
+							itemFile.SetBonus.Add(itemPair.Key, new TextFile.SetBonusTranslation(setBonus));
 						}
 					}
 				}
@@ -69,6 +69,28 @@ namespace Localizer
 					using (var sw = new StreamWriter(fs))
 					{
 						sw.Write(JsonConvert.SerializeObject(npcFile, Formatting.Indented));
+					}
+				}
+			}
+		}
+
+		public static void ExportBuffTexts(Mod mod, string path)
+		{
+			if (mod != null)
+			{
+				var buffs = typeof(Mod).GetField("buffs", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(mod) as Dictionary<string, ModBuff>;
+				var buffFile = new TextFile.BuffFile();
+				foreach (var buffPair in buffs)
+				{
+					var buffTranslation = new TextFile.BuffTranslation(buffPair.Value);
+					buffFile.Buffs.Add(buffPair.Key, buffTranslation);
+				}
+
+				using (var fs = new FileStream(Path.Combine(path, "Buffs.json"), FileMode.Create))
+				{
+					using (var sw = new StreamWriter(fs))
+					{
+						sw.Write(JsonConvert.SerializeObject(buffFile, Formatting.Indented));
 					}
 				}
 			}

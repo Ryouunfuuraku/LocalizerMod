@@ -126,6 +126,7 @@ namespace Localizer
 
 			ExportTool.ExportItemTexts(mod, path);
 			ExportTool.ExportNPCTexts(mod, path);
+			ExportTool.ExportBuffTexts(mod, path);
 		}
 	}
 }

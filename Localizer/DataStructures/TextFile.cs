@@ -22,13 +22,13 @@ namespace Localizer.DataStructures
 		public sealed class ItemFile
 		{
 			public Dictionary<string, ItemTranslation> Items { get; set; }
-			public Dictionary<string, string> SetBonus { get; set; }
+			public Dictionary<string, SetBonusTranslation> SetBonus { get; set; }
 			public Dictionary<string, List<string>> ModifyTooltips { get; set; }
 
 			public ItemFile()
 			{
 				Items = new Dictionary<string, ItemTranslation>();
-				SetBonus = new Dictionary<string, string>();
+				SetBonus = new Dictionary<string, SetBonusTranslation>();
 				ModifyTooltips = new Dictionary<string, List<string>>();
 			}
 		}
@@ -47,6 +47,18 @@ namespace Localizer.DataStructures
 
 				Name = item.DisplayName.GetDefault();
 				Tooltip = item.Tooltip.GetDefault();
+			}
+		}
+
+		public sealed class SetBonusTranslation
+		{
+			public string SetBonus { get; set; }
+			public string Translation { get; set; }
+
+			public SetBonusTranslation(string str)
+			{
+				SetBonus = str;
+				Translation = string.Empty;
 			}
 		}
 		#endregion
@@ -85,8 +97,9 @@ namespace Localizer.DataStructures
 			public string ChatLine { get; set; }
 			public string Translation { get; set; }
 
-			public ChatLineTranslation(ModNPC npc)
+			public ChatLineTranslation(string str)
 			{
+				ChatLine = str;
 				Translation = string.Empty;
 			}
 		}
@@ -96,8 +109,9 @@ namespace Localizer.DataStructures
 			public string ChatButton { get; set; }
 			public string Translation { get; set; }
 
-			public ChatButtonTranslation(ModNPC npc)
+			public ChatButtonTranslation(string str)
 			{
+				ChatButton = str;
 				Translation = string.Empty;
 			}
 		}
