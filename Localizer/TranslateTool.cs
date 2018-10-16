@@ -26,9 +26,13 @@ namespace Localizer
 			item.Tooltip.AddTranslation(culture, tooltipTranslation);
 		}
 
-		public static void AddSetBounsTranslation(string vanilla, string translation)
+		public static void AddSetBonusTranslation(ModItem item, string translation, GameCulture culture)
 		{
-			LocalizePlayer.setBounsTranslations.Add(vanilla, translation);
+			var type = item.mod.ItemType(item.Name);
+			if (!DefaultTranslation.setBonusTranslations.ContainsKey(type))
+				DefaultTranslation.setBonusTranslations.Add(type, new LocalizeTranslation(culture, translation));
+			else
+				DefaultTranslation.setBonusTranslations[type] = new LocalizeTranslation(culture, translation);
 		}
 		#endregion
 
@@ -40,16 +44,22 @@ namespace Localizer
 
 		public static void AddChatTranslation(string vanilla, string translation)
 		{
-			GlobalLocalizeNPC.chatTranslations.Add(vanilla, translation);
+			if (!GlobalLocalizeNPC.chatTranslations.ContainsKey(vanilla))
+				GlobalLocalizeNPC.chatTranslations.Add(vanilla, translation);
+			else
+				GlobalLocalizeNPC.chatTranslations[vanilla] = translation;
 		}
 
 		public static void AddChatButtonTranslation(ModNPC npc, string button1Translation, string button2Translation, GameCulture culture)
 		{
-			GlobalLocalizeNPC.chatButtonTranslations.Add(npc.npc.netID, new ChatButtonTranslation(culture, button1Translation, button2Translation));
+			AddChatButtonTranslation(npc.mod.NPCType(npc.Name), button1Translation, button2Translation, culture);
 		}
 		public static void AddChatButtonTranslation(int type, string button1Translation, string button2Translation, GameCulture culture)
 		{
-			GlobalLocalizeNPC.chatButtonTranslations.Add(type, new ChatButtonTranslation(culture, button1Translation, button2Translation));
+			if (!DefaultTranslation.chatButtonTranslations.ContainsKey(type))
+				DefaultTranslation.chatButtonTranslations.Add(type, new ChatButtonTranslation(culture, button1Translation, button2Translation));
+			else
+				DefaultTranslation.chatButtonTranslations[type] = new ChatButtonTranslation(culture, button1Translation, button2Translation);
 		}
 		#endregion
 

@@ -41,7 +41,8 @@ namespace Localizer
 
 		static void ClearTranslations()
 		{
-			GlobalLocalizeNPC.chatButtonTranslations.Clear();
+			DefaultTranslation.chatButtonTranslations.Clear();
+			DefaultTranslation.setBonusTranslations.Clear();
 			GlobalLocalizeNPC.chatTranslations.Clear();
 		}
 

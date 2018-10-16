@@ -32,6 +32,12 @@ namespace Localizer
 						if (!string.IsNullOrWhiteSpace(item.Value.TooltipTranslation))
 							TranslateTool.AddItemTooltipTranslation(moditem, item.Value.TooltipTranslation, GameCulture.Chinese);
 					}
+
+					foreach (var setbonus in items.SetBonus)
+					{
+						if (!string.IsNullOrWhiteSpace(setbonus.Value.Translation))
+							TranslateTool.AddSetBonusTranslation(mod.GetItem(setbonus.Key), setbonus.Value.Translation, GameCulture.Chinese);
+					}
 				}
 			}
 		}

@@ -71,13 +71,13 @@
     <Compile Include="DataStructures\ChatButtonTranslation.cs" />
     <Compile Include="DataStructures\LocalizeTranslation.cs" />
     <Compile Include="DataStructures\TextFile.cs" />
+    <Compile Include="DefaultTranslation.cs" />
     <Compile Include="ExportTool.cs" />
     <Compile Include="GlobalLocalizeItem.cs" />
     <Compile Include="GlobalLocalizeNPC.cs" />
     <Compile Include="Hooks.cs" />
     <Compile Include="ILHelper.cs" />
     <Compile Include="ImportTool.cs" />
-    <Compile Include="LocalizePlayer.cs" />
     <Compile Include="Localizer.cs" />
     <Compile Include="LocalizeTile.cs" />
     <Compile Include="Patches.cs" />

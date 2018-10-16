@@ -26,7 +26,7 @@ namespace Localizer
 
 					TranslateTool.AddItemTooltipTranslation(ItemLoader.GetItem(type), "测试tooltip", GameCulture.Chinese);
 
-					TranslateTool.AddSetBounsTranslation("Increases purity shield capacity by 1200", "测试setbonus");
+					TranslateTool.AddSetBonusTranslation(ItemLoader.GetItem(type), "测试setbonus", GameCulture.Chinese);
 				}
 			}
 			catch (Exception ex)
