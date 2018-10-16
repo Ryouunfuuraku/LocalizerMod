@@ -155,16 +155,18 @@ namespace Localizer
 		{
 			if (mod != null)
 			{
-				foreach (var type in mod.GetType().Module.GetTypes())
+				var translations = typeof(Mod).GetField("translations", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(mod) as Dictionary<string, ModTranslation>;
+				var miscFile = new TextFile.MiscFile();
+				foreach (var translation in translations)
 				{
-
+					miscFile.miscs.Add(translation.Key, new TextFile.MiscTranslation(translation.Value.GetDefault()));
 				}
 
 				using (var fs = new FileStream(Path.Combine(path, "Miscs.json"), FileMode.Create))
 				{
 					using (var sw = new StreamWriter(fs))
 					{
-						sw.Write(JsonConvert.SerializeObject(, Formatting.Indented));
+						sw.Write(JsonConvert.SerializeObject(miscFile, Formatting.Indented));
 					}
 				}
 			}
