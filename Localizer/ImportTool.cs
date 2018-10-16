@@ -35,5 +35,27 @@ namespace Localizer
 				}
 			}
 		}
+
+		public static void ImportNPCTexts(Mod mod, string url)
+		{
+			using (var fs = new FileStream(Path.Combine(url, "NPCs.json"), FileMode.Open))
+			{
+				using (var sr = new StreamReader(fs))
+				{
+					var npcs = JsonConvert.DeserializeObject<TextFile.NPCFile>(sr.ReadToEnd());
+
+					foreach (var npc in npcs.NPCs)
+					{
+						var modnpc = mod.GetNPC(npc.Key);
+
+						if (modnpc == null)
+							continue;
+
+						if (!string.IsNullOrWhiteSpace(npc.Value.NameTranslation))
+							TranslateTool.AddNpcNameTranslation(modnpc, npc.Value.NameTranslation, GameCulture.Chinese);
+					}
+				}
+			}
+		}
 	}
 }

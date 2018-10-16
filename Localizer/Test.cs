@@ -136,6 +136,7 @@ namespace Localizer
 			var mod = ModLoader.GetMod("Bluemagic");
 
 			ImportTool.ImportItemTexts(mod, path);
+			ImportTool.ImportNPCTexts(mod, path);
 		}
 	}
 }
