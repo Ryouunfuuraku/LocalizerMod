@@ -18,6 +18,30 @@ namespace Localizer.DataStructures
 			public string Description { get; set; }
 		}
 
+		public sealed class MiscFile
+		{
+			public Dictionary<string, MiscTranslation> miscs { get; set; }
+
+			public MiscFile()
+			{
+				miscs = new Dictionary<string, MiscTranslation>();
+			}
+		}
+		
+		public sealed class MiscTranslation
+		{
+			public string Default { get; set; }
+			public string Translation { get; set; }
+
+			public MiscTranslation() { }
+
+			public MiscTranslation(string str)
+			{
+				Translation = string.Empty;
+
+				Default = str;
+			}
+		}
 
 		#region Item
 		public sealed class ItemFile

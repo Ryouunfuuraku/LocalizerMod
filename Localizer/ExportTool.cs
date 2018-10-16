@@ -28,8 +28,7 @@ namespace Localizer
 
 					// Get setbonus
 					var updateArmorSetMethod = itemPair.Value.GetType().GetMethod("UpdateArmorSet", BindingFlags.Instance | BindingFlags.Public);
-					var dummy = new DynamicMethod("Dummy", typeof(void), new Type[] { });
-					var instructions = MethodBodyReader.GetInstructions(dummy.GetILGenerator(), updateArmorSetMethod);
+					var instructions = ILHelper.GetInstructions(updateArmorSetMethod);
 					var target = instructions.Find(i => i.opcode == OpCodes.Stfld && i.operand.ToString().Contains("setBonus"));
 					if(target != null)
 					{
@@ -65,8 +64,7 @@ namespace Localizer
 
 					// Get chat
 					var getChatMethod = npcPair.Value.GetType().GetMethod("GetChat", BindingFlags.Instance | BindingFlags.Public);
-					var dummy = new DynamicMethod("Dummy", typeof(void), new Type[] { });
-					var instructions = MethodBodyReader.GetInstructions(dummy.GetILGenerator(), getChatMethod);
+					var instructions = ILHelper.GetInstructions(getChatMethod);
 					var chatlines = new List<ILInstruction>();
 					for (int i = 0; i < instructions.Count; i++)
 					{
@@ -96,8 +94,7 @@ namespace Localizer
 
 					// Get button
 					var setChatButtonsMethod = npcPair.Value.GetType().GetMethod("SetChatButtons", BindingFlags.Instance | BindingFlags.Public);
-					dummy = new DynamicMethod("Dummy", typeof(void), new Type[] { });
-					instructions = MethodBodyReader.GetInstructions(dummy.GetILGenerator(), setChatButtonsMethod);
+					instructions = ILHelper.GetInstructions(setChatButtonsMethod);
 					var buttons = new List<ILInstruction>();
 					for (int i = 0; i < instructions.Count; i++)
 					{
@@ -149,6 +146,25 @@ namespace Localizer
 					using (var sw = new StreamWriter(fs))
 					{
 						sw.Write(JsonConvert.SerializeObject(buffFile, Formatting.Indented));
+					}
+				}
+			}
+		}
+		
+		public static void ExportMiscTexts(Mod mod, string path)
+		{
+			if (mod != null)
+			{
+				foreach (var type in mod.GetType().Module.GetTypes())
+				{
+
+				}
+
+				using (var fs = new FileStream(Path.Combine(path, "Miscs.json"), FileMode.Create))
+				{
+					using (var sw = new StreamWriter(fs))
+					{
+						sw.Write(JsonConvert.SerializeObject(, Formatting.Indented));
 					}
 				}
 			}
