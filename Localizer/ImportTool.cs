@@ -87,5 +87,26 @@ namespace Localizer
 				}
 			}
 		}
+
+		public static void ImportMiscTexts(Mod mod, string path)
+		{
+			using (var fs = new FileStream(Path.Combine(path, "Miscs.json"), FileMode.Open))
+			{
+				using (var sr = new StreamReader(fs))
+				{
+					var miscs = JsonConvert.DeserializeObject<TextFile.MiscFile>(sr.ReadToEnd());
+
+					foreach (var misc in miscs.miscs)
+					{
+						if (!string.IsNullOrWhiteSpace(misc.Value.Translation))
+						{
+							var translation = mod.CreateTranslation(misc.Key);
+							translation.AddTranslation(GameCulture.Chinese, misc.Value.Translation);
+							mod.AddTranslation(translation);
+						}
+					}
+				}
+			}
+		}
 	}
 }
