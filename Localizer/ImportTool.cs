@@ -57,5 +57,29 @@ namespace Localizer
 				}
 			}
 		}
+
+		public static void ImportBuffTexts(Mod mod, string url)
+		{
+			using (var fs = new FileStream(Path.Combine(url, "Buffs.json"), FileMode.Open))
+			{
+				using (var sr = new StreamReader(fs))
+				{
+					var buffs = JsonConvert.DeserializeObject<TextFile.BuffFile>(sr.ReadToEnd());
+
+					foreach (var buff in buffs.Buffs)
+					{
+						var modbuff = mod.GetBuff(buff.Key);
+
+						if (modbuff == null)
+							continue;
+
+						if (!string.IsNullOrWhiteSpace(buff.Value.NameTranslation))
+							TranslateTool.AddBuffNameTranslation(modbuff, buff.Value.NameTranslation, GameCulture.Chinese);
+						if (!string.IsNullOrWhiteSpace(buff.Value.TipTranslation))
+							TranslateTool.AddBuffTipTranslation(modbuff, buff.Value.TipTranslation, GameCulture.Chinese);
+					}
+				}
+			}
+		}
 	}
 }

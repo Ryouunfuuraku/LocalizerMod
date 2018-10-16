@@ -137,6 +137,7 @@ namespace Localizer
 
 			ImportTool.ImportItemTexts(mod, path);
 			ImportTool.ImportNPCTexts(mod, path);
+			ImportTool.ImportBuffTexts(mod, path);
 		}
 	}
 }
