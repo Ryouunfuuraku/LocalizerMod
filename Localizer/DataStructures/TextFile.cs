@@ -15,6 +15,7 @@ namespace Localizer.DataStructures
 		{
 			public string Mod { get; set; }
 			public List<string> Translator { get; set; }
+			public string Description { get; set; }
 		}
 
 

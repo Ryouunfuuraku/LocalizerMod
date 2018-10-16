@@ -12,9 +12,9 @@ namespace Localizer
 {
 	public class ImportTool
 	{
-		public static void ImportItemTexts(Mod mod, string url)
+		public static void ImportItemTexts(Mod mod, string path)
 		{
-			using (var fs = new FileStream(Path.Combine(url, "Items.json"), FileMode.Open))
+			using (var fs = new FileStream(Path.Combine(path, "Items.json"), FileMode.Open))
 			{
 				using (var sr = new StreamReader(fs))
 				{
@@ -36,9 +36,9 @@ namespace Localizer
 			}
 		}
 
-		public static void ImportNPCTexts(Mod mod, string url)
+		public static void ImportNPCTexts(Mod mod, string path)
 		{
-			using (var fs = new FileStream(Path.Combine(url, "NPCs.json"), FileMode.Open))
+			using (var fs = new FileStream(Path.Combine(path, "NPCs.json"), FileMode.Open))
 			{
 				using (var sr = new StreamReader(fs))
 				{
@@ -58,9 +58,9 @@ namespace Localizer
 			}
 		}
 
-		public static void ImportBuffTexts(Mod mod, string url)
+		public static void ImportBuffTexts(Mod mod, string path)
 		{
-			using (var fs = new FileStream(Path.Combine(url, "Buffs.json"), FileMode.Open))
+			using (var fs = new FileStream(Path.Combine(path, "Buffs.json"), FileMode.Open))
 			{
 				using (var sr = new StreamReader(fs))
 				{
