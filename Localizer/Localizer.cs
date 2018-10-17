@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Harmony;
 using Newtonsoft.Json;
 using Localizer.DataStructures;
+using Localizer.UI;
 using System.Reflection;
 
 namespace Localizer
@@ -16,6 +19,8 @@ namespace Localizer
     public class Localizer : Mod
     {
 		public static HarmonyInstance harmony;
+
+		public static Manager manager;
 
 		public Localizer()
 		{
@@ -31,6 +36,8 @@ namespace Localizer
 		{
 			harmony = HarmonyInstance.Create("Localizer.Main");
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
+
+			manager = new Manager();
 		}
 		
 		public override void Unload()
@@ -51,6 +58,12 @@ namespace Localizer
 #if DEBUG
 			DoTests();
 #endif
+		}
+
+		public void TurnToManager()
+		{
+			Main.MenuUI.SetState(manager);
+			Main.menuMode = 888;
 		}
 
 		public static void DoTests()
