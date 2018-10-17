@@ -68,7 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
-    <Compile Include="DataStructures\ChatButtonTranslation.cs" />
     <Compile Include="DataStructures\LocalizeTranslation.cs" />
     <Compile Include="DataStructures\TextFile.cs" />
     <Compile Include="DefaultTranslation.cs" />

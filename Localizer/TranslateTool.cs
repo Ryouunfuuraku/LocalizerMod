@@ -54,12 +54,18 @@ namespace Localizer
 		{
 			AddChatButtonTranslation(npc.mod.NPCType(npc.Name), button1Translation, button2Translation, culture);
 		}
-		public static void AddChatButtonTranslation(int type, string button1Translation, string button2Translation, GameCulture culture)
+		public static void AddChatButtonTranslation(int type, string button, string buttonTranslation, GameCulture culture)
 		{
 			if (!DefaultTranslation.chatButtonTranslations.ContainsKey(type))
-				DefaultTranslation.chatButtonTranslations.Add(type, new ChatButtonTranslation(culture, button1Translation, button2Translation));
+			{
+				var t = new Dictionary<string, LocalizeTranslation>();
+				t.Add(button, new LocalizeTranslation(culture, buttonTranslation));
+				DefaultTranslation.chatButtonTranslations.Add(type, t);
+			}
 			else
-				DefaultTranslation.chatButtonTranslations[type] = new ChatButtonTranslation(culture, button1Translation, button2Translation);
+			{
+				DefaultTranslation.chatButtonTranslations[type].Add(button, new LocalizeTranslation(culture, buttonTranslation));
+			}
 		}
 		#endregion
 
