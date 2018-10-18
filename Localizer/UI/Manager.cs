@@ -52,7 +52,15 @@ namespace Localizer.UI
 			backButton = new UITextPanel<string>("Back");
 			uIPanel.Append(backButton);
 
+			Append(uIElement);
+
 			LoadModList();
+		}
+
+		private static void BackClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			Main.PlaySound(11, -1, -1, 1, 1f, 0f);
+			Main.menuMode = 0;
 		}
 
 		public void LoadModList()

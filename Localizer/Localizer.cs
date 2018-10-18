@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Localizer.DataStructures;
 using Localizer.UI;
 using System.Reflection;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Localizer
 {
@@ -36,6 +37,7 @@ namespace Localizer
 		{
 			harmony = HarmonyInstance.Create("Localizer.Main");
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
+			Patches.DoManualPatches();
 
 			manager = new Manager();
 		}
@@ -60,7 +62,7 @@ namespace Localizer
 #endif
 		}
 
-		public void TurnToManager()
+		public static void TurnToManager()
 		{
 			Main.MenuUI.SetState(manager);
 			Main.menuMode = 888;
