@@ -84,6 +84,7 @@
     <Compile Include="Test.cs" />
     <Compile Include="TranslateTool.cs" />
     <Compile Include="UI\Manager.cs" />
+    <Compile Include="UI\UICommon.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

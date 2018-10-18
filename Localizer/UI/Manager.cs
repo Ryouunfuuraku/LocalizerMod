@@ -50,6 +50,9 @@ namespace Localizer.UI
 			uIPanel.Append(modList);
 
 			backButton = new UITextPanel<string>("Back");
+			backButton.OnClick += BackClick;
+			backButton.OnMouseOver += UICommon.FadedMouseOver;
+			backButton.OnMouseOut += UICommon.FadedMouseOut;
 			uIPanel.Append(backButton);
 
 			Append(uIElement);
