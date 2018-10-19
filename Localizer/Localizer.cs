@@ -21,7 +21,7 @@ namespace Localizer
     {
 		public static HarmonyInstance harmony;
 
-		public static Manager manager;
+		public static UIManager manager;
 
 		public Localizer()
 		{
@@ -39,7 +39,7 @@ namespace Localizer
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
 			Patches.DoManualPatches();
 
-			manager = new Manager();
+			manager = new UIManager();
 		}
 		
 		public override void Unload()
@@ -58,7 +58,7 @@ namespace Localizer
 		public override void PostSetupContent()
 		{
 #if DEBUG
-			DoTests();
+			//DoTests();
 #endif
 		}
 
