@@ -49,14 +49,14 @@ namespace Localizer.UI
 			modList.ListPadding = 5f;
 			uIPanel.Append(modList);
 
-			UITextPanel<string> uIHeaderTexTPanel = new UITextPanel<string>("Localize Manager", 0.8f, true);
+			UITextPanel<string> uIHeaderTexTPanel = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.ManagerHeadTitle"), 0.8f, true);
 			uIHeaderTexTPanel.HAlign = 0.5f;
 			uIHeaderTexTPanel.Top.Set(-35f, 0f);
 			uIHeaderTexTPanel.SetPadding(15f);
 			uIHeaderTexTPanel.BackgroundColor = new Color(73, 94, 171);
 			uIElement.Append(uIHeaderTexTPanel);
 
-			backButton = new UITextPanel<string>("Back");
+			backButton = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.BackButton"));
 			backButton.Width.Set(-10f, 1f / 3f);
 			backButton.Height.Set(25f, 0f);
 			backButton.VAlign = 1f;

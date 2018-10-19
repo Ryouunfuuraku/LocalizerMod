@@ -40,6 +40,36 @@ namespace Localizer
 			Patches.DoManualPatches();
 
 			manager = new UIManager();
+
+			AddTranslation();
+		}
+
+		public void AddTranslation()
+		{
+			ModTranslation modTranslation = CreateTranslation("ManagerHeadTitle");
+			modTranslation.SetDefault("Localize Manager");
+			modTranslation.AddTranslation(GameCulture.Chinese, "汉化管理");
+			AddTranslation(modTranslation);
+
+			modTranslation = CreateTranslation("ManagerButton");
+			modTranslation.SetDefault("Localize Manager");
+			modTranslation.AddTranslation(GameCulture.Chinese, "汉化管理");
+			AddTranslation(modTranslation);
+
+			modTranslation = CreateTranslation("BackButton");
+			modTranslation.SetDefault("Back");
+			modTranslation.AddTranslation(GameCulture.Chinese, "返回");
+			AddTranslation(modTranslation);
+
+			modTranslation = CreateTranslation("ExportButton");
+			modTranslation.SetDefault("Export");
+			modTranslation.AddTranslation(GameCulture.Chinese, "导出文本");
+			AddTranslation(modTranslation);
+
+			modTranslation = CreateTranslation("ImportButton");
+			modTranslation.SetDefault("Import");
+			modTranslation.AddTranslation(GameCulture.Chinese, "导入文本");
+			AddTranslation(modTranslation);
 		}
 		
 		public override void Unload()

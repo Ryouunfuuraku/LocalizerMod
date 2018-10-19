@@ -38,7 +38,7 @@ namespace Localizer.UI
 			this.modName.Top.Set(5f, 0f);
 			base.Append(this.modName);
 
-			UITextPanel<string> button = new UITextPanel<string>("Export", 1f, false);
+			UITextPanel<string> button = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.ExportButton"), 1f, false);
 			button.Width.Set(100f, 0f);
 			button.Height.Set(30f, 0f);
 			button.Left.Set(430f, 0f);
@@ -50,7 +50,7 @@ namespace Localizer.UI
 			button.OnClick += ExportModText;
 			base.Append(button);
 
-			button2 = new UITextPanel<string>("Import", 1f, false);
+			button2 = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.ImportButton"), 1f, false);
 			button2.Width.Set(100f, 0f);
 			button2.Height.Set(30f, 0f);
 			button2.Left.Set(button.Left.Pixels - button2.Width.Pixels - 5f, 0f);

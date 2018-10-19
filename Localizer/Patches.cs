@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Reflection.Emit;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Harmony;
 
@@ -91,7 +92,7 @@ namespace Localizer
 
 			public static void AddButtons(Main main, int selectedMenu, string[] buttonNames, float[] buttonScales, ref int offY, ref int spacing, ref int buttonIndex, ref int numButtons)
 			{
-				buttonNames[buttonIndex] = "Localize Manager";
+				buttonNames[buttonIndex] = Language.GetTextValue("Mods.Localizer.ManagerButton");
 				if (selectedMenu == buttonIndex)
 				{
 					Main.PlaySound(10, -1, -1, 1, 1f, 0f);
