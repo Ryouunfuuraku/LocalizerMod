@@ -37,6 +37,7 @@ namespace Localizer.UI
 			this.modName.Left.Set(10f, 0f);
 			this.modName.Top.Set(5f, 0f);
 			base.Append(this.modName);
+
 			UITextPanel<string> button = new UITextPanel<string>("Export", 1f, false);
 			button.Width.Set(100f, 0f);
 			button.Height.Set(30f, 0f);
@@ -48,17 +49,18 @@ namespace Localizer.UI
 			button.OnMouseOut += UICommon.FadedMouseOut;
 			button.OnClick += ExportModText;
 			base.Append(button);
-			//button2 = new UITextPanel<string>("...", 1f, false);
-			//button2.Width.Set(100f, 0f);
-			//button2.Height.Set(30f, 0f);
-			//button2.Left.Set(button.Left.Pixels - button2.Width.Pixels - 5f, 0f);
-			//button2.Top.Set(40f, 0f);
-			//button2.PaddingTop -= 2f;
-			//button2.PaddingBottom -= 2f;
-			//button2.OnMouseOver += UICommon.FadedMouseOver;
-			//button2.OnMouseOut += UICommon.FadedMouseOut;
-			//button2.OnClick += this.ToggleEnabled;
-			//base.Append(button2);
+
+			button2 = new UITextPanel<string>("Import", 1f, false);
+			button2.Width.Set(100f, 0f);
+			button2.Height.Set(30f, 0f);
+			button2.Left.Set(button.Left.Pixels - button2.Width.Pixels - 5f, 0f);
+			button2.Top.Set(40f, 0f);
+			button2.PaddingTop -= 2f;
+			button2.PaddingBottom -= 2f;
+			button2.OnMouseOver += UICommon.FadedMouseOver;
+			button2.OnMouseOut += UICommon.FadedMouseOut;
+			button2.OnClick += ImportModText;
+			base.Append(button2);
 
 			//if (loadedMod != null)
 			//{
@@ -82,7 +84,7 @@ namespace Localizer.UI
 
 		public void ExportModText(UIMouseEvent evt, UIElement listeningElement)
 		{
-			var path = Path.Combine(Main.SavePath, "ExportedText/", mod.Name);
+			var path = Path.Combine(Main.SavePath, "Texts/", mod.Name);
 			if (!Directory.Exists(path))
 			{
 				Directory.CreateDirectory(path);
@@ -91,6 +93,17 @@ namespace Localizer.UI
 			ExportTool.ExportNPCTexts(mod, path);
 			ExportTool.ExportBuffTexts(mod, path);
 			ExportTool.ExportMiscTexts(mod, path);
+		}
+		
+		public void ImportModText(UIMouseEvent evt, UIElement listeningElement)
+		{
+			var path = Path.Combine(Main.SavePath, "Texts/", mod.Name);
+			ImportTool.ImportItemTexts(mod, path);
+			ImportTool.ImportNPCTexts(mod, path);
+			ImportTool.ImportBuffTexts(mod, path);
+			ImportTool.ImportMiscTexts(mod, path);
+
+			ModLoader.RefreshModLanguage(LanguageManager.Instance.ActiveCulture);
 		}
 
 		public void DrawPanel(SpriteBatch spriteBatch, Vector2 position, float width)
