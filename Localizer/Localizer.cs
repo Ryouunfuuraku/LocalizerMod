@@ -19,7 +19,7 @@ using System.Net;
 namespace Localizer
 {
     public class Localizer : Mod
-    {
+	{
 		public static HarmonyInstance harmony;
 
 		public static UIManager manager;
