@@ -14,6 +14,7 @@ using Localizer.DataStructures;
 using Localizer.UI;
 using System.Reflection;
 using Microsoft.Xna.Framework.Graphics;
+using System.Net;
 
 namespace Localizer
 {
@@ -35,6 +36,9 @@ namespace Localizer
 
 		public override void Load()
 		{
+			ServicePointManager.ServerCertificateValidationCallback += (s, cert, chain, sslPolicyErrors) => true;
+			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
 			harmony = HarmonyInstance.Create("Localizer.Main");
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
 			Patches.DoManualPatches();
@@ -88,7 +92,7 @@ namespace Localizer
 		public override void PostSetupContent()
 		{
 #if DEBUG
-			//DoTests();
+			DoTests();
 #endif
 		}
 
@@ -100,14 +104,13 @@ namespace Localizer
 
 		public static void DoTests()
 		{
-			Test.TestAddItemTranslation();
-			Test.TestAddNPCTranslation();
-			Test.TestAddBuffTranslation();
-			Test.TestAddTileTranslation();
-			Test.TestAddChatTranslation();
-			Test.TestAddChatButtonTranslation();
-			Test.TestExportText();
-			Test.TestImportText();
+			//Test.TestAddItemTranslation();
+			//Test.TestAddNPCTranslation();
+			//Test.TestAddBuffTranslation();
+			//Test.TestAddTileTranslation();
+			//Test.TestAddChatTranslation();
+			//Test.TestAddChatButtonTranslation();
+			Test.TestPullRemoteTexts();
 		}
 
 

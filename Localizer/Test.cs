@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.IO;
@@ -117,29 +117,21 @@ namespace Localizer
 				ErrorLogger.Log(ex.ToString());
 			}
 		}
-
-		public static void TestExportText()
+		
+		public static void TestPullRemoteTexts()
 		{
-			var path = Path.Combine(Main.SavePath, "TestText/");
 
-			var mod = ModLoader.GetMod("Bluemagic");
+			var uri = "https://raw.githubusercontent.com/AxeelAnder/Localizer-Database/master/zh-Hans/Bluemagic/";
+			string fileName = "Info.json";
 
-			ExportTool.ExportItemTexts(mod, path);
-			ExportTool.ExportNPCTexts(mod, path);
-			ExportTool.ExportBuffTexts(mod, path);
-			ExportTool.ExportMiscTexts(mod, path);
-		}
-
-		public static void TestImportText()
-		{
-			var path = Path.Combine(Main.SavePath, "TestImportText/");
-
-			var mod = ModLoader.GetMod("Bluemagic");
-
-			ImportTool.ImportItemTexts(mod, path);
-			ImportTool.ImportNPCTexts(mod, path);
-			ImportTool.ImportBuffTexts(mod, path);
-			ImportTool.ImportMiscTexts(mod, path);
+			WebClient myWebClient = new WebClient();
+			string myStringWebResource = uri + fileName;
+			var path = Path.Combine(Main.SavePath, "TestText/", "Bluemagic/");
+			if (!Directory.Exists(path))
+			{
+				Directory.CreateDirectory(path);
+			}
+			myWebClient.DownloadFile(myStringWebResource, path+fileName);
 		}
 	}
 }

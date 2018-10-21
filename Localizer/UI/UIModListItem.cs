@@ -61,25 +61,6 @@ namespace Localizer.UI
 			button2.OnMouseOut += UICommon.FadedMouseOut;
 			button2.OnClick += ImportModText;
 			base.Append(button2);
-
-			//if (loadedMod != null)
-			//{
-			//	loaded = true;
-			//	int[] values = { loadedMod.items.Count, loadedMod.npcs.Count, loadedMod.tiles.Count, loadedMod.walls.Count, loadedMod.buffs.Count, loadedMod.mountDatas.Count };
-			//	string[] localizationKeys = { "ModsXItems", "ModsXNPCs", "ModsXTiles", "ModsXWalls", "ModsXBuffs", "ModsXMounts" };
-			//	int xOffset = -40;
-			//	for (int i = 0; i < values.Length; i++)
-			//	{
-			//		if (values[i] > 0)
-			//		{
-			//			Texture2D iconTexture = Main.instance.infoIconTexture[i];
-			//			keyImage = new UIHoverImage(iconTexture, Language.GetTextValue($"tModLoader.{localizationKeys[i]}", values[i]));
-			//			keyImage.Left.Set(xOffset, 1f);
-			//			base.Append(keyImage);
-			//			xOffset -= 18;
-			//		}
-			//	}
-			//}
 		}
 
 		public void ExportModText(UIMouseEvent evt, UIElement listeningElement)
