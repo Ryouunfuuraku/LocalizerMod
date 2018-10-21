@@ -120,18 +120,7 @@ namespace Localizer
 		
 		public static void TestPullRemoteTexts()
 		{
-
-			var uri = "https://raw.githubusercontent.com/AxeelAnder/Localizer-Database/master/zh-Hans/Bluemagic/";
-			string fileName = "Info.json";
-
-			WebClient myWebClient = new WebClient();
-			string myStringWebResource = uri + fileName;
-			var path = Path.Combine(Main.SavePath, "TestText/", "Bluemagic/");
-			if (!Directory.Exists(path))
-			{
-				Directory.CreateDirectory(path);
-			}
-			myWebClient.DownloadFile(myStringWebResource, path+fileName);
+			Localizer.downloadMgr.DownloadModText("zh-Hans", "Bluemagic");
 		}
 	}
 }

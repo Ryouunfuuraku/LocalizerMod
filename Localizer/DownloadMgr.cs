@@ -43,41 +43,48 @@ namespace Localizer
 
 		public void DownloadModText(string culture, string mod)
 		{
-			DownloadInfo(Path.Combine(DataBaseUri, culture, mod));
-			DownloadItems(Path.Combine(DataBaseUri, culture, mod));
-			DownloadNPCs(Path.Combine(DataBaseUri, culture, mod));
-			DownloadBuffs(Path.Combine(DataBaseUri, culture, mod));
-			DownloadMiscs(Path.Combine(DataBaseUri, culture, mod));
+			var uri = DataBaseUri + culture + "/" + mod + "/";
+			var path = CachePath + culture + "/" + mod + "/";
+			if (!Directory.Exists(path))
+			{
+				Directory.CreateDirectory(path);
+			}
+
+			DownloadInfo(uri, path);
+			DownloadItems(uri, path);
+			DownloadNPCs(uri, path);
+			DownloadBuffs(uri, path);
+			DownloadMiscs(uri, path);
 		}
 
-		void DownloadInfo(string uri)
+		void DownloadInfo(string uri, string path)
 		{
 			var fileName = "Info.json";
-			CommonDownloadFile(uri + fileName, CachePath + fileName);
+			CommonDownloadFile(uri + fileName, path + fileName);
 		}
 
-		void DownloadItems(string uri)
+		void DownloadItems(string uri, string path)
 		{
 			var fileName = "Items.json";
-			CommonDownloadFile(uri + fileName, CachePath + fileName);
+			CommonDownloadFile(uri + fileName, path + fileName);
 		}
 
-		void DownloadNPCs(string uri)
+		void DownloadNPCs(string uri, string path)
 		{
 			var fileName = "NPCs.json";
-			CommonDownloadFile(uri + fileName, CachePath + fileName);
+			CommonDownloadFile(uri + fileName, path + fileName);
 		}
 
-		void DownloadBuffs(string uri)
+		void DownloadBuffs(string uri, string path)
 		{
 			var fileName = "Buffs.json";
-			CommonDownloadFile(uri + fileName, CachePath + fileName);
+			CommonDownloadFile(uri + fileName, path + fileName);
 		}
 
-		void DownloadMiscs(string uri)
+		void DownloadMiscs(string uri, string path)
 		{
 			var fileName = "Miscs.json";
-			CommonDownloadFile(uri + fileName, CachePath + fileName);
+			CommonDownloadFile(uri + fileName, path + fileName);
 		}
 
 		void CommonDownloadFile(string url, string path)
