@@ -14,8 +14,17 @@ namespace Localizer.DataStructures
 		public sealed class TranslationInfo
 		{
 			public string Mod { get; set; }
-			public List<string> Translator { get; set; }
+			public string Translator { get; set; }
 			public string Description { get; set; }
+			public GameCulture Culture { get; set; }
+
+			public TranslationInfo(Mod mod, GameCulture culture)
+			{
+				Mod = mod.Name;
+				Translator = string.Empty;
+				Description = string.Empty;
+				Culture = culture;
+			}
 		}
 
 		public sealed class MiscFile

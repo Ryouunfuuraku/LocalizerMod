@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using Harmony.ILCopying;
 using Newtonsoft.Json;
-using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Localizer.DataStructures;
 
@@ -14,6 +14,22 @@ namespace Localizer
 {
 	public class ExportTool
 	{
+		public static void ExportInfo(Mod mod, string path)
+		{
+			if (mod != null)
+			{
+				var infoFile = new TextFile.TranslationInfo(mod, LanguageManager.Instance.ActiveCulture);
+
+				using (var fs = new FileStream(Path.Combine(path, "Info.json"), FileMode.Create))
+				{
+					using (var sw = new StreamWriter(fs))
+					{
+						sw.Write(JsonConvert.SerializeObject(infoFile, Formatting.Indented));
+					}
+				}
+			}
+		}
+		
 		public static void ExportItemTexts(Mod mod, string path)
 		{
 			if (mod != null)

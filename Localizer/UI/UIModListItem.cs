@@ -89,6 +89,7 @@ namespace Localizer.UI
 			{
 				Directory.CreateDirectory(path);
 			}
+			ExportTool.ExportInfo(mod, path);
 			ExportTool.ExportItemTexts(mod, path);
 			ExportTool.ExportNPCTexts(mod, path);
 			ExportTool.ExportBuffTexts(mod, path);
@@ -98,10 +99,11 @@ namespace Localizer.UI
 		public void ImportModText(UIMouseEvent evt, UIElement listeningElement)
 		{
 			var path = Path.Combine(Main.SavePath, "Texts/", mod.Name);
-			ImportTool.ImportItemTexts(mod, path);
-			ImportTool.ImportNPCTexts(mod, path);
-			ImportTool.ImportBuffTexts(mod, path);
-			ImportTool.ImportMiscTexts(mod, path);
+			var info = ImportTool.ReadInfo(path);
+			ImportTool.ImportItemTexts(mod, path, info.Culture);
+			ImportTool.ImportNPCTexts(mod, path, info.Culture);
+			ImportTool.ImportBuffTexts(mod, path, info.Culture);
+			ImportTool.ImportMiscTexts(mod, path, info.Culture);
 
 			ModLoader.RefreshModLanguage(LanguageManager.Instance.ActiveCulture);
 		}

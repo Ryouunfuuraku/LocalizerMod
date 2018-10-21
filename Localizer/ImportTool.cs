@@ -12,7 +12,24 @@ namespace Localizer
 {
 	public class ImportTool
 	{
-		public static void ImportItemTexts(Mod mod, string path)
+		public static void ImportModTexts(Mod mod, string path)
+		{
+		}
+
+		public static TextFile.TranslationInfo ReadInfo(string path)
+		{
+			using (var fs = new FileStream(Path.Combine(path, "Info.json"), FileMode.Open))
+			{
+				using (var sr = new StreamReader(fs))
+				{
+					var info = JsonConvert.DeserializeObject<TextFile.TranslationInfo>(sr.ReadToEnd());
+
+					return info;
+				}
+			}
+		}
+
+		public static void ImportItemTexts(Mod mod, string path, GameCulture culture)
 		{
 			using (var fs = new FileStream(Path.Combine(path, "Items.json"), FileMode.Open))
 			{
@@ -28,21 +45,21 @@ namespace Localizer
 							continue;
 
 						if (!string.IsNullOrWhiteSpace(item.Value.NameTranslation))
-							TranslateTool.AddItemNameTranslation(moditem, item.Value.NameTranslation, GameCulture.Chinese);
+							TranslateTool.AddItemNameTranslation(moditem, item.Value.NameTranslation, culture);
 						if (!string.IsNullOrWhiteSpace(item.Value.TooltipTranslation))
-							TranslateTool.AddItemTooltipTranslation(moditem, item.Value.TooltipTranslation, GameCulture.Chinese);
+							TranslateTool.AddItemTooltipTranslation(moditem, item.Value.TooltipTranslation, culture);
 					}
 
 					foreach (var setbonus in items.SetBonus)
 					{
 						if (!string.IsNullOrWhiteSpace(setbonus.Value.Translation))
-							TranslateTool.AddSetBonusTranslation(mod.GetItem(setbonus.Key), setbonus.Value.Translation, GameCulture.Chinese);
+							TranslateTool.AddSetBonusTranslation(mod.GetItem(setbonus.Key), setbonus.Value.Translation, culture);
 					}
 				}
 			}
 		}
 
-		public static void ImportNPCTexts(Mod mod, string path)
+		public static void ImportNPCTexts(Mod mod, string path, GameCulture culture)
 		{
 			using (var fs = new FileStream(Path.Combine(path, "NPCs.json"), FileMode.Open))
 			{
@@ -58,13 +75,13 @@ namespace Localizer
 							continue;
 
 						if (!string.IsNullOrWhiteSpace(npc.Value.NameTranslation))
-							TranslateTool.AddNpcNameTranslation(modnpc, npc.Value.NameTranslation, GameCulture.Chinese);
+							TranslateTool.AddNpcNameTranslation(modnpc, npc.Value.NameTranslation, culture);
 					}
 				}
 			}
 		}
 
-		public static void ImportBuffTexts(Mod mod, string path)
+		public static void ImportBuffTexts(Mod mod, string path, GameCulture culture)
 		{
 			using (var fs = new FileStream(Path.Combine(path, "Buffs.json"), FileMode.Open))
 			{
@@ -80,15 +97,15 @@ namespace Localizer
 							continue;
 
 						if (!string.IsNullOrWhiteSpace(buff.Value.NameTranslation))
-							TranslateTool.AddBuffNameTranslation(modbuff, buff.Value.NameTranslation, GameCulture.Chinese);
+							TranslateTool.AddBuffNameTranslation(modbuff, buff.Value.NameTranslation, culture);
 						if (!string.IsNullOrWhiteSpace(buff.Value.TipTranslation))
-							TranslateTool.AddBuffTipTranslation(modbuff, buff.Value.TipTranslation, GameCulture.Chinese);
+							TranslateTool.AddBuffTipTranslation(modbuff, buff.Value.TipTranslation, culture);
 					}
 				}
 			}
 		}
 
-		public static void ImportMiscTexts(Mod mod, string path)
+		public static void ImportMiscTexts(Mod mod, string path, GameCulture culture)
 		{
 			using (var fs = new FileStream(Path.Combine(path, "Miscs.json"), FileMode.Open))
 			{
@@ -101,7 +118,7 @@ namespace Localizer
 						if (!string.IsNullOrWhiteSpace(misc.Value.Translation))
 						{
 							var translation = mod.CreateTranslation(misc.Key);
-							translation.AddTranslation(GameCulture.Chinese, misc.Value.Translation);
+							translation.AddTranslation(culture, misc.Value.Translation);
 							mod.AddTranslation(translation);
 						}
 					}
