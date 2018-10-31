@@ -15,6 +15,8 @@ namespace Localizer
 	public class DownloadMgr
 	{
 		public static readonly string DataBaseUri = "https://raw.githubusercontent.com/AxeelAnder/Localizer-Database/master/";
+		public static readonly string VersionUri = "https://raw.githubusercontent.com/AxeelAnder/Localizer-Database/master/version.txt";
+		public static readonly string IndexUri = "https://raw.githubusercontent.com/AxeelAnder/Localizer-Database/master/index.json";
 		public static readonly string CachePath = Path.Combine(Main.SavePath, "LocalizerCache/");
 
 		WebClient client;
@@ -31,14 +33,59 @@ namespace Localizer
 			CheckUpdate();
 		}
 
-		public static void CheckUpdate()
+		public void Update()
 		{
-
+			DownloadIndex();
 		}
 
-		public static void FetchVersion()
+		public void CheckUpdate()
 		{
+			var path = Path.Combine(CachePath, "version.txt");
+			int localVersion = 0;
+			int remoteVersion = 0;
 
+			// Read local version
+			if (File.Exists(path))
+			{
+				var content = File.ReadAllLines(path);
+				if (content != null && content.Length > 0)
+				{
+					localVersion = int.Parse(content[0]);
+				}
+			}
+
+			remoteVersion = FetchVersion();
+
+			// Compare
+			if(remoteVersion > localVersion)
+			{
+				Update();
+			}
+		}
+
+		public int FetchVersion()
+		{
+			var path = Path.Combine(CachePath, "version.txt");
+			CommonDownloadFile(VersionUri, path);
+			if (File.Exists(path))
+			{
+				var content = File.ReadAllLines(path);
+				if (content != null && content.Length > 0)
+				{
+					return int.Parse(content[0]);
+				}
+			}
+
+			return 0;
+		}
+
+		public void DownloadIndex()
+		{
+			var path = Path.Combine(CachePath, "index.json");
+
+			CommonDownloadFile(IndexUri, path);
+
+			// TODO: Refresh manager
 		}
 
 		public void DownloadModText(string culture, string mod)
@@ -62,7 +109,7 @@ namespace Localizer
 			var fileName = "Info.json";
 			CommonDownloadFile(uri + fileName, path + fileName);
 		}
-
+		
 		void DownloadItems(string uri, string path)
 		{
 			var fileName = "Items.json";
