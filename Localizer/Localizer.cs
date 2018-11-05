@@ -22,7 +22,7 @@ namespace Localizer
 	{
 		public static HarmonyInstance harmony;
 
-		public static UIManager managerUI;
+		public static UIBrowser managerUI;
 		public static DownloadMgr downloadMgr;
 
 		public Localizer()
@@ -44,7 +44,7 @@ namespace Localizer
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
 			Patches.DoManualPatches();
 
-			managerUI = new UIManager();
+			managerUI = new UIBrowser();
 			downloadMgr = new DownloadMgr();
 			
 			AddTranslation();
