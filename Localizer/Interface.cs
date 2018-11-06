@@ -15,16 +15,22 @@ namespace Localizer
 		internal const int MenuID = 50000;
 		internal const int BrowserID = 50001;
 		internal const int ManagerID = 50002;
-		internal static UIBrowser browser = new UIBrowser();
-		internal static UILocalManager manager = new UILocalManager();
+		internal static UIBrowser browser;
+		internal static UIManager manager;
+
+		public static void Init()
+		{
+			browser = new UIBrowser();
+			manager = new UIManager();
+		}
 		
 		public static void AddButtons(Main main, int selectedMenu, string[] buttonNames, float[] buttonScales, ref int offY, ref int spacing, ref int buttonIndex, ref int numButtons)
 		{
-			buttonNames[buttonIndex] = Language.GetTextValue("Mods.Localizer.ManagerButton");
+			buttonNames[buttonIndex] = Language.GetTextValue("Mods.Localizer.MenuButton");
 			if (selectedMenu == buttonIndex)
 			{
 				Main.PlaySound(10, -1, -1, 1, 1f, 0f);
-				Main.menuMode = 100000;
+				Main.menuMode = MenuID;
 			}
 			buttonIndex++;
 			numButtons++;
@@ -44,10 +50,29 @@ namespace Localizer
 				}
 
 				int buttonIndex = 0;
-				buttonNames[buttonIndex] = "";
+				buttonNames[buttonIndex] = Language.GetTextValue("Mods.Localizer.MenuBrowserButton");
 				if (selectedMenu == buttonIndex)
 				{
 					Main.PlaySound(SoundID.MenuTick);
+					Main.menuMode = BrowserID;
+					Main.MenuUI.SetState(browser);
+				}
+
+				buttonIndex++;
+				buttonNames[buttonIndex] = Language.GetTextValue("Mods.Localizer.MenuManagerButton");
+				if (selectedMenu == buttonIndex)
+				{
+					Main.PlaySound(SoundID.MenuTick);
+					Main.menuMode = ManagerID;
+					Main.MenuUI.SetState(manager);
+				}
+
+				buttonIndex++;
+				buttonNames[buttonIndex] = Language.GetTextValue("Mods.Localizer.MenuSettingButton");
+				if (selectedMenu == buttonIndex)
+				{
+					Main.PlaySound(SoundID.MenuTick);
+					// Enter settings
 				}
 
 				buttonIndex++;
@@ -58,11 +83,6 @@ namespace Localizer
 					Main.menuMode = 11;
 					Main.PlaySound(11, -1, -1, 1);
 				}
-			}
-			if (Main.menuMode == ManagerID)
-			{
-				Localizer.TurnToManager();
-				return true;
 			}
 
 			return false;

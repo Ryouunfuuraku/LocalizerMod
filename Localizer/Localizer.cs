@@ -21,8 +21,7 @@ namespace Localizer
     public class Localizer : Mod
 	{
 		public static HarmonyInstance harmony;
-
-		public static UIBrowser managerUI;
+		
 		public static DownloadMgr downloadMgr;
 
 		public Localizer()
@@ -43,8 +42,7 @@ namespace Localizer
 			harmony = HarmonyInstance.Create("Localizer.Main");
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
 			Patches.DoManualPatches();
-
-			managerUI = new UIBrowser();
+			
 			downloadMgr = new DownloadMgr();
 			
 			AddTranslation();
@@ -54,12 +52,27 @@ namespace Localizer
 		{
 			ModTranslation modTranslation = CreateTranslation("ManagerHeadTitle");
 			modTranslation.SetDefault("Localize Manager");
-			modTranslation.AddTranslation(GameCulture.Chinese, "汉化管理");
+			modTranslation.AddTranslation(GameCulture.Chinese, "汉化管理器");
 			AddTranslation(modTranslation);
 
-			modTranslation = CreateTranslation("ManagerButton");
-			modTranslation.SetDefault("Localize Manager");
-			modTranslation.AddTranslation(GameCulture.Chinese, "汉化管理");
+			modTranslation = CreateTranslation("MenuButton");
+			modTranslation.SetDefault("Localizer");
+			modTranslation.AddTranslation(GameCulture.Chinese, "汉化");
+			AddTranslation(modTranslation);
+			
+			modTranslation = CreateTranslation("MenuBrowserButton");
+			modTranslation.SetDefault("Browser");
+			modTranslation.AddTranslation(GameCulture.Chinese, "汉化浏览器");
+			AddTranslation(modTranslation);
+			
+			modTranslation = CreateTranslation("MenuManagerButton");
+			modTranslation.SetDefault("Manager");
+			modTranslation.AddTranslation(GameCulture.Chinese, "汉化管理器");
+			AddTranslation(modTranslation);
+			
+			modTranslation = CreateTranslation("MenuSettingButton");
+			modTranslation.SetDefault("Settings");
+			modTranslation.AddTranslation(GameCulture.Chinese, "汉化设置");
 			AddTranslation(modTranslation);
 
 			modTranslation = CreateTranslation("BackButton");

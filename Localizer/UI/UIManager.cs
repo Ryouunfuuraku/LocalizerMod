@@ -17,7 +17,7 @@ using Localizer.DataStructures;
 
 namespace Localizer.UI
 {
-	public class UILocalManager : UIState
+	public class UIManager : UIState
 	{
 		public UIList modList;
 		public UITextPanel<string> backButton;
