@@ -90,28 +90,6 @@ namespace Localizer
 				Localizer.harmony.Patch(original, null, null, new HarmonyMethod(transpiler));
 			}
 
-			public static void AddButtons(Main main, int selectedMenu, string[] buttonNames, float[] buttonScales, ref int offY, ref int spacing, ref int buttonIndex, ref int numButtons)
-			{
-				buttonNames[buttonIndex] = Language.GetTextValue("Mods.Localizer.ManagerButton");
-				if (selectedMenu == buttonIndex)
-				{
-					Main.PlaySound(10, -1, -1, 1, 1f, 0f);
-					Main.menuMode = 100000;
-				}
-				buttonIndex++;
-				numButtons++;
-			}
-
-			public static bool ModLoaderMenus(Main main, int selectedMenu, string[] buttonNames, float[] buttonScales, int[] buttonVerticalSpacing, ref int offY, ref int spacing, ref int numButtons, ref bool backButtonDown)
-			{
-				if (Main.menuMode == 100000)
-				{
-					Localizer.TurnToManager();
-					return true;
-				}
-
-				return false;
-			}
 
 			static IEnumerable<CodeInstruction> AddMenuButtonsTranspiler(IEnumerable<CodeInstruction> instructions)
 			{
@@ -125,7 +103,7 @@ namespace Localizer
 				addButton.Add(new CodeInstruction(OpCodes.Ldarg_S, 5));
 				addButton.Add(new CodeInstruction(OpCodes.Ldarg_S, 6));
 				addButton.Add(new CodeInstruction(OpCodes.Ldarg_S, 7));
-				addButton.Add(new CodeInstruction(OpCodes.Call, typeof(MenuButtons).GetMethod("AddButtons", BindingFlags.Public | BindingFlags.Static)));
+				addButton.Add(new CodeInstruction(OpCodes.Call, typeof(Interface).GetMethod("AddButtons", BindingFlags.Public | BindingFlags.Static)));
 
 				var result = addButton.Concat(instructions);
 
@@ -146,7 +124,7 @@ namespace Localizer
 				menus.Add(new CodeInstruction(OpCodes.Ldarg_S, 6));
 				menus.Add(new CodeInstruction(OpCodes.Ldarg_S, 7));
 				menus.Add(new CodeInstruction(OpCodes.Ldarg_S, 8));
-				menus.Add(new CodeInstruction(OpCodes.Call, typeof(MenuButtons).GetMethod("ModLoaderMenus", BindingFlags.Public | BindingFlags.Static)));
+				menus.Add(new CodeInstruction(OpCodes.Call, typeof(Interface).GetMethod("LocalizerMenus", BindingFlags.Public | BindingFlags.Static)));
 				menus.Add(new CodeInstruction(OpCodes.Brtrue, result[result.Count-15].operand));
 
 				return menus.Concat(result);

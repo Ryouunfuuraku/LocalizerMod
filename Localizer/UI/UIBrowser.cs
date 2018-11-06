@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 
 namespace Localizer.UI
 {
-	public class UIManager : UIState
+	public class UIBrowser : UIState
 	{
 		public UIList textList;
 		public UITextPanel<string> backButton;
