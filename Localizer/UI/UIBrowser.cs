@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
@@ -74,7 +75,14 @@ namespace Localizer.UI
 
 		private void LoadList()
 		{
-			using (var fs = new FileStream(Path.Combine(DownloadMgr.CachePath, "index.json"), FileMode.Open))
+			var path = Path.Combine(DownloadMgr.CachePath, "index.json");
+			if (!File.Exists(path))
+			{
+				Localizer.downloadMgr.DownloadIndex();
+				return;
+			}
+
+			using (var fs = new FileStream(path, FileMode.Open))
 			{
 				using (var sr = new StreamReader(fs))
 				{

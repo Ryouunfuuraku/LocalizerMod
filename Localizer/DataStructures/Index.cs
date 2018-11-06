@@ -17,7 +17,6 @@ namespace Localizer.DataStructures
 
 		public sealed class Item
 		{
-			public string URI { get; set; }
 			public string Mod { get; set; }
 		}
 	}

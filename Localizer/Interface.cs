@@ -55,7 +55,6 @@ namespace Localizer
 				{
 					Main.PlaySound(SoundID.MenuTick);
 					Main.menuMode = BrowserID;
-					Main.MenuUI.SetState(browser);
 				}
 
 				buttonIndex++;
@@ -64,7 +63,6 @@ namespace Localizer
 				{
 					Main.PlaySound(SoundID.MenuTick);
 					Main.menuMode = ManagerID;
-					Main.MenuUI.SetState(manager);
 				}
 
 				buttonIndex++;
@@ -84,6 +82,18 @@ namespace Localizer
 					Main.PlaySound(11, -1, -1, 1);
 				}
 			}
+
+			if (Main.menuMode == BrowserID)
+			{
+				Main.MenuUI.SetState(browser);
+				Main.menuMode = 888;
+			}
+			else if(Main.menuMode == ManagerID)
+			{
+				Main.MenuUI.SetState(manager);
+				Main.menuMode = 888;
+			}
+
 
 			return false;
 		}

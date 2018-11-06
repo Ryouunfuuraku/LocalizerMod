@@ -44,6 +44,7 @@ namespace Localizer
 			Patches.DoManualPatches();
 			
 			downloadMgr = new DownloadMgr();
+			Interface.Init();
 			
 			AddTranslation();
 		}
@@ -124,7 +125,7 @@ namespace Localizer
 			//Test.TestAddTileTranslation();
 			//Test.TestAddChatTranslation();
 			//Test.TestAddChatButtonTranslation();
-			Test.TestPullRemoteTexts();
+			//Test.TestPullRemoteTexts();
 		}
 
 
