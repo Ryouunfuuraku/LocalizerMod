@@ -72,7 +72,7 @@ namespace Localizer.UI
 			Main.menuMode = 0;
 		}
 
-		private static void LoadList()
+		private void LoadList()
 		{
 			using (var fs = new FileStream(Path.Combine(DownloadMgr.CachePath, "index.json"), FileMode.Open))
 			{
@@ -80,7 +80,10 @@ namespace Localizer.UI
 				{
 					var index = JsonConvert.DeserializeObject<Index>(sr.ReadToEnd());
 
-					// TODO: Load content
+					foreach (var item in index.zh_hans.Items)
+					{
+						textList.Add(new UITextListItem(item));
+					}
 				}
 			}
 		}

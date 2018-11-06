@@ -12,7 +12,13 @@ namespace Localizer.DataStructures
 
 		public sealed class SubDir
 		{
-			public List<string> Items { get; set; }
+			public List<Item> Items { get; set; }
+		}
+
+		public sealed class Item
+		{
+			public string URI { get; set; }
+			public string Mod { get; set; }
 		}
 	}
 }

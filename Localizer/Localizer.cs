@@ -80,6 +80,11 @@ namespace Localizer
 			modTranslation.AddTranslation(GameCulture.Chinese, "返回");
 			AddTranslation(modTranslation);
 
+			modTranslation = CreateTranslation("DownloadButton");
+			modTranslation.SetDefault("Download");
+			modTranslation.AddTranslation(GameCulture.Chinese, "下载文本");
+			AddTranslation(modTranslation);
+
 			modTranslation = CreateTranslation("ExportButton");
 			modTranslation.SetDefault("Export");
 			modTranslation.AddTranslation(GameCulture.Chinese, "导出文本");
@@ -109,12 +114,6 @@ namespace Localizer
 #if DEBUG
 			DoTests();
 #endif
-		}
-
-		public static void TurnToManager()
-		{
-			Main.MenuUI.SetState(managerUI);
-			Main.menuMode = 888;
 		}
 
 		public static void DoTests()

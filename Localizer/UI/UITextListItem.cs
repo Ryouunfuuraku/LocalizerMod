@@ -11,20 +11,20 @@ using Terraria.ModLoader;
 using System.Linq;
 using Terraria.Localization;
 using System.Reflection;
+using Localizer.DataStructures;
 
 namespace Localizer.UI
 {
 	public class UITextListItem : UIPanel
 	{
-		private readonly Mod mod;
+		private readonly Index.Item item;
 		private readonly Texture2D dividerTexture;
 		private readonly Texture2D innerPanelTexture;
 		private readonly UIText modName;
-		private readonly UITextPanel<string> button2;
 
-		public UITextListItem(Mod mod)
+		public UITextListItem(Index.Item item)
 		{
-			this.mod = mod;
+			this.item = item;
 			this.BorderColor = new Color(89, 116, 213) * 0.7f;
 			this.dividerTexture = TextureManager.Load("Images/UI/Divider");
 			this.innerPanelTexture = TextureManager.Load("Images/UI/InnerPanelBackground");
@@ -32,13 +32,13 @@ namespace Localizer.UI
 			this.Width.Set(0f, 1f);
 			base.SetPadding(6f);
 
-			string text = mod.DisplayName;
+			string text = item.Mod;
 			this.modName = new UIText(text, 1f, false);
 			this.modName.Left.Set(10f, 0f);
 			this.modName.Top.Set(5f, 0f);
 			base.Append(this.modName);
 
-			UITextPanel<string> button = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.ExportButton"), 1f, false);
+			UITextPanel<string> button = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.DownloadButton"), 1f, false);
 			button.Width.Set(100f, 0f);
 			button.Height.Set(30f, 0f);
 			button.Left.Set(430f, 0f);
@@ -47,46 +47,13 @@ namespace Localizer.UI
 			button.PaddingBottom -= 2f;
 			button.OnMouseOver += UICommon.FadedMouseOver;
 			button.OnMouseOut += UICommon.FadedMouseOut;
-			button.OnClick += ExportModText;
+			button.OnClick += DownloadText;
 			base.Append(button);
-
-			button2 = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.ImportButton"), 1f, false);
-			button2.Width.Set(100f, 0f);
-			button2.Height.Set(30f, 0f);
-			button2.Left.Set(button.Left.Pixels - button2.Width.Pixels - 5f, 0f);
-			button2.Top.Set(40f, 0f);
-			button2.PaddingTop -= 2f;
-			button2.PaddingBottom -= 2f;
-			button2.OnMouseOver += UICommon.FadedMouseOver;
-			button2.OnMouseOut += UICommon.FadedMouseOut;
-			button2.OnClick += ImportModText;
-			base.Append(button2);
 		}
 
-		public void ExportModText(UIMouseEvent evt, UIElement listeningElement)
+		public void DownloadText(UIMouseEvent evt, UIElement listeningElement)
 		{
-			var path = Path.Combine(Main.SavePath, "Texts/", mod.Name);
-			if (!Directory.Exists(path))
-			{
-				Directory.CreateDirectory(path);
-			}
-			ExportTool.ExportInfo(mod, path);
-			ExportTool.ExportItemTexts(mod, path);
-			ExportTool.ExportNPCTexts(mod, path);
-			ExportTool.ExportBuffTexts(mod, path);
-			ExportTool.ExportMiscTexts(mod, path);
-		}
-
-		public void ImportModText(UIMouseEvent evt, UIElement listeningElement)
-		{
-			var path = Path.Combine(Main.SavePath, "Texts/", mod.Name);
-			var info = ImportTool.ReadInfo(path);
-			ImportTool.ImportItemTexts(mod, path, info.Culture);
-			ImportTool.ImportNPCTexts(mod, path, info.Culture);
-			ImportTool.ImportBuffTexts(mod, path, info.Culture);
-			ImportTool.ImportMiscTexts(mod, path, info.Culture);
-
-			ModLoader.RefreshModLanguage(LanguageManager.Instance.ActiveCulture);
+			Localizer.downloadMgr.DownloadModText(GameCulture.Chinese.Name, item.Mod);
 		}
 
 		public void DrawPanel(SpriteBatch spriteBatch, Vector2 position, float width)
