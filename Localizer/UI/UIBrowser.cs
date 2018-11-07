@@ -63,22 +63,19 @@ namespace Localizer.UI
 
 			Append(uIElement);
 
-			LoadList();
-
 		}
 
 		private static void BackClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			Main.PlaySound(11, -1, -1, 1, 1f, 0f);
-			Main.menuMode = 0;
+			Main.menuMode = Interface.MenuID;
 		}
 
-		private void LoadList()
+		internal void LoadList()
 		{
 			var path = Path.Combine(DownloadMgr.CachePath, "index.json");
 			if (!File.Exists(path))
 			{
-				Localizer.downloadMgr.DownloadIndex();
 				return;
 			}
 

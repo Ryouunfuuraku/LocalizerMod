@@ -67,17 +67,15 @@ namespace Localizer.UI
 			uIElement.Append(backButton);
 
 			Append(uIElement);
-
-			LoadModList();
 		}
 
 		private static void BackClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			Main.PlaySound(11, -1, -1, 1, 1f, 0f);
-			Main.menuMode = 0;
+			Main.menuMode = Interface.MenuID;
 		}
 
-		public void LoadModList()
+		internal void LoadModList()
 		{
 			foreach (var mod in ModLoader.LoadedMods)
 			{

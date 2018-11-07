@@ -46,7 +46,7 @@ namespace Localizer
 				buttonVerticalSpacing[numButtons - 1] = 18;
 				for (int i = 0; i < numButtons; i++)
 				{
-					buttonScales[i] = 0.75f;
+					buttonScales[i] = 1f;
 				}
 
 				int buttonIndex = 0;
@@ -78,7 +78,7 @@ namespace Localizer
 				if (selectedMenu == buttonIndex || backButtonDown)
 				{
 					backButtonDown = false;
-					Main.menuMode = 11;
+					Main.menuMode = 0;
 					Main.PlaySound(11, -1, -1, 1);
 				}
 			}
@@ -87,11 +87,13 @@ namespace Localizer
 			{
 				Main.MenuUI.SetState(browser);
 				Main.menuMode = 888;
+				browser.LoadList();
 			}
 			else if(Main.menuMode == ManagerID)
 			{
 				Main.MenuUI.SetState(manager);
 				Main.menuMode = 888;
+				manager.LoadModList();
 			}
 
 
