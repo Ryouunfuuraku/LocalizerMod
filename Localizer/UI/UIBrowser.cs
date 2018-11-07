@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -27,6 +28,8 @@ namespace Localizer.UI
 
 		private UIElement uIElement;
 		private UIPanel uIPanel;
+
+		private UIProgress progress;
 
 		public override void OnInitialize()
 		{
@@ -62,7 +65,6 @@ namespace Localizer.UI
 			uIElement.Append(backButton);
 
 			Append(uIElement);
-
 		}
 
 		private static void BackClick(UIMouseEvent evt, UIElement listeningElement)

@@ -9,6 +9,7 @@ using Terraria.Graphics;
 using Terraria.UI;
 using Terraria.ModLoader;
 using System.Linq;
+using System.Net;
 using Terraria.Localization;
 using System.Reflection;
 using Localizer.DataStructures;
@@ -53,7 +54,13 @@ namespace Localizer.UI
 
 		public void DownloadText(UIMouseEvent evt, UIElement listeningElement)
 		{
-			Localizer.downloadMgr.DownloadModText(GameCulture.Chinese.Name, item.Mod);
+			Main.MenuUI.SetState(Interface.download);
+			Main.menuMode = 888;
+			var client = new WebClient();
+			Interface.download.SetCancel(client.CancelAsync);
+			client.DownloadFileCompleted += (s, e) => { Main.menuMode = Interface.BrowserID; };
+			client.DownloadProgressChanged += (s, e) => { Interface.download.SetProgress(e); };
+			Localizer.downloadMgr.DownloadModText(GameCulture.Chinese.Name, item.Mod, client);
 		}
 
 		public void DrawPanel(SpriteBatch spriteBatch, Vector2 position, float width)

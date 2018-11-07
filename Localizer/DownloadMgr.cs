@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.ComponentModel;
+using System.Linq;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -19,16 +21,12 @@ namespace Localizer
 		public static readonly string IndexUri = "https://raw.githubusercontent.com/AxeelAnder/Localizer-Database/master/index.json";
 		public static readonly string CachePath = Path.Combine(Main.SavePath, "LocalizerCache/");
 
-		WebClient client;
-
 		public DownloadMgr()
 		{
 			if (!Directory.Exists(CachePath))
 			{
 				Directory.CreateDirectory(CachePath);
 			}
-
-			client = new WebClient();
 
 			CheckUpdate();
 		}
@@ -66,7 +64,7 @@ namespace Localizer
 		public int FetchVersion()
 		{
 			var path = Path.Combine(CachePath, "version.txt");
-			CommonDownloadFile(VersionUri, path);
+			CommonDownloadFile(VersionUri, path, new WebClient());
 			if (File.Exists(path))
 			{
 				var content = File.ReadAllLines(path);
@@ -83,12 +81,12 @@ namespace Localizer
 		{
 			var path = Path.Combine(CachePath, "index.json");
 
-			CommonDownloadFile(IndexUri, path);
+			CommonDownloadFileAsync(IndexUri, path, new WebClient());
 
 			// TODO: Refresh manager
 		}
 
-		public void DownloadModText(string culture, string mod)
+		public void DownloadModText(string culture, string mod, WebClient client)
 		{
 			var uri = DataBaseUri + culture + "/" + mod + "/";
 			var path = CachePath + culture + "/" + mod + "/";
@@ -97,46 +95,50 @@ namespace Localizer
 				Directory.CreateDirectory(path);
 			}
 
-			DownloadInfo(uri, path);
-			DownloadItems(uri, path);
-			DownloadNPCs(uri, path);
-			DownloadBuffs(uri, path);
-			DownloadMiscs(uri, path);
+			DownloadInfo(uri, path, client);
+			DownloadItems(uri, path, client);
+			DownloadNPCs(uri, path, client);
+			DownloadBuffs(uri, path, client);
+			DownloadMiscs(uri, path, client);
 		}
 
-		void DownloadInfo(string uri, string path)
+		void DownloadInfo(string uri, string path, WebClient client)
 		{
 			var fileName = "Info.json";
-			CommonDownloadFile(uri + fileName, path + fileName);
+			CommonDownloadFileAsync(uri + fileName, path + fileName, client);
 		}
 		
-		void DownloadItems(string uri, string path)
+		void DownloadItems(string uri, string path, WebClient client)
 		{
 			var fileName = "Items.json";
-			CommonDownloadFile(uri + fileName, path + fileName);
+			CommonDownloadFileAsync(uri + fileName, path + fileName, client);
 		}
 
-		void DownloadNPCs(string uri, string path)
+		void DownloadNPCs(string uri, string path, WebClient client)
 		{
 			var fileName = "NPCs.json";
-			CommonDownloadFile(uri + fileName, path + fileName);
+			CommonDownloadFileAsync(uri + fileName, path + fileName, client);
 		}
 
-		void DownloadBuffs(string uri, string path)
+		void DownloadBuffs(string uri, string path, WebClient client)
 		{
 			var fileName = "Buffs.json";
-			CommonDownloadFile(uri + fileName, path + fileName);
+			CommonDownloadFileAsync(uri + fileName, path + fileName, client);
 		}
 
-		void DownloadMiscs(string uri, string path)
+		void DownloadMiscs(string uri, string path, WebClient client)
 		{
 			var fileName = "Miscs.json";
-			CommonDownloadFile(uri + fileName, path + fileName);
+			CommonDownloadFileAsync(uri + fileName, path + fileName, client);
 		}
 
-		void CommonDownloadFile(string url, string path)
+		void CommonDownloadFileAsync(string url, string path, WebClient client)
 		{
-			// TODO: Show download progress UI
+			client.DownloadFileAsync(new Uri(url), path);
+		}
+		
+		void CommonDownloadFile(string url, string path, WebClient client)
+		{
 			client.DownloadFile(url, path);
 		}
 	}

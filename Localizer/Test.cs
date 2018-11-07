@@ -117,10 +117,5 @@ namespace Localizer
 				ErrorLogger.Log(ex.ToString());
 			}
 		}
-		
-		public static void TestPullRemoteTexts()
-		{
-			Localizer.downloadMgr.DownloadModText("zh-Hans", "Bluemagic");
-		}
 	}
 }

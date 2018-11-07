@@ -15,13 +15,16 @@ namespace Localizer
 		internal const int MenuID = 50000;
 		internal const int BrowserID = 50001;
 		internal const int ManagerID = 50002;
+		internal const int DownloadID = 50003;
 		internal static UIBrowser browser;
 		internal static UIManager manager;
+		internal static UIDownloadProgress download;
 
 		public static void Init()
 		{
 			browser = new UIBrowser();
 			manager = new UIManager();
+			download = new UIDownloadProgress();
 		}
 		
 		public static void AddButtons(Main main, int selectedMenu, string[] buttonNames, float[] buttonScales, ref int offY, ref int spacing, ref int buttonIndex, ref int numButtons)

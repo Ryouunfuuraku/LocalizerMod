@@ -77,7 +77,6 @@
     <Compile Include="DataStructures\TextFile.cs" />
     <Compile Include="DefaultTranslation.cs" />
     <Compile Include="ExportTool.cs" />
-    <Compile Include="GlobalLocalizeItem.cs" />
     <Compile Include="GlobalLocalizeNPC.cs" />
     <Compile Include="Hooks.cs" />
     <Compile Include="ILHelper.cs" />
@@ -90,6 +89,7 @@
     <Compile Include="Test.cs" />
     <Compile Include="TranslateTool.cs" />
     <Compile Include="UI\UIBrowser.cs" />
+    <Compile Include="UI\UIDownloadProgress.cs" />
     <Compile Include="UI\UIManager.cs" />
     <Compile Include="UI\UICommon.cs" />
     <Compile Include="UI\UIMessageBox.cs" />
