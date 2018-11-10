@@ -75,8 +75,15 @@ namespace Localizer.UI
 			Main.menuMode = Interface.MenuID;
 		}
 
+		internal void Clear()
+		{
+			modList.Clear();
+		}
+
 		internal void LoadModList()
 		{
+			Clear();
+
 			foreach (var mod in ModLoader.LoadedMods)
 			{
 				var modBox = new UIModListItem(mod);

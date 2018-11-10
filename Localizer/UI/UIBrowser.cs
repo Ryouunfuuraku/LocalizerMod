@@ -73,8 +73,15 @@ namespace Localizer.UI
 			Main.menuMode = Interface.MenuID;
 		}
 
+		internal void Clear()
+		{
+			textList.Clear();
+		}
+
 		internal void LoadList()
 		{
+			Clear();
+
 			var path = Path.Combine(DownloadMgr.CachePath, "index.json");
 			if (!File.Exists(path))
 			{
