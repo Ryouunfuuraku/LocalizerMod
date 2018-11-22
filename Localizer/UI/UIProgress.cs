@@ -29,12 +29,12 @@ namespace Localizer.UI
 			spriteBatch.Draw(Main.magicPixel, new Rectangle((int)space.X + 10, (int)space.Y + (int)space.Height / 2 + 20, (int)((space.Width - 20) * progress), 10), new Rectangle(0, 0, 1, 1), new Color(200, 200, 70));
 		}
 
-		internal void SetText(string text)
+		public void SetText(string text)
 		{
 			this.text.SetText(text, 0.75f, true);
 		}
 
-		internal void SetProgress(float progress)
+		public void SetProgress(float progress)
 		{
 			this.progress = progress;
 		}

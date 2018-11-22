@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Threading;
+using Harmony;
 using Harmony.ILCopying;
 using Newtonsoft.Json;
 using Terraria;
@@ -21,22 +25,73 @@ namespace Localizer
 		public static readonly string IndexUri = "https://raw.githubusercontent.com/AxeelAnder/Localizer-Database/master/index.json";
 		public static readonly string CachePath = Path.Combine(Main.SavePath, "LocalizerCache/");
 
+		private bool end = false;
+		private Thread _thread;
+		private Queue<DownloadItem> _downloadQueue;
+		private List<DownloadItem> _downloadings;
+
 		public DownloadMgr()
 		{
+			_downloadQueue = new Queue<DownloadItem>();
+			_downloadings = new List<DownloadItem>();
+
 			if (!Directory.Exists(CachePath))
 			{
 				Directory.CreateDirectory(CachePath);
 			}
 
+			StartDownloadThread();
+
 			CheckUpdate();
 		}
 
-		public void Update()
+		private void StartDownloadThread()
+		{ 
+			if(_thread == null)
+				_thread = new Thread(DownloadUpdate);
+
+			_thread.Start();
+		}
+
+		private void DownloadUpdate()
+		{
+			while (!end)
+			{
+				while (_downloadQueue.Count > 0)
+				{
+					var item = _downloadQueue.Dequeue();
+
+					item.Start();
+
+					_downloadings.Add(item);
+				}
+
+				Thread.Sleep(10);
+			}
+		}
+
+		public void UpdateDatabase()
 		{
 			DownloadIndex();
 		}
 
+		public void UpdateMod()
+		{
+
+		}
+
 		public void CheckUpdate()
+		{
+			CheckModUpdate();
+			CheckDatabaseUpdate();
+		}
+
+		public void CheckModUpdate()
+		{
+
+		}
+
+		public void CheckDatabaseUpdate()
 		{
 			var path = Path.Combine(CachePath, "version.txt");
 			int localVersion = 0;
@@ -46,7 +101,7 @@ namespace Localizer
 			if (File.Exists(path))
 			{
 				var content = File.ReadAllLines(path);
-				if (content != null && content.Length > 0)
+				if (content.Length != 0 && content.Length > 0)
 				{
 					localVersion = int.Parse(content[0]);
 				}
@@ -57,14 +112,14 @@ namespace Localizer
 			// Compare
 			if(remoteVersion > localVersion)
 			{
-				Update();
+				UpdateDatabase();
 			}
 		}
 
 		public int FetchVersion()
 		{
 			var path = Path.Combine(CachePath, "version.txt");
-			CommonDownloadFile(VersionUri, path, new WebClient());
+			CommonDownloadFileAsync(VersionUri, "Version", path);
 			if (File.Exists(path))
 			{
 				var content = File.ReadAllLines(path);
@@ -81,65 +136,134 @@ namespace Localizer
 		{
 			var path = Path.Combine(CachePath, "index.json");
 
-			CommonDownloadFileAsync(IndexUri, path, new WebClient());
+			CommonDownloadFileAsync(IndexUri, "Index", path);
 
 			// TODO: Refresh manager
 		}
 
 		public void DownloadModText(string culture, string mod, WebClient client)
 		{
-			var uri = DataBaseUri + culture + "/" + mod + "/";
 			var path = CachePath + culture + "/" + mod + "/";
 			if (!Directory.Exists(path))
 			{
 				Directory.CreateDirectory(path);
 			}
-
-			DownloadInfo(uri, path, client);
-			DownloadItems(uri, path, client);
-			DownloadNPCs(uri, path, client);
-			DownloadBuffs(uri, path, client);
-			DownloadMiscs(uri, path, client);
+			
+			DownloadModItemText(culture, mod);
+			DownloadModNPCsText(culture, mod);
+			DownloadModBuffsText(culture, mod);
+			DownloadModMiscsText(culture, mod);
 		}
 
-		void DownloadInfo(string uri, string path, WebClient client)
+		private string CreateUriForText(string culture, string mod)
 		{
-			var fileName = "Info.json";
-			CommonDownloadFileAsync(uri + fileName, path + fileName, client);
-		}
-		
-		void DownloadItems(string uri, string path, WebClient client)
-		{
-			var fileName = "Items.json";
-			CommonDownloadFileAsync(uri + fileName, path + fileName, client);
+			return DataBaseUri + culture + "/" + mod + "/";
 		}
 
-		void DownloadNPCs(string uri, string path, WebClient client)
+		private string CreatePathForText(string culture, string mod)
 		{
-			var fileName = "NPCs.json";
-			CommonDownloadFileAsync(uri + fileName, path + fileName, client);
+			return CachePath + culture + "/" + mod + "/";
 		}
 
-		void DownloadBuffs(string uri, string path, WebClient client)
+		public void DownloadModItemText(string culture, string mod)
 		{
-			var fileName = "Buffs.json";
-			CommonDownloadFileAsync(uri + fileName, path + fileName, client);
+			var uri = CreateUriForText(culture, mod) + "Items.json";
+			var path = CreatePathForText(culture, mod) + "Items.json";
+
+			CommonDownloadFileAsync(uri, string.Format("{0}'s item", mod), path);
 		}
 
-		void DownloadMiscs(string uri, string path, WebClient client)
+		public void DownloadModNPCsText(string culture, string mod)
 		{
-			var fileName = "Miscs.json";
-			CommonDownloadFileAsync(uri + fileName, path + fileName, client);
+			var uri = CreateUriForText(culture, mod) + "NPCs.json";
+			var path = CreatePathForText(culture, mod) + "NPCs.json";
+
+			CommonDownloadFileAsync(uri, string.Format("{0}'s npc", mod), path);
 		}
 
-		void CommonDownloadFileAsync(string url, string path, WebClient client)
+		public void DownloadModBuffsText(string culture, string mod)
 		{
-			client.DownloadFileAsync(new Uri(url), path);
+			var uri = CreateUriForText(culture, mod) + "Buffs.json";
+			var path = CreatePathForText(culture, mod) + "Buffs.json";
+
+			CommonDownloadFileAsync(uri, string.Format("{0}'s buff", mod), path);
 		}
-		
-		void CommonDownloadFile(string url, string path, WebClient client)
+
+		public void DownloadModMiscsText(string culture, string mod)
 		{
-			client.DownloadFile(url, path);
+			var uri = CreateUriForText(culture, mod) + "Miscs.json";
+			var path = CreatePathForText(culture, mod) + "Miscs.json";
+
+			CommonDownloadFileAsync(uri, string.Format("{0}'s misc", mod), path);
+		}
+
+		public void CommonDownloadFileAsync(string uri, string name, string path)
+		{
+			CommonDownloadFileAsync(new DownloadItem(uri, name, path));
+		}
+
+		public void CommonDownloadFileAsync(DownloadItem item)
+		{
+			_downloadQueue.Enqueue(item);
+		}
+
+		internal void DestroyItem(DownloadItem item)
+		{
+			_downloadings.Remove(item);
+		}
+
+		public sealed class DownloadItem
+		{
+			public string Uri;
+
+			public string Name;
+
+			public string SavePath;
+
+			public float Progress;
+
+			internal WebClient _client;
+
+			public DownloadItem(string uri, string name, string savePath = "")
+			{
+				this.Uri = uri;
+				this.Name = name;
+				this.Progress = 0f;
+
+				if (string.IsNullOrEmpty(savePath))
+				{
+					this.SavePath = Path.Combine(CachePath, Name);
+				}
+				this.SavePath = savePath;
+
+				var dir = Path.GetDirectoryName(SavePath);
+				if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+				{
+					Directory.CreateDirectory(dir);
+				}
+
+				_client = new WebClient();
+			}
+
+			internal void Start()
+			{
+				if(_client == null)
+					_client = new WebClient();
+
+				_client.DownloadProgressChanged += (s, e) => SetProgress(e);
+				_client.DownloadFileCompleted += (s, e) => OnComplete();
+				_client.DownloadFileAsync(new Uri(this.Uri), this.SavePath);
+			}
+
+			private void SetProgress(DownloadProgressChangedEventArgs e)
+			{
+				this.Progress = (float) e.BytesReceived / e.TotalBytesToReceive;
+			}
+
+			private void OnComplete()
+			{
+				Localizer.downloadMgr.DestroyItem(this);
+			}
 		}
 	}
 }

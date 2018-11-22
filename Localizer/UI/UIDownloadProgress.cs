@@ -53,7 +53,7 @@ namespace Localizer.UI
 			progress.SetProgress(0f);
 		}
 
-		internal void SetDownloading(string name)
+		public void SetDownloading(string name)
 		{
 			this.name = name;
 		}
