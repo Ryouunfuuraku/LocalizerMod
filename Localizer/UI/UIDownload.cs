@@ -84,7 +84,7 @@ namespace Localizer.UI
 
 			foreach (var item in Localizer.downloadMgr.Downloadings)
 			{
-				
+				downloadingList.Add(new UIDownloadItem(item));
 			}
 		}
 	}
