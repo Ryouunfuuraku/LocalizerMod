@@ -7,6 +7,7 @@ using Terraria.Localization;
 using Terraria.ModLoader.IO;
 using Terraria.ModLoader.UI;
 using Localizer.UI;
+using Terraria.World.Generation;
 
 namespace Localizer
 {
@@ -18,13 +19,13 @@ namespace Localizer
 		internal const int DownloadID = 50003;
 		internal static UIBrowser browser;
 		internal static UIManager manager;
-		internal static UIDownloadProgress download;
+		internal static UIDownload download;
 
 		public static void Init()
 		{
 			browser = new UIBrowser();
 			manager = new UIManager();
-			download = new UIDownloadProgress();
+			download = new UIDownload();
 		}
 		
 		public static void AddButtons(Main main, int selectedMenu, string[] buttonNames, float[] buttonScales, ref int offY, ref int spacing, ref int buttonIndex, ref int numButtons)
@@ -69,6 +70,14 @@ namespace Localizer
 				}
 
 				buttonIndex++;
+				buttonNames[buttonIndex] = Language.GetTextValue("Mods.Localizer.MenuDownloadButton");
+				if (selectedMenu == buttonIndex)
+				{
+					Main.PlaySound(SoundID.MenuTick);
+					Main.menuMode = DownloadID;
+				}
+
+				buttonIndex++;
 				buttonNames[buttonIndex] = Language.GetTextValue("Mods.Localizer.MenuSettingButton");
 				if (selectedMenu == buttonIndex)
 				{
@@ -97,6 +106,12 @@ namespace Localizer
 				Main.MenuUI.SetState(manager);
 				Main.menuMode = 888;
 				manager.LoadModList();
+			}
+			else if (Main.menuMode == DownloadID)
+			{
+				Main.MenuUI.SetState(download);
+				Main.menuMode = 888;
+				download.LoadList();
 			}
 
 

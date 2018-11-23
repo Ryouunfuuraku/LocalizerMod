@@ -70,7 +70,12 @@ namespace Localizer
 			modTranslation.SetDefault("Manager");
 			modTranslation.AddTranslation(GameCulture.Chinese, "汉化管理器");
 			AddTranslation(modTranslation);
-			
+
+			modTranslation = CreateTranslation("MenuDownloadButton");
+			modTranslation.SetDefault("Download");
+			modTranslation.AddTranslation(GameCulture.Chinese, "下载管理");
+			AddTranslation(modTranslation);
+
 			modTranslation = CreateTranslation("MenuSettingButton");
 			modTranslation.SetDefault("Settings");
 			modTranslation.AddTranslation(GameCulture.Chinese, "汉化设置");

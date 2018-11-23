@@ -25,15 +25,16 @@ namespace Localizer
 		public static readonly string IndexUri = "https://raw.githubusercontent.com/AxeelAnder/Localizer-Database/master/index.json";
 		public static readonly string CachePath = Path.Combine(Main.SavePath, "LocalizerCache/");
 
+		public List<DownloadItem> Downloadings;
+
 		private bool end = false;
 		private Thread _thread;
 		private Queue<DownloadItem> _downloadQueue;
-		private List<DownloadItem> _downloadings;
 
 		public DownloadMgr()
 		{
 			_downloadQueue = new Queue<DownloadItem>();
-			_downloadings = new List<DownloadItem>();
+			Downloadings = new List<DownloadItem>();
 
 			if (!Directory.Exists(CachePath))
 			{
@@ -63,7 +64,7 @@ namespace Localizer
 
 					item.Start();
 
-					_downloadings.Add(item);
+					Downloadings.Add(item);
 				}
 
 				Thread.Sleep(10);
@@ -215,7 +216,7 @@ namespace Localizer
 
 		internal void DestroyItem(DownloadItem item)
 		{
-			_downloadings.Remove(item);
+			Downloadings.Remove(item);
 		}
 
 		public sealed class DownloadItem
