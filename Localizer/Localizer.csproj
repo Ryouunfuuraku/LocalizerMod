@@ -93,9 +93,9 @@
     <Compile Include="UI\UIManager.cs" />
     <Compile Include="UI\UICommon.cs" />
     <Compile Include="UI\UIMessageBox.cs" />
-    <Compile Include="UI\UIModListItem.cs" />
+    <Compile Include="UI\UIManagerListItem.cs" />
     <Compile Include="UI\UIProgress.cs" />
-    <Compile Include="UI\UITextListItem.cs" />
+    <Compile Include="UI\UIBrowserListItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -96,7 +96,7 @@ namespace Localizer.UI
 
 					foreach (var item in index.zh_hans.Items)
 					{
-						textList.Add(new UITextListItem(item));
+						textList.Add(new UIBrowserListItem(item));
 					}
 				}
 			}

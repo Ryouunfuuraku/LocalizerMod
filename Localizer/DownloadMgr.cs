@@ -119,7 +119,7 @@ namespace Localizer
 		public int FetchVersion()
 		{
 			var path = Path.Combine(CachePath, "version.txt");
-			CommonDownloadFileAsync(VersionUri, "Version", path);
+			CommonDownloadFile(VersionUri, path);
 			if (File.Exists(path))
 			{
 				var content = File.ReadAllLines(path);
@@ -141,7 +141,7 @@ namespace Localizer
 			// TODO: Refresh manager
 		}
 
-		public void DownloadModText(string culture, string mod, WebClient client)
+		public void DownloadModText(string culture, string mod)
 		{
 			var path = CachePath + culture + "/" + mod + "/";
 			if (!Directory.Exists(path))
@@ -205,6 +205,12 @@ namespace Localizer
 		public void CommonDownloadFileAsync(DownloadItem item)
 		{
 			_downloadQueue.Enqueue(item);
+		}
+
+		public void CommonDownloadFile(string uri, string path)
+		{
+			var client = new WebClient();
+			client.DownloadFile(uri, path);
 		}
 
 		internal void DestroyItem(DownloadItem item)

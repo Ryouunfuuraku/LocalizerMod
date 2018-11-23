@@ -86,7 +86,7 @@ namespace Localizer.UI
 
 			foreach (var mod in ModLoader.LoadedMods)
 			{
-				var modBox = new UIModListItem(mod);
+				var modBox = new UIManagerListItem(mod);
 				modList.Add(modBox);
 			}
 		}
