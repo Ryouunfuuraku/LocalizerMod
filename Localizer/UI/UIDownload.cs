@@ -82,9 +82,12 @@ namespace Localizer.UI
 		{
 			Clear();
 
-			foreach (var item in Localizer.downloadMgr.Downloadings)
+			lock (Localizer.downloadMgr.Downloadings)
 			{
-				downloadingList.Add(new UIDownloadItem(item));
+				foreach (var item in Localizer.downloadMgr.Downloadings)
+				{
+					downloadingList.Add(new UIDownloadItem(item));
+				}
 			}
 		}
 	}

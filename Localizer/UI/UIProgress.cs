@@ -14,8 +14,8 @@ namespace Localizer.UI
 
 		public UIProgress()
 		{
-			text = new UIText("", 0.75f, true);
-			text.Top.Set(20f, 0f);
+			text = new UIText("0%", 0.75f, true);
+			text.Top.Set(10f, 0f);
 			text.HAlign = 0.5f;
 			base.Append(text);
 			progress = 0f;
@@ -25,8 +25,8 @@ namespace Localizer.UI
 		{
 			base.DrawSelf(spriteBatch);
 			CalculatedStyle space = GetInnerDimensions();
-			spriteBatch.Draw(Main.magicPixel, new Rectangle((int)space.X + 10, (int)space.Y + (int)space.Height / 2 + 20, (int)space.Width - 20, 10), new Rectangle(0, 0, 1, 1), new Color(0, 0, 70));
-			spriteBatch.Draw(Main.magicPixel, new Rectangle((int)space.X + 10, (int)space.Y + (int)space.Height / 2 + 20, (int)((space.Width - 20) * progress), 10), new Rectangle(0, 0, 1, 1), new Color(200, 200, 70));
+			spriteBatch.Draw(Main.magicPixel, new Rectangle((int)space.X + 10, (int)space.Y + (int)space.Height / 2, (int)space.Width - 20, 10), new Rectangle(0, 0, 1, 1), new Color(0, 0, 70));
+			spriteBatch.Draw(Main.magicPixel, new Rectangle((int)space.X + 10, (int)space.Y + (int)space.Height / 2, (int)((space.Width - 20) * progress), 10), new Rectangle(0, 0, 1, 1), new Color(200, 200, 70));
 		}
 
 		public void SetText(string text)
@@ -37,6 +37,7 @@ namespace Localizer.UI
 		public void SetProgress(float progress)
 		{
 			this.progress = progress;
+			SetText(progress.ToString());
 		}
 	}
 }

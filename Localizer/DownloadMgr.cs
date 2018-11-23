@@ -171,7 +171,7 @@ namespace Localizer
 			var uri = CreateUriForText(culture, mod) + "Items.json";
 			var path = CreatePathForText(culture, mod) + "Items.json";
 
-			CommonDownloadFileAsync(uri, string.Format("{0}'s item", mod), path);
+			CommonDownloadFileAsync(uri, string.Format("{0}'s Item", mod), path);
 		}
 
 		public void DownloadModNPCsText(string culture, string mod)
@@ -229,7 +229,7 @@ namespace Localizer
 
 			public float Progress;
 
-			internal WebClient _client;
+			public WebClient Client;
 
 			public DownloadItem(string uri, string name, string savePath = "")
 			{
@@ -249,17 +249,17 @@ namespace Localizer
 					Directory.CreateDirectory(dir);
 				}
 
-				_client = new WebClient();
+				Client = new WebClient();
 			}
 
 			internal void Start()
 			{
-				if(_client == null)
-					_client = new WebClient();
+				if(Client == null)
+					Client = new WebClient();
 
-				_client.DownloadProgressChanged += (s, e) => SetProgress(e);
-				_client.DownloadFileCompleted += (s, e) => OnComplete();
-				_client.DownloadFileAsync(new Uri(this.Uri), this.SavePath);
+				Client.DownloadProgressChanged += (s, e) => SetProgress(e);
+				Client.DownloadFileCompleted += (s, e) => OnComplete();
+				Client.DownloadFileAsync(new Uri(this.Uri), this.SavePath);
 			}
 
 			private void SetProgress(DownloadProgressChangedEventArgs e)
@@ -269,7 +269,10 @@ namespace Localizer
 
 			private void OnComplete()
 			{
-				Localizer.downloadMgr.DestroyItem(this);
+				lock (Localizer.downloadMgr.Downloadings)
+				{
+					Localizer.downloadMgr.DestroyItem(this);
+				}
 			}
 		}
 	}

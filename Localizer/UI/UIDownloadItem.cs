@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,7 +19,8 @@ namespace Localizer.UI
 {
 	public class UIDownloadItem : UIPanel
 	{
-		private readonly DownloadMgr.DownloadItem item;
+		public DownloadMgr.DownloadItem Item;
+
 		private readonly Texture2D dividerTexture;
 		private readonly Texture2D innerPanelTexture;
 		private readonly UIText name;
@@ -26,7 +28,7 @@ namespace Localizer.UI
 
 		public UIDownloadItem(DownloadMgr.DownloadItem item)
 		{
-			this.item = item;
+			this.Item = item;
 			this.BorderColor = new Color(89, 116, 213) * 0.7f;
 			this.dividerTexture = TextureManager.Load("Images/UI/Divider");
 			this.innerPanelTexture = TextureManager.Load("Images/UI/InnerPanelBackground");
@@ -39,31 +41,44 @@ namespace Localizer.UI
 			this.name.Left.Set(10f, 0f);
 			this.name.Top.Set(5f, 0f);
 			base.Append(this.name);
-
+			
 			progress = new UIProgress();
-			progress.Left.Set(10f, 0f);
-			progress.Top.Set(10f, 0f);
+			progress.Width.Set(0f, 0.8f);
+			progress.MaxWidth.Set(600f, 0f);
+			progress.Height.Set(25f, 0f);
+			progress.HAlign = 0.5f;
+			progress.VAlign = 0.5f;
+			progress.Top.Set(14f, 0f);
 			base.Append(progress);
 
-			UITextPanel<string> cancelButton = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.DownloadButton"), 1f, false);
-			cancelButton.Width.Set(100f, 0f);
-			cancelButton.Height.Set(30f, 0f);
-			cancelButton.Left.Set(430f, 0f);
-			cancelButton.Top.Set(40f, 0f);
-			cancelButton.PaddingTop -= 2f;
-			cancelButton.PaddingBottom -= 2f;
-			cancelButton.OnMouseOver += UICommon.FadedMouseOver;
-			cancelButton.OnMouseOut += UICommon.FadedMouseOut;
+			//UITextPanel<string> cancelButton = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.DownloadButton"), 1f, false);
+			//cancelButton.Width.Set(100f, 0f);
+			//cancelButton.Height.Set(30f, 0f);
+			//cancelButton.Left.Set(430f, 0f);
+			//cancelButton.Top.Set(40f, 0f);
+			//cancelButton.PaddingTop -= 2f;
+			//cancelButton.PaddingBottom -= 2f;
+			//cancelButton.OnMouseOver += UICommon.FadedMouseOver;
+			//cancelButton.OnMouseOut += UICommon.FadedMouseOut;
 			//button.OnClick += CancelDownload;
-			base.Append(cancelButton);
+			//base.Append(cancelButton);
+
+			item.Client.DownloadProgressChanged += OnProgressChange;
+			item.Client.DownloadFileCompleted += OnComplete;
 		}
 
-		public void DrawPanel(SpriteBatch spriteBatch, Vector2 position, float width)
+		public void OnProgressChange(object sender, DownloadProgressChangedEventArgs e)
 		{
-			progress.SetProgress(item.Progress);
-			spriteBatch.Draw(this.innerPanelTexture, position, new Rectangle?(new Rectangle(0, 0, 8, this.innerPanelTexture.Height)), Color.White);
-			spriteBatch.Draw(this.innerPanelTexture, new Vector2(position.X + 8f, position.Y), new Rectangle?(new Rectangle(8, 0, 8, this.innerPanelTexture.Height)), Color.White, 0f, Vector2.Zero, new Vector2((width - 16f) / 8f, 1f), SpriteEffects.None, 0f);
-			spriteBatch.Draw(this.innerPanelTexture, new Vector2(position.X + width - 8f, position.Y), new Rectangle?(new Rectangle(16, 0, 8, this.innerPanelTexture.Height)), Color.White);
+			name.SetText(name.Text + " " + ((float)e.BytesReceived / e.TotalBytesToReceive).ToString());
+			progress.SetProgress((float)e.BytesReceived / e.TotalBytesToReceive);
+		}
+
+		public void OnComplete(object sender, AsyncCompletedEventArgs e)
+		{
+			lock (Interface.download)
+			{
+				Interface.download.LoadList();
+			}
 		}
 
 		public override void MouseOver(UIMouseEvent evt)
