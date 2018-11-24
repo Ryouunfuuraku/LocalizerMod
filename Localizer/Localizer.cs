@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,8 @@ namespace Localizer
 		
 		public static DownloadMgr downloadMgr;
 
+		public static List<TextFile> TextsFiles;
+
 		public Localizer()
 		{
 			Properties = new ModProperties()
@@ -47,6 +50,7 @@ namespace Localizer
 			Interface.Init();
 			
 			AddTranslation();
+
 		}
 
 		public void AddTranslation()
@@ -113,6 +117,29 @@ namespace Localizer
 			harmony.UnpatchAll();
 		}
 
+		public static void LoadTextFiles()
+		{
+			var cacheDir = new DirectoryInfo(DownloadMgr.CachePath);
+			foreach (var langDir in cacheDir.EnumerateDirectories())
+			{
+				if (langDir.Name == "zh-Hans")
+				{
+					foreach (var textDir in langDir.EnumerateDirectories())
+					{
+						try
+						{
+							var mod = ModLoader.GetMod(textDir.Name);
+							if (mod != null)
+								ImportTool.ImportModTexts(mod, textDir.FullName);
+						}
+						catch (Exception ex)
+						{
+						}
+					}
+				}
+			}
+		}
+
 		static void ClearTranslations()
 		{
 			DefaultTranslation.chatButtonTranslations.Clear();
@@ -125,6 +152,7 @@ namespace Localizer
 #if DEBUG
 			DoTests();
 #endif
+			LoadTextFiles();
 		}
 
 		public static void DoTests()

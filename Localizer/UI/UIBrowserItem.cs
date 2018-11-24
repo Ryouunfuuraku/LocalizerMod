@@ -16,14 +16,14 @@ using Localizer.DataStructures;
 
 namespace Localizer.UI
 {
-	public class UIBrowserListItem : UIPanel
+	public class UIBrowserItem : UIPanel
 	{
 		private readonly Index.Item item;
 		private readonly Texture2D dividerTexture;
 		private readonly Texture2D innerPanelTexture;
 		private readonly UIText modName;
 
-		public UIBrowserListItem(Index.Item item)
+		public UIBrowserItem(Index.Item item)
 		{
 			this.item = item;
 			this.BorderColor = new Color(89, 116, 213) * 0.7f;

@@ -14,6 +14,15 @@ namespace Localizer
 	{
 		public static void ImportModTexts(Mod mod, string path)
 		{
+			if (!Directory.Exists(path))
+				return;
+			var info = ReadInfo(path);
+			ImportItemTexts(mod, path, info.Culture);
+			ImportNPCTexts(mod, path, info.Culture);
+			ImportBuffTexts(mod, path, info.Culture);
+			ImportMiscTexts(mod, path, info.Culture);
+
+			ModLoader.RefreshModLanguage(LanguageManager.Instance.ActiveCulture);
 		}
 
 		public static TextFile.TranslationInfo ReadInfo(string path)

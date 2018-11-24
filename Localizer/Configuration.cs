@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace Localizer
 {
+
 	public class Configuration
 	{
 		public static string Path = "LocalizerConfig.json";

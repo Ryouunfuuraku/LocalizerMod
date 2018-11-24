@@ -14,7 +14,7 @@ using System.Reflection;
 
 namespace Localizer.UI
 {
-	public class UIManagerListItem : UIPanel
+	public class UIManagerItem : UIPanel
 	{
 		private readonly Mod mod;
 		private readonly Texture2D dividerTexture;
@@ -22,7 +22,7 @@ namespace Localizer.UI
 		private readonly UIText modName;
 		private readonly UITextPanel<string> button2;
 
-		public UIManagerListItem(Mod mod)
+		public UIManagerItem(Mod mod)
 		{
 			this.mod = mod;
 			this.BorderColor = new Color(89, 116, 213) * 0.7f;

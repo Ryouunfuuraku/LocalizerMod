@@ -91,13 +91,12 @@
     <Compile Include="UI\UIBrowser.cs" />
     <Compile Include="UI\UIDownload.cs" />
     <Compile Include="UI\UIDownloadItem.cs" />
-    <Compile Include="UI\UIDownloadProgress.cs" />
     <Compile Include="UI\UIManager.cs" />
     <Compile Include="UI\UICommon.cs" />
     <Compile Include="UI\UIMessageBox.cs" />
-    <Compile Include="UI\UIManagerListItem.cs" />
+    <Compile Include="UI\UIManagerItem.cs" />
     <Compile Include="UI\UIProgress.cs" />
-    <Compile Include="UI\UIBrowserListItem.cs" />
+    <Compile Include="UI\UIBrowserItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
