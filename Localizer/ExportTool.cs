@@ -175,7 +175,7 @@ namespace Localizer
 				var miscFile = new TextFile.MiscFile();
 				foreach (var translation in translations)
 				{
-					miscFile.miscs.Add(translation.Key.Replace(string.Format("Mods.{0}.", mod.Name), ""), new TextFile.MiscTranslation(translation.Value.GetDefault()));
+					miscFile.Miscs.Add(translation.Key.Replace(string.Format("Mods.{0}.", mod.Name), ""), new TextFile.MiscTranslation(translation.Value.GetDefault()));
 				}
 
 				using (var fs = new FileStream(Path.Combine(path, "Miscs.json"), FileMode.Create))

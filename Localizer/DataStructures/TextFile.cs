@@ -29,11 +29,11 @@ namespace Localizer.DataStructures
 
 		public sealed class MiscFile
 		{
-			public Dictionary<string, MiscTranslation> miscs { get; set; }
+			public Dictionary<string, MiscTranslation> Miscs { get; set; }
 
 			public MiscFile()
 			{
-				miscs = new Dictionary<string, MiscTranslation>();
+				Miscs = new Dictionary<string, MiscTranslation>();
 			}
 		}
 		

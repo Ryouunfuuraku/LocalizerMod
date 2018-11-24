@@ -22,6 +22,7 @@ namespace Localizer.UI
 		private readonly Texture2D dividerTexture;
 		private readonly Texture2D innerPanelTexture;
 		private readonly UIText modName;
+		private readonly UIText authorName;
 
 		public UIBrowserItem(Index.Item item)
 		{
@@ -32,12 +33,16 @@ namespace Localizer.UI
 			this.Height.Set(90f, 0f);
 			this.Width.Set(0f, 1f);
 			base.SetPadding(6f);
-
-			string text = item.Mod;
-			this.modName = new UIText(text, 1f, false);
+			
+			this.modName = new UIText(item.Mod, 1f, false);
 			this.modName.Left.Set(10f, 0f);
 			this.modName.Top.Set(5f, 0f);
 			base.Append(this.modName);
+
+			this.authorName = new UIText(Language.GetTextValue("Mods.Localizer.Author") + item.Author, 1f, false);
+			this.authorName.Left.Set(10f, 0f);
+			this.authorName.Top.Set(10f, 0f);
+			base.Append(this.authorName);
 
 			UITextPanel<string> button = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.DownloadButton"), 1f, false);
 			button.Width.Set(100f, 0f);

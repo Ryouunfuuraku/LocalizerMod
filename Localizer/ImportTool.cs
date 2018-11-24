@@ -122,7 +122,7 @@ namespace Localizer
 				{
 					var miscs = JsonConvert.DeserializeObject<TextFile.MiscFile>(sr.ReadToEnd());
 
-					foreach (var misc in miscs.miscs)
+					foreach (var misc in miscs.Miscs)
 					{
 						if (!string.IsNullOrWhiteSpace(misc.Value.Translation))
 						{
