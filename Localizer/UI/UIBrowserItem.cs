@@ -41,7 +41,7 @@ namespace Localizer.UI
 
 			this.authorName = new UIText(Language.GetTextValue("Mods.Localizer.Author") + item.Author, 1f, false);
 			this.authorName.Left.Set(10f, 0f);
-			this.authorName.Top.Set(10f, 0f);
+			this.authorName.Top.Set(50f, 0f);
 			base.Append(this.authorName);
 
 			UITextPanel<string> button = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.DownloadButton"), 1f, false);

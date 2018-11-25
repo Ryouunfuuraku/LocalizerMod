@@ -97,6 +97,7 @@
     <Compile Include="UI\UIManagerItem.cs" />
     <Compile Include="UI\UIProgress.cs" />
     <Compile Include="UI\UIBrowserItem.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
