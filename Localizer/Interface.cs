@@ -17,6 +17,7 @@ namespace Localizer
 		internal const int BrowserID = 50001;
 		internal const int ManagerID = 50002;
 		internal const int DownloadID = 50003;
+		internal const int SettingID = 50004;
 		internal static UIBrowser browser;
 		internal static UIManager manager;
 		internal static UIDownload download;
@@ -82,7 +83,7 @@ namespace Localizer
 				if (selectedMenu == buttonIndex)
 				{
 					Main.PlaySound(SoundID.MenuTick);
-					// Enter settings
+					Main.menuMode = SettingID;
 				}
 
 				buttonIndex++;
@@ -112,6 +113,42 @@ namespace Localizer
 				Main.MenuUI.SetState(download);
 				Main.menuMode = 888;
 				download.LoadList();
+			}
+			else if (Main.menuMode == SettingID)
+			{
+				offY = 210;
+				spacing = 42;
+				numButtons = 9;
+				buttonVerticalSpacing[numButtons - 1] = 18;
+				for (int i = 0; i < numButtons; i++)
+				{
+					buttonScales[i] = 1f;
+				}
+
+				int buttonIndex = 0;
+				buttonNames[buttonIndex] = Language.GetTextValue("Mods.Localizer.ReloadText");
+				if (selectedMenu == buttonIndex)
+				{
+					Main.PlaySound(SoundID.MenuTick);
+					Localizer.LoadTextFiles();
+				}
+
+				//buttonIndex++;
+				//buttonNames[buttonIndex] = Language.GetTextValue("Mods.Localizer.MenuManagerButton");
+				//if (selectedMenu == buttonIndex)
+				//{
+				//	Main.PlaySound(SoundID.MenuTick);
+				//	Main.menuMode = ManagerID;
+				//}
+
+				buttonIndex++;
+				buttonNames[buttonIndex] = Lang.menu[5].Value;
+				if (selectedMenu == buttonIndex || backButtonDown)
+				{
+					backButtonDown = false;
+					Main.menuMode = MenuID;
+					Main.PlaySound(11, -1, -1, 1);
+				}
 			}
 
 

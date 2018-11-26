@@ -124,6 +124,11 @@ namespace Localizer
 			modTranslation.SetDefault("Author: ");
 			modTranslation.AddTranslation(GameCulture.Chinese, "翻译者: ");
 			AddTranslation(modTranslation);
+
+			modTranslation = CreateTranslation("ReloadText");
+			modTranslation.SetDefault("Reload texts");
+			modTranslation.AddTranslation(GameCulture.Chinese, "重新加载文本");
+			AddTranslation(modTranslation);
 		}
 		
 		public override void Unload()

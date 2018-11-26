@@ -79,6 +79,15 @@ namespace Localizer.UI
 			{
 				Interface.download.LoadList();
 			}
+
+			lock (Item)
+			{
+				var textDir = new FileInfo(Item.SavePath).Directory;
+				if (ImportTool.CheckDir(textDir.FullName))
+				{
+					Localizer.ApplyTextFile(textDir);
+				}
+			}
 		}
 
 		public override void MouseOver(UIMouseEvent evt)
