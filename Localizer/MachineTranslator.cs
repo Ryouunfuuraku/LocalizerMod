@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using Localizer.DataStructures;
 using Newtonsoft.Json;
 
@@ -45,14 +46,21 @@ namespace Localizer
 
 				var sign = sb.ToString();
 
-				var request =
-					(HttpWebRequest) WebRequest.Create(string.Format(RequestTemplate, APIAddress, raw, from, to, AppID,
-						Salt, sign));
+				var uri = string.Format(RequestTemplate, APIAddress, Uri.EscapeDataString(raw), from, to, AppID, Salt, sign);
+				Logger.DebugLog(uri);
+				var request = (HttpWebRequest) WebRequest.Create(uri);
 				var response = (HttpWebResponse) request.GetResponse();
 				var resText = new StreamReader(response.GetResponseStream(), Encoding.UTF8).ReadToEnd();
-				Logger.DebugLog(resText);
 				var result = JsonConvert.DeserializeObject<Result>(resText);
-				return Decode(result.trans_result[0].dst);
+
+				sb.Clear();
+				for (int i = 0; i < result.trans_result.Count; i++)
+				{
+					sb.Append(result.trans_result[i].dst);
+					if(i < result.trans_result.Count - 1)
+						sb.Append("\n");
+				}
+				return sb.ToString();
 			}
 			catch (Exception ex)
 			{
@@ -105,8 +113,7 @@ namespace Localizer
 		}
 
 		static Regex reUnicode = new Regex(@"\\u([0-9a-fA-F]{4})", RegexOptions.Compiled);
-
-		public static string Decode(string s)
+		public static string UrlDecode(string s)
 		{
 			return reUnicode.Replace(s, m =>
 			{
@@ -120,7 +127,7 @@ namespace Localizer
 				return m.Value;
 			});
 		}
-
+		
 		public void TranslateItems(TextFile.ItemFile items)
 		{
 			foreach (var item in items.Items.Values)

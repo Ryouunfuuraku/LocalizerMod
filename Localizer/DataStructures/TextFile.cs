@@ -18,6 +18,7 @@ namespace Localizer.DataStructures
 			public string Translator { get; set; }
 			public string Description { get; set; }
 			public int Version { get; set; }
+			[JsonProperty]
 			private string _culture;
 			[JsonIgnore]
 			public GameCulture Culture {
