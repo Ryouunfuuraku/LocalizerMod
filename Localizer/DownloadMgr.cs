@@ -280,9 +280,17 @@ namespace Localizer
 
 			private void OnComplete()
 			{
+				Logger.DebugLog(string.Format("{0} downloaded.", SavePath));
+
 				lock (Localizer.downloadMgr.Downloadings)
 				{
 					Localizer.downloadMgr.DestroyItem(this);
+				}
+
+				var textDir = new FileInfo(SavePath).Directory;
+				if (ImportTool.CheckDir(textDir.FullName))
+				{
+					Localizer.ApplyTextFile(textDir);
 				}
 			}
 		}

@@ -153,6 +153,7 @@ namespace Localizer
 		{
 			try
 			{
+				Logger.DebugLog(string.Format("Apply {0}", textDir.Name));
 				var mod = ModLoader.GetMod(textDir.Name);
 				if (mod != null)
 				{

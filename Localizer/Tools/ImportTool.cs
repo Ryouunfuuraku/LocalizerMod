@@ -14,6 +14,7 @@ namespace Localizer
 	{
 		public static void ImportModTexts(Mod mod, string path)
 		{
+			Logger.DebugLog(string.Format("Import {0} from {1}", mod.Name, path));
 			if (!Directory.Exists(path) || !CheckDir(path))
 				return;
 			var info = ReadInfo(path);
@@ -50,6 +51,7 @@ namespace Localizer
 		};
 		public static bool CheckDir(string path)
 		{
+			Logger.DebugLog(string.Format("Check {0}", path));
 			var files = new DirectoryInfo(path).GetFiles();
 
 			foreach (var f in _files)
