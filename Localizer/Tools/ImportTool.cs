@@ -14,7 +14,7 @@ namespace Localizer
 	{
 		public static void ImportModTexts(Mod mod, string path)
 		{
-			if (!Directory.Exists(path))
+			if (!Directory.Exists(path) || !CheckDir(path))
 				return;
 			var info = ReadInfo(path);
 			ImportItemTexts(mod, path, info.Culture);
@@ -23,6 +23,27 @@ namespace Localizer
 			ImportMiscTexts(mod, path, info.Culture);
 
 			ModLoader.RefreshModLanguage(LanguageManager.Instance.ActiveCulture);
+		}
+
+		private static string[] _files =
+		{
+			"Info.json",
+			"Items.json",
+			"NPCs.json",
+			"Buffs.json",
+			"Miscs.json"
+		};
+		public static bool CheckDir(string path)
+		{
+			var files = new DirectoryInfo(path).GetFiles();
+
+			foreach (var f in _files)
+			{
+				if (files.All(file => file.Name != f))
+					return false;
+			}
+
+			return true;
 		}
 
 		public static TextFile.TranslationInfo ReadInfo(string path)

@@ -69,7 +69,7 @@ namespace Localizer.UI
 
 		public void OnProgressChange(object sender, DownloadProgressChangedEventArgs e)
 		{
-			name.SetText(name.Text + " " + ((float)e.BytesReceived / e.TotalBytesToReceive).ToString());
+			name.SetText(name.Text + " " + ((float)e.BytesReceived / e.TotalBytesToReceive));
 			progress.SetProgress((float)e.BytesReceived / e.TotalBytesToReceive);
 		}
 

@@ -12,7 +12,7 @@ using Localizer.DataStructures;
 
 namespace Localizer
 {
-	public class ILHelper
+	public class ILTool
 	{
 		public static string GetStrBeforeInstruction(List<ILInstruction> instructions, ILInstruction il)
 		{

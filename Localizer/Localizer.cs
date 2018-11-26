@@ -132,25 +132,32 @@ namespace Localizer
 			harmony.UnpatchAll();
 		}
 
+		public static void ApplyTextFile(DirectoryInfo textDir)
+		{
+			try
+			{
+				var mod = ModLoader.GetMod(textDir.Name);
+				if (mod != null)
+				{
+					ImportTool.ImportModTexts(mod, textDir.FullName);
+				}
+			}
+			catch (Exception ex)
+			{
+				Logger.Log(ex);
+			}
+		}
+
 		public static void LoadTextFiles()
 		{
 			var cacheDir = new DirectoryInfo(DownloadMgr.CachePath);
 			foreach (var langDir in cacheDir.EnumerateDirectories())
 			{
-				if (langDir.Name == "zh-Hans")
+				if (langDir.Name == LanguageManager.Instance.ActiveCulture.Name)
 				{
 					foreach (var textDir in langDir.EnumerateDirectories())
 					{
-						try
-						{
-							var mod = ModLoader.GetMod(textDir.Name);
-							if (mod != null)
-								ImportTool.ImportModTexts(mod, textDir.FullName);
-						}
-						catch (Exception ex)
-						{
-							Logger.Log(ex);
-						}
+						ApplyTextFile(textDir);
 					}
 				}
 			}
