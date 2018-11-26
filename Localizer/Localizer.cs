@@ -149,6 +149,7 @@ namespace Localizer
 						}
 						catch (Exception ex)
 						{
+							Logger.Log(ex);
 						}
 					}
 				}
