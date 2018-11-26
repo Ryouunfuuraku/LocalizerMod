@@ -47,6 +47,13 @@ namespace Localizer.UI
 			uIPanel.PaddingTop = 0f;
 			uIElement.Append(uIPanel);
 
+			UITextPanel<string> uIHeaderTexTPanel = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.DownloadHeadTitle"), 0.8f, true);
+			uIHeaderTexTPanel.HAlign = 0.5f;
+			uIHeaderTexTPanel.Top.Set(-35f, 0f);
+			uIHeaderTexTPanel.SetPadding(15f);
+			uIHeaderTexTPanel.BackgroundColor = new Color(73, 94, 171);
+			uIElement.Append(uIHeaderTexTPanel);
+
 			downloadingList = new UIList();
 			downloadingList.Width.Set(-25f, 1f);
 			downloadingList.Height.Set(-50f, 1f);
