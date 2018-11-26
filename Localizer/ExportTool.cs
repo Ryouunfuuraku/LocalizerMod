@@ -44,11 +44,11 @@ namespace Localizer
 
 					// Get setbonus
 					var updateArmorSetMethod = itemPair.Value.GetType().GetMethod("UpdateArmorSet", BindingFlags.Instance | BindingFlags.Public);
-					var instructions = ILHelper.GetInstructions(updateArmorSetMethod);
+					var instructions = ILTool.GetInstructions(updateArmorSetMethod);
 					var target = instructions.Find(i => i.opcode == OpCodes.Stfld && i.operand.ToString().Contains("setBonus"));
 					if(target != null)
 					{
-						var setBonus = ILHelper.GetStrBeforeInstruction(instructions, target);
+						var setBonus = ILTool.GetStrBeforeInstruction(instructions, target);
 						if (!string.IsNullOrWhiteSpace(setBonus))
 						{
 							itemFile.SetBonus.Add(itemPair.Key, new TextFile.SetBonusTranslation(setBonus));
@@ -80,7 +80,7 @@ namespace Localizer
 
 					// Get chat
 					var getChatMethod = npcPair.Value.GetType().GetMethod("GetChat", BindingFlags.Instance | BindingFlags.Public);
-					var instructions = ILHelper.GetInstructions(getChatMethod);
+					var instructions = ILTool.GetInstructions(getChatMethod);
 					var chatlines = new List<ILInstruction>();
 					for (int i = 0; i < instructions.Count; i++)
 					{
@@ -110,7 +110,7 @@ namespace Localizer
 
 					// Get button
 					var setChatButtonsMethod = npcPair.Value.GetType().GetMethod("SetChatButtons", BindingFlags.Instance | BindingFlags.Public);
-					instructions = ILHelper.GetInstructions(setChatButtonsMethod);
+					instructions = ILTool.GetInstructions(setChatButtonsMethod);
 					var buttons = new List<ILInstruction>();
 					for (int i = 0; i < instructions.Count; i++)
 					{
