@@ -127,6 +127,11 @@ namespace Localizer
 			modTranslation.AddTranslation(GameCulture.Chinese, "导入文本");
 			AddTranslation(modTranslation);
 			
+			modTranslation = CreateTranslation("MachineTranslateButton");
+			modTranslation.SetDefault("MachineTrans");
+			modTranslation.AddTranslation(GameCulture.Chinese, "机翻");
+			AddTranslation(modTranslation);
+
 			modTranslation = CreateTranslation("Downloading");
 			modTranslation.SetDefault("Downloading: ");
 			modTranslation.AddTranslation(GameCulture.Chinese, "下载中: ");

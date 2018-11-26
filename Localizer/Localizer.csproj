@@ -89,6 +89,7 @@
     <Compile Include="Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test.cs" />
+    <Compile Include="MachineTranslator.cs" />
     <Compile Include="Tools\TranslateTool.cs" />
     <Compile Include="UI\UIBrowser.cs" />
     <Compile Include="UI\UIDownload.cs" />

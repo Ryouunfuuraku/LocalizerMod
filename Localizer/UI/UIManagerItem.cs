@@ -20,7 +20,9 @@ namespace Localizer.UI
 		private readonly Texture2D dividerTexture;
 		private readonly Texture2D innerPanelTexture;
 		private readonly UIText modName;
+		private readonly UITextPanel<string> button;
 		private readonly UITextPanel<string> button2;
+		private readonly UITextPanel<string> button3;
 
 		public UIManagerItem(Mod mod)
 		{
@@ -38,7 +40,7 @@ namespace Localizer.UI
 			this.modName.Top.Set(5f, 0f);
 			base.Append(this.modName);
 
-			UITextPanel<string> button = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.ExportButton"), 1f, false);
+			button = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.ExportButton"), 1f, false);
 			button.Width.Set(100f, 0f);
 			button.Height.Set(30f, 0f);
 			button.Left.Set(430f, 0f);
@@ -61,6 +63,18 @@ namespace Localizer.UI
 			button2.OnMouseOut += UICommon.FadedMouseOut;
 			button2.OnClick += ImportModText;
 			base.Append(button2);
+
+			button3 = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.MachineTranslateButton"), 1f, false);
+			button3.Width.Set(100f, 0f);
+			button3.Height.Set(30f, 0f);
+			button3.Left.Set(button2.Left.Pixels - button3.Width.Pixels - 5f, 0f);
+			button3.Top.Set(40f, 0f);
+			button3.PaddingTop -= 2f;
+			button3.PaddingBottom -= 2f;
+			button3.OnMouseOver += UICommon.FadedMouseOver;
+			button3.OnMouseOut += UICommon.FadedMouseOut;
+			button3.OnClick += MachineTranslateModText;
+			base.Append(button3);
 		}
 
 		public void ExportModText(UIMouseEvent evt, UIElement listeningElement)
@@ -84,9 +98,21 @@ namespace Localizer.UI
 			ImportTool.ImportItemTexts(mod, path, info.Culture);
 			ImportTool.ImportNPCTexts(mod, path, info.Culture);
 			ImportTool.ImportBuffTexts(mod, path, info.Culture);
-			ImportTool.ImportMiscTexts(mod, path, info.Culture);
+			ImportTool.ImportMiscTexts(mod, path, info.Culture); 
 
 			ModLoader.RefreshModLanguage(LanguageManager.Instance.ActiveCulture);
+		}
+
+		public void MachineTranslateModText(UIMouseEvent evt, UIElement listeningElement)
+		{
+			var path = Path.Combine(Main.SavePath, "Texts/", mod.Name);
+			if (!Directory.Exists(path))
+			{
+				Directory.CreateDirectory(path);
+			}
+			ExportModText(evt, listeningElement);
+			var translator = new MachineTranslator();
+			translator.TranslateFromPath(path);
 		}
 
 		public void DrawPanel(SpriteBatch spriteBatch, Vector2 position, float width)
