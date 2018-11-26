@@ -54,11 +54,19 @@ namespace Localizer.UI
 			uIHeaderTexTPanel.BackgroundColor = new Color(73, 94, 171);
 			uIElement.Append(uIHeaderTexTPanel);
 
+			UIScrollbar uIScrollbar = new UIScrollbar();
+			uIScrollbar.SetView(100f, 1000f);
+			uIScrollbar.Height.Set(-50f, 1f);
+			uIScrollbar.Top.Set(50f, 0f);
+			uIScrollbar.HAlign = 1f;
+			uIPanel.Append(uIScrollbar);
+
 			downloadingList = new UIList();
 			downloadingList.Width.Set(-25f, 1f);
 			downloadingList.Height.Set(-50f, 1f);
 			downloadingList.Top.Set(50f, 0f);
 			downloadingList.ListPadding = 5f;
+			downloadingList.SetScrollbar(uIScrollbar);
 			uIPanel.Append(downloadingList);
 
 			backButton = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.BackButton"));

@@ -42,11 +42,19 @@ namespace Localizer.UI
 			uIPanel.PaddingTop = 0f;
 			uIElement.Append(uIPanel);
 
+			UIScrollbar uIScrollbar = new UIScrollbar();
+			uIScrollbar.SetView(100f, 1000f);
+			uIScrollbar.Height.Set(-50f, 1f);
+			uIScrollbar.Top.Set(50f, 0f);
+			uIScrollbar.HAlign = 1f;
+			uIPanel.Append(uIScrollbar);
+
 			modList = new UIList();
 			modList.Width.Set(-25f, 1f);
 			modList.Height.Set(-50f, 1f);
 			modList.Top.Set(50f, 0f);
 			modList.ListPadding = 5f;
+			modList.SetScrollbar(uIScrollbar);
 			uIPanel.Append(modList);
 
 			UITextPanel<string> uIHeaderTexTPanel = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.ManagerHeadTitle"), 0.8f, true);
