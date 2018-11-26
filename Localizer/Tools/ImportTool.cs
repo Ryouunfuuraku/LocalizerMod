@@ -17,6 +17,21 @@ namespace Localizer
 			if (!Directory.Exists(path) || !CheckDir(path))
 				return;
 			var info = ReadInfo(path);
+			var loaded = Localizer.LoadedIndex.zh_hans.Items.Find(i => i.Mod == info.Mod);
+			if (loaded != null)
+			{
+				loaded.Version = info.Version;
+			}
+			else
+			{
+				Localizer.LoadedIndex.zh_hans.Items.Add(new Index.Item()
+				{
+					Mod = info.Mod,
+					Version = info.Version,
+					Author = info.Translator
+				});
+			}
+
 			ImportItemTexts(mod, path, info.Culture);
 			ImportNPCTexts(mod, path, info.Culture);
 			ImportBuffTexts(mod, path, info.Culture);

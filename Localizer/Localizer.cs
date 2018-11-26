@@ -25,7 +25,7 @@ namespace Localizer
 		
 		public static DownloadMgr downloadMgr;
 
-		public static List<TextFile> TextsFiles;
+		public static Index LoadedIndex;
 
 		public Localizer()
 		{
@@ -45,6 +45,8 @@ namespace Localizer
 			harmony = HarmonyInstance.Create("Localizer.Main");
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
 			Patches.DoManualPatches();
+
+			LoadedIndex = new Index();
 			
 			downloadMgr = new DownloadMgr();
 			Interface.Init();
@@ -103,6 +105,16 @@ namespace Localizer
 			modTranslation = CreateTranslation("DownloadButton");
 			modTranslation.SetDefault("Download");
 			modTranslation.AddTranslation(GameCulture.Chinese, "下载文本");
+			AddTranslation(modTranslation);
+
+			modTranslation = CreateTranslation("UpdateTextButton");
+			modTranslation.SetDefault("Update");
+			modTranslation.AddTranslation(GameCulture.Chinese, "更新文本");
+			AddTranslation(modTranslation);
+
+			modTranslation = CreateTranslation("CheckUpdateButton");
+			modTranslation.SetDefault("Check Update");
+			modTranslation.AddTranslation(GameCulture.Chinese, "检查更新");
 			AddTranslation(modTranslation);
 
 			modTranslation = CreateTranslation("ExportButton");

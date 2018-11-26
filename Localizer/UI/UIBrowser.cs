@@ -103,7 +103,11 @@ namespace Localizer.UI
 
 					foreach (var item in index.zh_hans.Items)
 					{
-						textList.Add(new UIBrowserItem(item));
+						var browserItem = new UIBrowserItem(item);
+						if (browserItem.item != null)
+						{
+							textList.Add(browserItem);
+						}
 					}
 				}
 			}

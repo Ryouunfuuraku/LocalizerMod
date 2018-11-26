@@ -110,6 +110,8 @@ namespace Localizer
 
 			remoteVersion = FetchVersion();
 
+			Logger.DebugLog(string.Format("local version:{0} remote version:{1}", localVersion, remoteVersion));
+
 			// Compare
 			if(remoteVersion > localVersion)
 			{

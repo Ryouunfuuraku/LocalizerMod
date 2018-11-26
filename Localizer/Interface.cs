@@ -133,13 +133,13 @@ namespace Localizer
 					Localizer.LoadTextFiles();
 				}
 
-				//buttonIndex++;
-				//buttonNames[buttonIndex] = Language.GetTextValue("Mods.Localizer.MenuManagerButton");
-				//if (selectedMenu == buttonIndex)
-				//{
-				//	Main.PlaySound(SoundID.MenuTick);
-				//	Main.menuMode = ManagerID;
-				//}
+				buttonIndex++;
+				buttonNames[buttonIndex] = Language.GetTextValue("Mods.Localizer.CheckUpdateButton");
+				if (selectedMenu == buttonIndex)
+				{
+					Main.PlaySound(SoundID.MenuTick);
+					Localizer.downloadMgr.CheckUpdate();
+				}
 
 				buttonIndex++;
 				buttonNames[buttonIndex] = Lang.menu[5].Value;
@@ -150,8 +150,7 @@ namespace Localizer
 					Main.PlaySound(11, -1, -1, 1);
 				}
 			}
-
-
+			
 			return false;
 		}
 	}

@@ -18,14 +18,31 @@ namespace Localizer.UI
 {
 	public class UIBrowserItem : UIPanel
 	{
-		private readonly Index.Item item;
+		public readonly Index.Item item;
 		private readonly Texture2D dividerTexture;
 		private readonly Texture2D innerPanelTexture;
 		private readonly UIText modName;
 		private readonly UIText authorName;
+		private readonly UITextPanel<string> button;
 
 		public UIBrowserItem(Index.Item item)
 		{
+			button = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.DownloadButton"), 1f, false);
+
+			var loaded = Localizer.LoadedIndex.zh_hans.Items.Find(i => i.Mod == item.Mod);
+			if (loaded != null)
+			{
+				Logger.DebugLog(string.Format("Mod:{0} local version:{1} remote version:{2}", item.Mod, loaded.Version, item.Version));
+				if (item.Version > loaded.Version)
+				{
+					button = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.UpdateTextButton"), 1f, false);
+				}
+				else
+				{
+					return;
+				}
+			}
+
 			this.item = item;
 			this.BorderColor = new Color(89, 116, 213) * 0.7f;
 			this.dividerTexture = TextureManager.Load("Images/UI/Divider");
@@ -44,7 +61,6 @@ namespace Localizer.UI
 			this.authorName.Top.Set(50f, 0f);
 			base.Append(this.authorName);
 
-			UITextPanel<string> button = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.DownloadButton"), 1f, false);
 			button.Width.Set(100f, 0f);
 			button.Height.Set(30f, 0f);
 			button.Left.Set(430f, 0f);
@@ -60,6 +76,7 @@ namespace Localizer.UI
 		public void DownloadText(UIMouseEvent evt, UIElement listeningElement)
 		{
 			Localizer.downloadMgr.DownloadModText(GameCulture.Chinese.Name, item.Mod);
+			base.RemoveChild(this);
 		}
 
 		public void DrawPanel(SpriteBatch spriteBatch, Vector2 position, float width)

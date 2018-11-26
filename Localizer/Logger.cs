@@ -23,5 +23,12 @@ namespace Localizer
 			sb.AppendFormat("#### {0}  \n---  \n{1}  \n", DateTime.Now, content);
 			File.AppendAllText(LogPath, sb.ToString());
 		}
+
+		public static void DebugLog(object content)
+		{
+#if DEBUG
+			Log(content);
+#endif
+		}
 	}
 }

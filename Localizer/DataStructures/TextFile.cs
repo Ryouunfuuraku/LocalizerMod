@@ -17,6 +17,7 @@ namespace Localizer.DataStructures
 			public string Mod { get; set; }
 			public string Translator { get; set; }
 			public string Description { get; set; }
+			public int Version { get; set; }
 			private string _culture;
 			[JsonIgnore]
 			public GameCulture Culture {
@@ -33,6 +34,7 @@ namespace Localizer.DataStructures
 				Mod = mod.Name;
 				Translator = string.Empty;
 				Description = string.Empty;
+				Version = 0;
 				_culture = culture.Name;
 			}
 		}
