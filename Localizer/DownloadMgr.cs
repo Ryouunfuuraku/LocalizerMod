@@ -150,6 +150,7 @@ namespace Localizer
 				Directory.CreateDirectory(path);
 			}
 			
+			DownloadModTextInfo(culture, mod);
 			DownloadModItemText(culture, mod);
 			DownloadModNPCsText(culture, mod);
 			DownloadModBuffsText(culture, mod);
@@ -164,6 +165,14 @@ namespace Localizer
 		private string CreatePathForText(string culture, string mod)
 		{
 			return CachePath + culture + "/" + mod + "/";
+		}
+
+		public void DownloadModTextInfo(string culture, string mod)
+		{
+			var uri = CreateUriForText(culture, mod) + "Info.json";
+			var path = CreatePathForText(culture, mod) + "Info.json";
+
+			CommonDownloadFileAsync(uri, string.Format("{0}'s Info", mod), path);
 		}
 
 		public void DownloadModItemText(string culture, string mod)

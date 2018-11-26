@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -16,14 +17,23 @@ namespace Localizer.DataStructures
 			public string Mod { get; set; }
 			public string Translator { get; set; }
 			public string Description { get; set; }
-			public GameCulture Culture { get; set; }
+			private string _culture;
+			[JsonIgnore]
+			public GameCulture Culture {
+				get
+				{
+					return GameCulture.FromName(_culture);
+				}
+			}
+
+			public TranslationInfo() { }
 
 			public TranslationInfo(Mod mod, GameCulture culture)
 			{
 				Mod = mod.Name;
 				Translator = string.Empty;
 				Description = string.Empty;
-				Culture = culture;
+				_culture = culture.Name;
 			}
 		}
 
