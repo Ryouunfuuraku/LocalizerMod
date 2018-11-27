@@ -10,12 +10,13 @@ namespace Localizer
 {
 	public class UpdateTool
 	{
-		public DiffResult<T> UpdateDict<T>(Dictionary<string, T> oldDict, Dictionary<string, T> newDict)
+		public static DiffResult<T> UpdateDict<T>(Dictionary<string, T> oldDict, Dictionary<string, T> newDict)
 		{
 			var result = new DiffResult<T>();
 			foreach (var newItem in newDict)
 			{
-				oldDict.TryGetValue(newItem.Key, out T oldItem);
+				T oldItem;
+				oldDict.TryGetValue(newItem.Key, out oldItem);
 				if (oldItem != null)
 				{
 					result.Change.Add(newItem.Key, newItem.Value);
@@ -34,63 +35,86 @@ namespace Localizer
 		internal static string NewLine = "---  \n";
 		internal static string NewItemLogFormat = 
 @"##### New Item: {0}  
-**Name:** {1}  
-**Tooltip:** {2}  
+---  
+> **Name:** {1}  
+> **Tooltip:** {2}  
 ---  
 ";
 		internal static string ItemChangeLogFormat =
 @"##### Item Changed: {0}  
+---  
 ";
 		internal static string ItemNameChangeLogFormat =
-@"**Name:** {0} => {1}  
+@"> **Name:**  
+Old: {0}  
+New: {1}   
 ";
 		internal static string ItemTooltipChangeLogFormat =
-@"**Tooltip:** {0} => {1}  
+@"> **Tooltip:**  
+Old: {0}  
+New: {1}    
 ";
 		internal static string NewSetBonusLogFormat =
 @"##### New SetBonus: {0}  
-**Description:** {1}  
+---  
+> **Description:** {1}  
 ---  
 ";
 		internal static string SetBonusChangeLogFormat =
 @"##### SetBonus Changed: {0}  
-**SetBonus Changed:** {1} => {2}  
+---  
+> **SetBonus Changed:**  
+Old: {1}  
+New: {2}    
 ---  
 ";
 
 		internal static string NewNPCLogFormat =
 @"##### New NPC: {0}  
-**Name:** {1}   
+---  
+> **Name:** {1}   
 ---  
 ";
 		internal static string NPCChangeLogFormat =
 @"##### NPC Changed: {0}  
-**NPC Changed:** {1} => {2}  
+---  
+> **NPC Changed:**  
+Old: {1}  
+New: {2}    
 ---  
 ";
 		internal static string NewBuffLogFormat =
 @"##### New Buff: {0}  
-**Name:** {1}   
-**Tip:** {2}   
+> **Name:** {1}   
+> **Tip:** {2}   
 ---  
 ";
 		internal static string BuffChangeLogFormat =
 @"##### Buff Changed: {0}  
+---  
 ";
 		internal static string BuffNameChangeLogFormat =
-@"**Name:** {0} => {1}  
+@"> **Name:**  
+Old: {0}  
+New: {1}   
 ";
 		internal static string BuffTipChangeLogFormat =
-@"**Tip:** {0} => {1}  
+@"> **Tip:**  
+Old: {0}  
+New: {1}    
 ";
 		internal static string NewMiscLogFormat =
 @"##### New Misc: {0}  
-**Default:** {1}   
+---  
+> **Default:** {1}   
 ---  
 ";
 		internal static string MiscChangeLogFormat =
 @"##### Misc Changed: {0}  
-**Misc Changed:** {1} => {2}  
+---  
+> **Misc Changed:**  
+Old: {1}  
+New: {2}   
 ---  
 ";
 		#endregion
@@ -108,10 +132,14 @@ namespace Localizer
 			// Changed items
 			foreach (var item in itemResult.Change)
 			{
-				oldFile.Items.TryGetValue(item.Key, out TextFile.ItemTranslation oldItem);
+				TextFile.ItemTranslation oldItem;
+				oldFile.Items.TryGetValue(item.Key, out oldItem);
 				if (oldItem != null)
 				{
-					sb.AppendFormat(ItemChangeLogFormat, item.Key);
+					if (oldItem.Name != item.Value.Name || oldItem.Tooltip != item.Value.Tooltip)
+					{
+						sb.AppendFormat(ItemChangeLogFormat, item.Key);
+					}
 					if (oldItem.Name != item.Value.Name)
 					{
 						sb.AppendFormat(ItemNameChangeLogFormat, oldItem.Name, item.Value.Name);
@@ -122,8 +150,6 @@ namespace Localizer
 						sb.AppendFormat(ItemTooltipChangeLogFormat, oldItem.Tooltip, item.Value.Tooltip);
 						oldItem.Tooltip = item.Value.Tooltip;
 					}
-
-					sb.Append(NewLine);
 				}
 			}
 
@@ -136,7 +162,8 @@ namespace Localizer
 
 			foreach (var setbonus in setBonusResult.Change)
 			{
-				oldFile.SetBonus.TryGetValue(setbonus.Key, out TextFile.SetBonusTranslation old);
+				TextFile.SetBonusTranslation old;
+				oldFile.SetBonus.TryGetValue(setbonus.Key, out old);
 				if (old != null && old.SetBonus != setbonus.Value.SetBonus)
 				{
 					sb.AppendFormat(SetBonusChangeLogFormat, setbonus.Key, old.SetBonus, setbonus.Value.SetBonus);
@@ -161,7 +188,8 @@ namespace Localizer
 			// Changed npc
 			foreach (var npc in npcResult.Change)
 			{
-				oldFile.NPCs.TryGetValue(npc.Key, out TextFile.NPCTranslation old);
+				TextFile.NPCTranslation old;
+				oldFile.NPCs.TryGetValue(npc.Key, out old);
 				if (old != null && old.Name != npc.Value.Name)
 				{
 					sb.AppendFormat(NPCChangeLogFormat, npc.Key, old.Name, npc.Value.Name);
@@ -186,10 +214,14 @@ namespace Localizer
 			// Changed buff
 			foreach (var buff in buffResult.Change)
 			{
-				oldFile.Buffs.TryGetValue(buff.Key, out TextFile.BuffTranslation old);
+				TextFile.BuffTranslation old;
+				oldFile.Buffs.TryGetValue(buff.Key, out old);
 				if (old != null)
 				{
-					sb.AppendFormat(BuffChangeLogFormat, buff.Key);
+					if (old.Name != buff.Value.Name || old.Tip != buff.Value.Tip)
+					{
+						sb.AppendFormat(BuffChangeLogFormat, buff.Key);
+					}
 					if (old.Name != buff.Value.Name)
 					{
 						sb.AppendFormat(BuffNameChangeLogFormat, old.Name, buff.Value.Name);
@@ -220,7 +252,8 @@ namespace Localizer
 			// Changed misc
 			foreach (var misc in miscResult.Change)
 			{
-				oldFile.Miscs.TryGetValue(misc.Key, out TextFile.MiscTranslation old);
+				TextFile.MiscTranslation old;
+				oldFile.Miscs.TryGetValue(misc.Key, out old);
 				if (old != null && old.Default != misc.Value.Default)
 				{
 					sb.AppendFormat(MiscChangeLogFormat, misc.Key, old.Default, misc.Value.Default);
@@ -235,6 +268,12 @@ namespace Localizer
 		{
 			public Dictionary<string, T> New;
 			public Dictionary<string, T> Change;
+
+			public DiffResult()
+			{
+				New = new Dictionary<string, T>();
+				Change = new Dictionary<string, T>();
+			}
 		}
 	}
 }

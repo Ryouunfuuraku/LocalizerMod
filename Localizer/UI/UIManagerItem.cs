@@ -113,16 +113,19 @@ namespace Localizer.UI
 			else
 			{
 				var items = CommonTools.LoadJson<TextFile.ItemFile>(Path.Combine(path, "Items.json"));
-				UpdateTool.UpdateItemsText(items, );
+				UpdateTool.UpdateItemsText(items, ExportTool.GetItemTexts(mod));
 				CommonTools.DumpJson(Path.Combine(path, "Items.json"), items);
+
 				var npcs = CommonTools.LoadJson<TextFile.NPCFile>(Path.Combine(path, "NPCs.json"));
-				TranslateNPCs(npcs);
+				UpdateTool.UpdateNPCsText(npcs, ExportTool.GetNPCTexts(mod));
 				CommonTools.DumpJson(Path.Combine(path, "NPCs.json"), npcs);
+
 				var buffs = CommonTools.LoadJson<TextFile.BuffFile>(Path.Combine(path, "Buffs.json"));
-				TranslateBuffs(buffs);
+				UpdateTool.UpdateBuffsText(buffs, ExportTool.GetBuffTexts(mod));
 				CommonTools.DumpJson(Path.Combine(path, "Buffs.json"), buffs);
+
 				var miscs = CommonTools.LoadJson<TextFile.MiscFile>(Path.Combine(path, "Miscs.json"));
-				TranslateMiscs(miscs);
+				UpdateTool.UpdateMiscsText(miscs, ExportTool.GetMiscTexts(mod));
 				CommonTools.DumpJson(Path.Combine(path, "Miscs.json"), miscs);
 			}
 		}
