@@ -94,7 +94,7 @@ namespace Localizer
 ---  
 ";
 		#endregion
-		public void UpdateItemsText(TextFile.ItemFile oldFile, TextFile.ItemFile newFile)
+		public static void UpdateItemsText(TextFile.ItemFile oldFile, TextFile.ItemFile newFile)
 		{
 			var sb = new StringBuilder();
 
@@ -147,7 +147,7 @@ namespace Localizer
 			Logger.TextUpdateLog(sb.ToString());
 		}
 
-		public void UpdateNPCsText(TextFile.NPCFile oldFile, TextFile.NPCFile newFile)
+		public static void UpdateNPCsText(TextFile.NPCFile oldFile, TextFile.NPCFile newFile)
 		{
 			var sb = new StringBuilder();
 
@@ -172,7 +172,7 @@ namespace Localizer
 			Logger.TextUpdateLog(sb.ToString());
 		}
 
-		public void UpdateBuffsText(TextFile.BuffFile oldFile, TextFile.BuffFile newFile)
+		public static void UpdateBuffsText(TextFile.BuffFile oldFile, TextFile.BuffFile newFile)
 		{
 			var sb = new StringBuilder();
 
@@ -206,7 +206,7 @@ namespace Localizer
 			Logger.TextUpdateLog(sb.ToString());
 		}
 
-		public void UpdateMiscsText(TextFile.MiscFile oldFile, TextFile.MiscFile newFile)
+		public static void UpdateMiscsText(TextFile.MiscFile oldFile, TextFile.MiscFile newFile)
 		{
 			var sb = new StringBuilder();
 

@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 using System.Linq;
 using Terraria.Localization;
 using System.Reflection;
+using Localizer.DataStructures;
 
 namespace Localizer.UI
 {
@@ -111,7 +112,18 @@ namespace Localizer.UI
 			}
 			else
 			{
-
+				var items = CommonTools.LoadJson<TextFile.ItemFile>(Path.Combine(path, "Items.json"));
+				UpdateTool.UpdateItemsText(items, );
+				CommonTools.DumpJson(Path.Combine(path, "Items.json"), items);
+				var npcs = CommonTools.LoadJson<TextFile.NPCFile>(Path.Combine(path, "NPCs.json"));
+				TranslateNPCs(npcs);
+				CommonTools.DumpJson(Path.Combine(path, "NPCs.json"), npcs);
+				var buffs = CommonTools.LoadJson<TextFile.BuffFile>(Path.Combine(path, "Buffs.json"));
+				TranslateBuffs(buffs);
+				CommonTools.DumpJson(Path.Combine(path, "Buffs.json"), buffs);
+				var miscs = CommonTools.LoadJson<TextFile.MiscFile>(Path.Combine(path, "Miscs.json"));
+				TranslateMiscs(miscs);
+				CommonTools.DumpJson(Path.Combine(path, "Miscs.json"), miscs);
 			}
 		}
 		
