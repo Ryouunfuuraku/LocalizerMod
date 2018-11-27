@@ -30,7 +30,7 @@ namespace Localizer.DataStructures
 
 			public TranslationInfo() { }
 
-			public TranslationInfo(Mod mod, GameCulture culture)
+			public TranslationInfo(Mod mod, GameCulture culture) 
 			{
 				Mod = mod.Name;
 				Translator = string.Empty;

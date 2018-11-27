@@ -84,11 +84,20 @@ namespace Localizer.UI
 			{
 				Directory.CreateDirectory(path);
 			}
-			ExportTool.ExportInfo(mod, path);
-			ExportTool.ExportItemTexts(mod, path);
-			ExportTool.ExportNPCTexts(mod, path);
-			ExportTool.ExportBuffTexts(mod, path);
-			ExportTool.ExportMiscTexts(mod, path);
+
+			if (!ImportTool.CheckDir(path))
+			{
+				ExportTool.ExportInfo(mod, path);
+				ExportTool.ExportItemTexts(mod, path);
+				ExportTool.ExportNPCTexts(mod, path);
+				ExportTool.ExportBuffTexts(mod, path);
+				ExportTool.ExportMiscTexts(mod, path);
+			}
+		}
+
+		public void UpdateModText()
+		{
+
 		}
 		
 		public void ImportModText(UIMouseEvent evt, UIElement listeningElement)
