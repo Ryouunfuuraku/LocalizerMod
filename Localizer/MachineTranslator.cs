@@ -76,40 +76,18 @@ namespace Localizer
 				return;
 			Logger.DebugLog("Start to translate.");
 
-			var items = LoadJson<TextFile.ItemFile>(Path.Combine(path, "Items.json"));
+			var items = CommonTools.LoadJson<TextFile.ItemFile>(Path.Combine(path, "Items.json"));
 			TranslateItems(items);
-			DumpJson(Path.Combine(path, "Items.json"), items);
-			var npcs = LoadJson<TextFile.NPCFile>(Path.Combine(path, "NPCs.json"));
+			CommonTools.DumpJson(Path.Combine(path, "Items.json"), items);
+			var npcs = CommonTools.LoadJson<TextFile.NPCFile>(Path.Combine(path, "NPCs.json"));
 			TranslateNPCs(npcs);
-			DumpJson(Path.Combine(path, "NPCs.json"), npcs);
-			var buffs = LoadJson<TextFile.BuffFile>(Path.Combine(path, "Buffs.json"));
+			CommonTools.DumpJson(Path.Combine(path, "NPCs.json"), npcs);
+			var buffs = CommonTools.LoadJson<TextFile.BuffFile>(Path.Combine(path, "Buffs.json"));
 			TranslateBuffs(buffs);
-			DumpJson(Path.Combine(path, "Buffs.json"), buffs);
-			var miscs = LoadJson<TextFile.MiscFile>(Path.Combine(path, "Miscs.json"));
+			CommonTools.DumpJson(Path.Combine(path, "Buffs.json"), buffs);
+			var miscs = CommonTools.LoadJson<TextFile.MiscFile>(Path.Combine(path, "Miscs.json"));
 			TranslateMiscs(miscs);
-			DumpJson(Path.Combine(path, "Miscs.json"), miscs);
-		}
-
-		public T LoadJson<T>(string path)
-		{
-			using (var fs = new FileStream(path, FileMode.Open))
-			{
-				using (var sr = new StreamReader(fs))
-				{
-					return JsonConvert.DeserializeObject<T>(sr.ReadToEnd());
-				}
-			}
-		}
-
-		public void DumpJson(string path, object o)
-		{
-			using (var fs = new FileStream(path, FileMode.Create))
-			{
-				using (var sw = new StreamWriter(fs))
-				{
-					sw.Write(JsonConvert.SerializeObject(o, Formatting.Indented));
-				}
-			}
+			CommonTools.DumpJson(Path.Combine(path, "Miscs.json"), miscs);
 		}
 
 		static Regex reUnicode = new Regex(@"\\u([0-9a-fA-F]{4})", RegexOptions.Compiled);

@@ -76,6 +76,7 @@
     <Compile Include="DataStructures\LocalizeTranslation.cs" />
     <Compile Include="DataStructures\TextFile.cs" />
     <Compile Include="DefaultTranslation.cs" />
+    <Compile Include="Tools\CommonTools.cs" />
     <Compile Include="Tools\UpdateTool.cs" />
     <Compile Include="Tools\ExportTool.cs" />
     <Compile Include="GlobalLocalizeNPC.cs" />

@@ -49,7 +49,8 @@ namespace Localizer.UI
 			button.PaddingBottom -= 2f;
 			button.OnMouseOver += UICommon.FadedMouseOver;
 			button.OnMouseOut += UICommon.FadedMouseOut;
-			button.OnClick += ExportModText;
+			button.OnClick += UpdateModText;
+			button.OnDoubleClick += ExportModText;
 			base.Append(button);
 
 			button2 = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.ImportButton"), 1f, false);
@@ -85,6 +86,21 @@ namespace Localizer.UI
 				Directory.CreateDirectory(path);
 			}
 
+			ExportTool.ExportInfo(mod, path);
+			ExportTool.ExportItemTexts(mod, path);
+			ExportTool.ExportNPCTexts(mod, path);
+			ExportTool.ExportBuffTexts(mod, path);
+			ExportTool.ExportMiscTexts(mod, path);
+		}
+
+		public void UpdateModText(UIMouseEvent evt, UIElement listeningElement)
+		{
+			var path = Path.Combine(Main.SavePath, "Texts/", mod.Name);
+			if (!Directory.Exists(path))
+			{
+				Directory.CreateDirectory(path);
+			}
+
 			if (!ImportTool.CheckDir(path))
 			{
 				ExportTool.ExportInfo(mod, path);
@@ -93,11 +109,10 @@ namespace Localizer.UI
 				ExportTool.ExportBuffTexts(mod, path);
 				ExportTool.ExportMiscTexts(mod, path);
 			}
-		}
+			else
+			{
 
-		public void UpdateModText()
-		{
-
+			}
 		}
 		
 		public void ImportModText(UIMouseEvent evt, UIElement listeningElement)
