@@ -1,5 +1,5 @@
 author = Axeel
-version = 0.1
+version = beta0.4
 displayName = Localizer
 hideCode = true
 hideResources = false
