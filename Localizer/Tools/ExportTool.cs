@@ -221,7 +221,7 @@ namespace Localizer
 			foreach (var translation in translations)
 			{
 				miscFile.Miscs.Add(translation.Key.Replace(string.Format("Mods.{0}.", mod.Name), ""),
-					new TextFile.MiscTranslation(translation.Value.GetDefault()));
+					new TextFile.MiscTranslation(translation.Value));
 			}
 
 			return miscFile;

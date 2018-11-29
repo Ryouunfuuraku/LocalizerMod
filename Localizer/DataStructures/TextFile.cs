@@ -57,11 +57,12 @@ namespace Localizer.DataStructures
 
 			public MiscTranslation() { }
 
-			public MiscTranslation(string str)
+			public MiscTranslation(ModTranslation translation)
 			{
-				Translation = string.Empty;
+				Translation = LanguageManager.Instance.ActiveCulture == GameCulture.English ? "" 
+											: Language.GetTextValue(translation.Key);
 
-				Default = str;
+				Default = translation.GetDefault();
 			}
 		}
 
@@ -91,8 +92,10 @@ namespace Localizer.DataStructures
 
 			public ItemTranslation(ModItem item)
 			{
-				NameTranslation = string.Empty;
-				TooltipTranslation = string.Empty;
+				NameTranslation = LanguageManager.Instance.ActiveCulture == GameCulture.English ? ""
+					: Language.GetTextValue(item.DisplayName.Key);
+				TooltipTranslation = LanguageManager.Instance.ActiveCulture == GameCulture.English ? ""
+					: Language.GetTextValue(item.Tooltip.Key);
 
 				Name = item.DisplayName.GetDefault();
 				Tooltip = item.Tooltip.GetDefault();
@@ -139,7 +142,8 @@ namespace Localizer.DataStructures
 
 			public NPCTranslation(ModNPC npc)
 			{
-				NameTranslation = string.Empty;
+				NameTranslation = LanguageManager.Instance.ActiveCulture == GameCulture.English ? ""
+					: Language.GetTextValue(npc.DisplayName.Key);
 
 				Name = npc.DisplayName.GetDefault();
 			}
@@ -197,8 +201,10 @@ namespace Localizer.DataStructures
 
 			public BuffTranslation(ModBuff buff)
 			{
-				NameTranslation = string.Empty;
-				TipTranslation = string.Empty;
+				NameTranslation = LanguageManager.Instance.ActiveCulture == GameCulture.English ? ""
+					: Language.GetTextValue(buff.DisplayName.Key);
+				TipTranslation = LanguageManager.Instance.ActiveCulture == GameCulture.English ? ""
+					: Language.GetTextValue(buff.Description.Key);
 
 				Name = buff.DisplayName.GetDefault();
 				Tip = buff.Description.GetDefault();
