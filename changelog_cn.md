@@ -5,6 +5,8 @@
 * 优化文本库结构  
 * 实装mod自动更新功能  
 * 提取文本时若有翻译会提取翻译
+* 添加配置文件，文件在tml文件夹下，名为LocalizerConfig.json  
+* 如果遇到mod冲突无法加载(如Overhaul)请在配置文件中将`CompatibleMode`的值从`false`改为`true`，加载时就不会修改界面，如果要使用界面，将`true`改回`false`
 #### v0.4  
 ---   
 * 改为客户端mod，即使对方没装此mod也能顺利联机  

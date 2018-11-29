@@ -72,7 +72,10 @@ namespace Localizer
 		
 		public static void DoManualPatches()
 		{
-			MenuButtons.Execute();
+			if (!Localizer.Config.CompatibleMode)
+			{
+				MenuButtons.Execute();
+			}
 		}
 
 		public class MenuButtons

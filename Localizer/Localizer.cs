@@ -27,6 +27,8 @@ namespace Localizer
 
 		public static Index LoadedIndex;
 
+		public static Configuration Config;
+
 		public Localizer()
 		{
 			Properties = new ModProperties()
@@ -39,6 +41,8 @@ namespace Localizer
 
 		public override void Load()
 		{
+			Config = Configuration.Read();
+
 			ServicePointManager.ServerCertificateValidationCallback += (s, cert, chain, sslPolicyErrors) => true;
 			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 

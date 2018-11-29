@@ -5,18 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Terraria;
 
 namespace Localizer
 {
 
 	public class Configuration
 	{
-		public static string Path = "LocalizerConfig.json";
+		public static string ConfigPath = Path.Combine(Main.SavePath, "LocalizerConfig.json");
+
+		public bool EnableModAutoUpdate = true;
+		public bool EnableTextAutoUpdate = true;
+		public bool CompatibleMode = false;
 
 		public static Configuration Read()
 		{
 			// TODO: Change to true path
-			if (!File.Exists(Path))
+			if (!File.Exists(ConfigPath))
 			{
 				var config =  new Configuration();
 
@@ -25,7 +30,7 @@ namespace Localizer
 				return config;
 			}
 
-			using (var fs = new FileStream(Path, FileMode.Open))
+			using (var fs = new FileStream(ConfigPath, FileMode.Open))
 			{
 				using (var sr = new StreamReader(fs))
 				{
@@ -36,11 +41,11 @@ namespace Localizer
 
 		public void Write()
 		{
-			using (var fs = new FileStream(Path, FileMode.Create))
+			using (var fs = new FileStream(ConfigPath, FileMode.Create))
 			{
 				using (var sw = new StreamWriter(fs))
 				{
-					sw.Write(JsonConvert.SerializeObject(this));
+					sw.Write(JsonConvert.SerializeObject(this, Formatting.Indented));
 				}
 			}
 		}

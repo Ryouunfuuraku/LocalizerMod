@@ -61,8 +61,15 @@ namespace Localizer
 			LanguageManager.Instance.OnLanguageChanged += OnLanguageChanged;
 
 			StartDownloadThread();
-
-			CheckUpdate();
+			
+			if (Localizer.Config.EnableModAutoUpdate)
+			{
+				CheckModUpdate();
+			}
+			if (Localizer.Config.EnableTextAutoUpdate)
+			{
+				CheckDatabaseUpdate();
+			}
 		}
 
 		public void Destroy()
@@ -134,39 +141,41 @@ namespace Localizer
 
 		public void CheckUpdate()
 		{
-			// Couldn't access mod browser in China.
-			if (Culture == GameCulture.Chinese)
-			{
-				CheckModUpdate();
-			}
+			CheckModUpdate();
+			
 			CheckDatabaseUpdate();
 		}
 
 		public void CheckModUpdate()
 		{
-			var path = Path.Combine(CachePath, "version.txt");
-			int localVersion = 0;
-			int remoteVersion = 0;
-
-			// Read local version
-			if (File.Exists(path))
+			// Couldn't access mod browser in China.
+			if (Culture == GameCulture.Chinese)
 			{
-				var content = File.ReadAllLines(path);
-				if (content.Length != 0 && content.Length > 0)
+				var path = Path.Combine(CachePath, "version.txt");
+				int localVersion = 0;
+				int remoteVersion = 0;
+
+				// Read local version
+				if (File.Exists(path))
 				{
-					localVersion = int.Parse(content[0]);
+					var content = File.ReadAllLines(path);
+					if (content.Length != 0 && content.Length > 0)
+					{
+						localVersion = int.Parse(content[0]);
+					}
 				}
-			}
 
-			var remoteContent = FetchModVersion();
-			remoteVersion = int.Parse(remoteContent[0]);
+				var remoteContent = FetchModVersion();
+				remoteVersion = int.Parse(remoteContent[0]);
 
-			Logger.DebugLog(string.Format("local mod version:{0} remote mod version:{1}", localVersion, remoteVersion));
+				Logger.DebugLog(string.Format("local mod version:{0} remote mod version:{1}", localVersion,
+					remoteVersion));
 
-			// Compare
-			if (remoteVersion > localVersion)
-			{
-				UpdateMod(remoteContent[1]);
+				// Compare
+				if (remoteVersion > localVersion)
+				{
+					UpdateMod(remoteContent[1]);
+				}
 			}
 		}
 
