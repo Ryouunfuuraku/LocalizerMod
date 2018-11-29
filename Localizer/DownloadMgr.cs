@@ -200,7 +200,7 @@ namespace Localizer
 		public string[] FetchModVersion()
 		{
 			var path = Path.Combine(CachePath, "version.txt");
-			CommonDownloadFile("https://raw.githubusercontent.com/AxeelAnder/Localizer/version.txt", path);
+			CommonDownloadFile("https://raw.githubusercontent.com/AxeelAnder/LocalizerMod/master/version.txt", path);
 			if (File.Exists(path))
 			{
 				var content = File.ReadAllLines(path);
