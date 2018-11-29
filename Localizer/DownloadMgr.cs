@@ -124,23 +124,25 @@ namespace Localizer
 			DownloadIndex();
 		}
 
-		public void UpdateMod()
+		public void UpdateMod(string version)
 		{
+			var downlaodUri = string.Format("https://github.com/AxeelAnder/LocalizerMod/releases/download/{0}/Localizer.tmod"
+											, version);
 
+			CommonDownloadFileAsync(downlaodUri, "Localizer", Path.Combine(Main.SavePath, "Mods/Localizer.tmod"));
 		}
 
 		public void CheckUpdate()
 		{
-			CheckModUpdate();
+			// Couldn't access mod browser in China.
+			if (Culture == GameCulture.Chinese)
+			{
+				CheckModUpdate();
+			}
 			CheckDatabaseUpdate();
 		}
 
 		public void CheckModUpdate()
-		{
-
-		}
-
-		public void CheckDatabaseUpdate()
 		{
 			var path = Path.Combine(CachePath, "version.txt");
 			int localVersion = 0;
@@ -156,7 +158,35 @@ namespace Localizer
 				}
 			}
 
-			remoteVersion = FetchVersion();
+			var remoteContent = FetchModVersion();
+			remoteVersion = int.Parse(remoteContent[0]);
+
+			Logger.DebugLog(string.Format("local mod version:{0} remote mod version:{1}", localVersion, remoteVersion));
+
+			// Compare
+			if (remoteVersion > localVersion)
+			{
+				UpdateMod(remoteContent[1]);
+			}
+		}
+
+		public void CheckDatabaseUpdate()
+		{
+			var path = GetCacheFilePath("version.txt");
+			int localVersion = 0;
+			int remoteVersion = 0;
+
+			// Read local version
+			if (File.Exists(path))
+			{
+				var content = File.ReadAllLines(path);
+				if (content.Length != 0 && content.Length > 0)
+				{
+					localVersion = int.Parse(content[0]);
+				}
+			}
+
+			remoteVersion = FetchDatabaseVersion();
 
 			Logger.DebugLog(string.Format("local version:{0} remote version:{1}", localVersion, remoteVersion));
 
@@ -167,7 +197,23 @@ namespace Localizer
 			}
 		}
 
-		public int FetchVersion()
+		public string[] FetchModVersion()
+		{
+			var path = Path.Combine(CachePath, "version.txt");
+			CommonDownloadFile("https://raw.githubusercontent.com/AxeelAnder/Localizer/version.txt", path);
+			if (File.Exists(path))
+			{
+				var content = File.ReadAllLines(path);
+				if (content != null && content.Length > 0)
+				{
+					return content;
+				}
+			}
+
+			return null;
+		}
+
+		public int FetchDatabaseVersion()
 		{
 			var path = Path.Combine(CachePath, Culture.Name, "version.txt");
 			CommonDownloadFile(VersionUri, path);
