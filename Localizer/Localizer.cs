@@ -152,6 +152,7 @@ namespace Localizer
 		{
 			ClearTranslations();
 			harmony.UnpatchAll();
+			downloadMgr.Destroy();
 		}
 
 		public static void ApplyTextFile(DirectoryInfo textDir)

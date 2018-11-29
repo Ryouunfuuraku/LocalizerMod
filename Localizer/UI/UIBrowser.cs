@@ -97,7 +97,7 @@ namespace Localizer.UI
 		{
 			Clear();
 
-			var path = Path.Combine(DownloadMgr.CachePath, "index.json");
+			var path = Localizer.downloadMgr.GetCacheFilePath("index.json");
 			if (!File.Exists(path))
 			{
 				return;
@@ -109,7 +109,7 @@ namespace Localizer.UI
 				{
 					var index = JsonConvert.DeserializeObject<Index>(sr.ReadToEnd());
 
-					foreach (var item in index.zh_hans.Items)
+					foreach (var item in index.Items)
 					{
 						var browserItem = new UIBrowserItem(item);
 						if (browserItem.item != null)

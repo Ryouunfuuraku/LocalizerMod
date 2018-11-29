@@ -29,7 +29,7 @@ namespace Localizer.UI
 		{
 			button = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.DownloadButton"), 1f, false);
 
-			var loaded = Localizer.LoadedIndex.zh_hans.Items.Find(i => i.Mod == item.Mod);
+			var loaded = Localizer.LoadedIndex.Items.Find(i => i.Mod == item.Mod);
 			if (loaded != null)
 			{
 				Logger.DebugLog(string.Format("Mod:{0} local version:{1} remote version:{2}", item.Mod, loaded.Version, item.Version));
@@ -75,7 +75,7 @@ namespace Localizer.UI
 
 		public void DownloadText(UIMouseEvent evt, UIElement listeningElement)
 		{
-			Localizer.downloadMgr.DownloadModText(GameCulture.Chinese.Name, item.Mod);
+			Localizer.downloadMgr.DownloadModText(item.Mod);
 			base.RemoveChild(this);
 		}
 

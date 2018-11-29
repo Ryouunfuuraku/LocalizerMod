@@ -8,21 +8,11 @@ namespace Localizer.DataStructures
 {
 	public class Index
 	{
-		public SubDir zh_hans { get; set; }
+		public List<Item> Items { get; set; }
 
 		public Index()
 		{
-			zh_hans = new SubDir();
-		}
-
-		public sealed class SubDir
-		{
-			public List<Item> Items { get; set; }
-
-			public SubDir()
-			{
-				Items = new List<Item>();
-			}
+			Items = new List<Item>();
 		}
 
 		public sealed class Item

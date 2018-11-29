@@ -20,13 +20,29 @@ namespace Localizer
 {
 	public class DownloadMgr
 	{
-		public static readonly string DataBaseUri = "https://raw.githubusercontent.com/AxeelAnder/Localizer-Database/master/";
-		public static readonly string VersionUri = "https://raw.githubusercontent.com/AxeelAnder/Localizer-Database/master/version.txt";
-		public static readonly string IndexUri = "https://raw.githubusercontent.com/AxeelAnder/Localizer-Database/master/index.json";
-		public static readonly string CachePath = Path.Combine(Main.SavePath, "LocalizerCache/");
+		public static GameCulture Culture;
+
+		public static string DataBaseUri
+		{
+			get
+			{
+				if (string.IsNullOrWhiteSpace(_databaseUri))
+				{
+					return "https://raw.githubusercontent.com/AxeelAnder/Localizer-Database/zh-Hans/";
+				}
+				else
+				{
+					return _databaseUri;
+				}
+			}
+		}
+		public static string VersionUri;
+		public static string IndexUri;
+		public static string CachePath = Path.Combine(Main.SavePath, "LocalizerCache/");
 
 		public List<DownloadItem> Downloadings;
 
+		private static string _databaseUri;
 		private bool end = false;
 		private Thread _thread;
 		private Queue<DownloadItem> _downloadQueue;
@@ -41,9 +57,41 @@ namespace Localizer
 				Directory.CreateDirectory(CachePath);
 			}
 
+			SetCulture(LanguageManager.Instance.ActiveCulture);
+			LanguageManager.Instance.OnLanguageChanged += OnLanguageChanged;
+
 			StartDownloadThread();
 
 			CheckUpdate();
+		}
+
+		public void Destroy()
+		{
+			end = true;
+			if (_thread != null &&_thread.IsAlive)
+			{
+				_thread.Abort();
+			}
+		}
+
+		public void OnLanguageChanged(LanguageManager languageManager)
+		{
+			SetCulture(languageManager.ActiveCulture);
+		}
+
+		public void SetCulture(GameCulture culture)
+		{
+			Culture = culture;
+			_databaseUri = string.Format("https://raw.githubusercontent.com/AxeelAnder/Localizer-Database/{0}/",
+				culture.Name);
+			VersionUri = _databaseUri + "version.txt";
+			IndexUri = _databaseUri + "index.json";
+
+			var path = Path.Combine(CachePath, Culture.Name);
+			if (!Directory.Exists(path))
+			{
+				Directory.CreateDirectory(path);
+			}
 		}
 
 		private void StartDownloadThread()
@@ -121,7 +169,7 @@ namespace Localizer
 
 		public int FetchVersion()
 		{
-			var path = Path.Combine(CachePath, "version.txt");
+			var path = Path.Combine(CachePath, Culture.Name, "version.txt");
 			CommonDownloadFile(VersionUri, path);
 			if (File.Exists(path))
 			{
@@ -137,74 +185,79 @@ namespace Localizer
 
 		public void DownloadIndex()
 		{
-			var path = Path.Combine(CachePath, "index.json");
+			var path = Path.Combine(CachePath, Culture.Name, "index.json");
 
 			CommonDownloadFileAsync(IndexUri, "Index", path);
 
 			// TODO: Refresh manager
 		}
 
-		public void DownloadModText(string culture, string mod)
+		public void DownloadModText(string mod)
 		{
-			var path = CachePath + culture + "/" + mod + "/";
+			var path = CreatePathForText(mod);
 			if (!Directory.Exists(path))
 			{
 				Directory.CreateDirectory(path);
 			}
 			
-			DownloadModTextInfo(culture, mod);
-			DownloadModItemText(culture, mod);
-			DownloadModNPCsText(culture, mod);
-			DownloadModBuffsText(culture, mod);
-			DownloadModMiscsText(culture, mod);
+			DownloadModTextInfo(mod);
+			DownloadModItemText(mod);
+			DownloadModNPCsText(mod);
+			DownloadModBuffsText(mod);
+			DownloadModMiscsText(mod);
 		}
 
-		private string CreateUriForText(string culture, string mod)
+		public string GetCacheFilePath(string filename)
 		{
-			return DataBaseUri + culture + "/" + mod + "/";
+			return Path.Combine(CachePath, Culture.Name, filename);
 		}
 
-		private string CreatePathForText(string culture, string mod)
+		private string CreateUriForText(string mod)
 		{
-			return CachePath + culture + "/" + mod + "/";
+			return DataBaseUri + mod + "/";
 		}
 
-		public void DownloadModTextInfo(string culture, string mod)
+		private string CreatePathForText(string mod)
 		{
-			var uri = CreateUriForText(culture, mod) + "Info.json";
-			var path = CreatePathForText(culture, mod) + "Info.json";
+			return CachePath + Culture.Name + "/" + mod + "/";
+		}
+
+		public void DownloadModTextInfo(string mod)
+		{
+			var uri = CreateUriForText(mod) + "Info.json";
+			var path = CreatePathForText(mod) + "Info.json";
 
 			CommonDownloadFileAsync(uri, string.Format("{0}'s Info", mod), path);
 		}
 
-		public void DownloadModItemText(string culture, string mod)
+		public void DownloadModItemText(string mod)
 		{
-			var uri = CreateUriForText(culture, mod) + "Items.json";
-			var path = CreatePathForText(culture, mod) + "Items.json";
+			var uri = CreateUriForText(mod) + "Items.json";
+			var path = CreatePathForText(mod) + "Items.json";
 
 			CommonDownloadFileAsync(uri, string.Format("{0}'s Item", mod), path);
 		}
 
-		public void DownloadModNPCsText(string culture, string mod)
+		public void DownloadModNPCsText(string mod)
 		{
-			var uri = CreateUriForText(culture, mod) + "NPCs.json";
-			var path = CreatePathForText(culture, mod) + "NPCs.json";
+			var uri = CreateUriForText(mod) + "NPCs.json";
+			var path = CreatePathForText(mod) + "NPCs.json";
 
 			CommonDownloadFileAsync(uri, string.Format("{0}'s npc", mod), path);
 		}
 
-		public void DownloadModBuffsText(string culture, string mod)
+		public void DownloadModBuffsText(string mod)
 		{
-			var uri = CreateUriForText(culture, mod) + "Buffs.json";
-			var path = CreatePathForText(culture, mod) + "Buffs.json";
+			var uri = CreateUriForText(mod) + "Buffs.json";
+			var path = CreatePathForText(mod) + "Buffs.json";
 
 			CommonDownloadFileAsync(uri, string.Format("{0}'s buff", mod), path);
 		}
 
-		public void DownloadModMiscsText(string culture, string mod)
+		public void DownloadModMiscsText(string mod)
 		{
-			var uri = CreateUriForText(culture, mod) + "Miscs.json";
-			var path = CreatePathForText(culture, mod) + "Miscs.json";
+			var uri = CreateUriForText(mod) + "Miscs.json";
+			var path = CreatePathForText(mod) + "Miscs.json";
 
 			CommonDownloadFileAsync(uri, string.Format("{0}'s misc", mod), path);
 		}
