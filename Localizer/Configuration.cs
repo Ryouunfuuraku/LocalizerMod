@@ -17,6 +17,7 @@ namespace Localizer
 		public bool EnableModAutoUpdate = true;
 		public bool EnableTextAutoUpdate = true;
 		public bool CompatibleMode = false;
+		public bool EnableModBrowserMirror = true;
 
 		public static Configuration Read()
 		{

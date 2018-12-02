@@ -133,13 +133,7 @@ namespace Localizer.UI
 		public void ImportModText(UIMouseEvent evt, UIElement listeningElement)
 		{
 			var path = Path.Combine(Main.SavePath, "Texts/", mod.Name);
-			var info = ImportTool.ReadInfo(path);
-			ImportTool.ImportItemTexts(mod, path, info.Culture);
-			ImportTool.ImportNPCTexts(mod, path, info.Culture);
-			ImportTool.ImportBuffTexts(mod, path, info.Culture);
-			ImportTool.ImportMiscTexts(mod, path, info.Culture); 
-
-			ModLoader.RefreshModLanguage(LanguageManager.Instance.ActiveCulture);
+			ImportTool.ImportModTexts(mod, path);
 		}
 
 		public void MachineTranslateModText(UIMouseEvent evt, UIElement listeningElement)
