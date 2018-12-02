@@ -18,6 +18,7 @@ namespace Localizer
 		public bool EnableTextAutoUpdate = true;
 		public bool CompatibleMode = false;
 		public bool EnableModBrowserMirror = true;
+		public bool DeeplyLocalize = true;
 
 		public static Configuration Read()
 		{

@@ -40,11 +40,13 @@ namespace Localizer
 		{
 			if (PreUpdateArmorSet == null || !PreUpdateArmorSet.Invoke(player, item))
 			{
-				if(player.whoAmI != Main.myPlayer || !DefaultTranslation.TranslateSetBonus(item))
+				if(player.whoAmI != Main.myPlayer)
 				{
 					item.modItem.UpdateArmorSet(player);
 				}
 			}
+
+			DefaultTranslation.TranslateSetBonus(item);
 
 			if (PostUpdateArmorSet != null)
 			{

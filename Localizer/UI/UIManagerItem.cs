@@ -66,17 +66,17 @@ namespace Localizer.UI
 			button2.OnClick += ImportModText;
 			base.Append(button2);
 
-			button3 = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.MachineTranslateButton"), 1f, false);
-			button3.Width.Set(100f, 0f);
-			button3.Height.Set(30f, 0f);
-			button3.Left.Set(button2.Left.Pixels - button3.Width.Pixels - 5f, 0f);
-			button3.Top.Set(40f, 0f);
-			button3.PaddingTop -= 2f;
-			button3.PaddingBottom -= 2f;
-			button3.OnMouseOver += UICommon.FadedMouseOver;
-			button3.OnMouseOut += UICommon.FadedMouseOut;
-			button3.OnClick += MachineTranslateModText;
-			base.Append(button3);
+			//button3 = new UITextPanel<string>(Language.GetTextValue("Mods.Localizer.MachineTranslateButton"), 1f, false);
+			//button3.Width.Set(100f, 0f);
+			//button3.Height.Set(30f, 0f);
+			//button3.Left.Set(button2.Left.Pixels - button3.Width.Pixels - 5f, 0f);
+			//button3.Top.Set(40f, 0f);
+			//button3.PaddingTop -= 2f;
+			//button3.PaddingBottom -= 2f;
+			//button3.OnMouseOver += UICommon.FadedMouseOver;
+			//button3.OnMouseOut += UICommon.FadedMouseOut;
+			//button3.OnClick += MachineTranslateModText;
+			//base.Append(button3);
 		}
 
 		public void ExportModText(UIMouseEvent evt, UIElement listeningElement)

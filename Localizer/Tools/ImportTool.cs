@@ -33,10 +33,19 @@ namespace Localizer
 				});
 			}
 
-			ImportItemTexts(mod, path, info.Culture);
-			ImportNPCTexts(mod, path, info.Culture);
-			ImportBuffTexts(mod, path, info.Culture);
-			ImportMiscTexts(mod, path, info.Culture);
+			if (Localizer.Config.DeeplyLocalize)
+			{
+				ImportItemTexts(mod, path, GameCulture.English);
+				ImportNPCTexts(mod, path, GameCulture.English);
+				ImportBuffTexts(mod, path, GameCulture.English);
+				ImportMiscTexts(mod, path, GameCulture.English);
+			}
+			{
+				ImportItemTexts(mod, path, info.Culture);
+				ImportNPCTexts(mod, path, info.Culture);
+				ImportBuffTexts(mod, path, info.Culture);
+				ImportMiscTexts(mod, path, info.Culture);
+			}
 
 			ModLoader.RefreshModLanguage(LanguageManager.Instance.ActiveCulture);
 		}
